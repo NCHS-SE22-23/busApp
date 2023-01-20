@@ -8,6 +8,8 @@
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
+        
+
         <style>
             html {
                 height: 100%;
@@ -30,31 +32,47 @@
                 font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 text-decoration: none;
             }
-            .icon-bar {
+            .flex-container {
+                display: flex;
                 background-color: red;
+                flex-direction: column;
+                width: 170px;
+                height: fit-content;
+            }
+            .flex-container > div {
+                background-color: #ffffff;
                 width: 150px;
-            }
-            .icon-bar a {
-                display: block;
-            }
-            #menu-btn {
-                width: 120px;
-                height: 120px;
-                margin: 15px; 
+                height: 150px;
+                margin: 10px;
+
+                text-align: center;
+                vertical-align: middle;
+                line-height: 150px;
+
+                font-size: 40px;
+                cursor: pointer;
+                border-radius: 25px;
+                
             }
         </style>
     </head>
 
     <body>
-        <script>
-            
-        </script>
-        <div class="icon-bar">
-            <a href="#"><img id="menu-btn" src="images/clipboard.png" alt="Bus List"></a>
-            <a href="#"><img id="menu-btn" src="images/change.png" alt="Bus Changes"></a>
-            <a href="#"><img id="menu-btn" src="images/log-file-format.png" alt="Logs"></a>
-            <a href="#"><img id="menu-btn" src="images/settings.png" alt="Settings"></a>
-            <a href="#"><img id="menu-btn" src="images/exit.png" alt="Logout"></a>
+        <div class="flex-container">
+
+                <div onclick="location.href='#';" style="text-align: center;
+                vertical-align: middle;
+                line-height: 150px;">Bus List</div>
+
+
+                <div onclick="location.href='#';" style="font-size: 30px; line-height: 70px;
+                text-align: center;">Bus<br>Changes</div>
+
+                <div onclick="location.href='#';">Logs</div>
+
+                <div onclick="location.href='#';">Settings</div>
+
+                <div onclick="location.href='#';">Logout</div>
         </div>
     </body>
 </html>
