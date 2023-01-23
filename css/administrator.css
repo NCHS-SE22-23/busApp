@@ -44,3 +44,16 @@ a, a:link, a:visited, a:hover, a:active {
     box-shadow: 0px 7px 14px rgb(18, 18, 18) ;
     transform: translateY(3px);
 }
+#log_body {
+    background-color: white;
+    width: 1000px; 
+    height: 600px;
+    position: absolute;
+    right: 60px;
+    margin-top: 30px;
+    text-align: left;
+    
+}
+#page{
+    display: flex;
+}
