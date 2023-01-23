@@ -33,31 +33,76 @@
                 font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 text-decoration: none;
             }
-            .icon-bar {
+            .flex-container {
+                display: flex;
                 background-color: red;
-                width: 150px;
+                flex-direction: column;
+                width: 170px;
+                height: 100%;
             }
-            .icon-bar a {
-                display: block;
+            .flex-container > div {
+                background-color: #ffffff;
+                width: 150px; 
+                height: 150px;
+                margin: 10px; /* Distance from right side of screen */
+                cursor: pointer; /* Make button look clickable */
+                border-radius: 25px; /* Rounded Corners */
+                text-align: center;
+
             }
-            #menu-btn {
-                width: 120px;
-                height: 120px;
-                margin: 15px; 
-            }
+            
         </style>
     </head>
 
     <body>
-        <script>
-            
-        </script>
-        <div class="icon-bar">
-            <a href="#"><img id="menu-btn" src="images/clipboard.png" alt="Bus List"></a>
-            <a href="#"><img id="menu-btn" src="images/change.png" alt="Bus Changes"></a>
-            <a href="#"><img id="menu-btn" src="images/log-file-format.png" alt="Logs"></a>
-            <a href="#"><img id="menu-btn" src="images/settings.png" alt="Settings"></a>
-            <a href="#"><img id="menu-btn" src="images/exit.png" alt="Logout"></a>
-        </div>
+        <div id="redbar" class="flex-container">
+
+                
+                <div id="buslist" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/clipboard.png" alt="Bus List"></div>
+
+                <div id="buschanges" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/change.png" alt="Bus Changes"></div>
+
+                <div id="logs" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/log-file-format.png" alt="Logs"></div>
+
+                <div id="settings" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/settings.png" alt="Settings"></div>
+
+                <div id="logout" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/exit.png" alt="Logout"></div>
+                
+            </div>
     </body>
+
+    <script>
+        function resize() {
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+
+            // Resize the Redbar
+            var newW = w/5.88;
+            document.getElementById('redbar').style.width = newW+"px";
+
+            // Resize the buttons
+            var buttonMargin = (newW-(newW*0.882352941176471))/2;
+            var newBtnW = newW*0.882352941176471;
+            let buttons = document.querySelectorAll('.flex-fill');
+            let btnIcons = document.querySelectorAll("#menu-btn");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].style.margin = buttonMargin+"px";
+
+                buttons[i].style.width = newBtnW+"px";
+                buttons[i].style.height = (h-(10*buttonMargin))/5+"px";
+                btnIcons[i].style.margin = ((h-(10*buttonMargin))/5)*.05+"px";
+
+                if (newBtnW > (h-(10*buttonMargin))/5) { // width is larger than height
+                    btnIcons[i].style.width = ((h-(10*buttonMargin))/5)*.9+"px";
+                    btnIcons[i].style.height = ((h-(10*buttonMargin))/5)*.9+"px";
+                } else if (newBtnW < (h-(10*buttonMargin))/5) { // height is larger than width
+                    btnIcons[i].style.width = newBtnW*.9+"px";
+                    btnIcons[i].style.height = newBtnW*.9+"px";
+                }
+            }
+        }
+        resize();
+        window.addEventListener("resize", resize);
+    </script>
+
 </html>
