@@ -41,7 +41,6 @@ a, a:link, a:visited, a:hover, a:active {
 }
 .flex-container > div:active {
     background-color: #dcdcdc;
-    box-shadow: 0px 7px 14px rgb(18, 18, 18) ;
     transform: translateY(3px);
 }
 #log_body {
