@@ -17,20 +17,25 @@
     </head>
 
     <body>
-        <div id="redbar" class="flex-container">
+        <div id="main-container" class="flex-container">
+            <div id="redbar" class="flex-container">
+                    
+                    <div id="buslist" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/clipboard.png" alt="Bus List"></div>
 
-                
-                <div id="buslist" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/clipboard.png" alt="Bus List"></div>
+                    <div id="buschanges" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/change.png" alt="Bus Changes"></div>
 
-                <div id="buschanges" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/change.png" alt="Bus Changes"></div>
+                    <div id="logs" class="flex-fill" onclick="location.href='logs.html';"><img id="menu-btn" src="images/log-file-format.png" alt="Logs"></div>
 
-                <div id="logs" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/log-file-format.png" alt="Logs"></div>
+                    <div id="settings" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/settings.png" alt="Settings"></div>
 
-                <div id="settings" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/settings.png" alt="Settings"></div>
-
-                <div id="logout" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/exit.png" alt="Logout"></div>
-                
+                    <div id="logout" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/exit.png" alt="Logout"></div>
+                    
             </div>
+            <div id="tabs" class="flex-container">
+                <div id="view-all" onclick="location.href='#';">View All</div>
+                <div id="search" onclick="location.href='#';">Search</div>
+            </div>
+        </div>
     </body>
 
     <script src="js/administrator.js"></script>
