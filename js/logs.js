@@ -5,6 +5,8 @@ function resize() {
     // Resize the Redbar
     var newW = w/5.88;
     document.getElementById('redbar').style.width = newW+"px";
+    // resize log body
+    document.getElementById('log_body').style.width = w-newW+"px";
 
 
     // Resize the buttons
