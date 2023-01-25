@@ -11,7 +11,7 @@
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <link rel="stylesheet" href="css/administrator.css">
+        <link rel="stylesheet" href="css/buslist.css">
     
 
     </head>
@@ -20,7 +20,7 @@
         <div id="main-container" class="flex-container">
             <div id="redbar" class="flex-container">
                     
-                    <div id="buslist" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/clipboard.png" alt="Bus List"></div>
+                    <div id="buslist" class="flex-fill" onclick="newBtn()" style="cursor:default;"><img id="menu-btn" src="images/clipboard.png" alt="Bus List"></div>
 
                     <div id="buschanges" class="flex-fill" onclick="location.href='#';"><img id="menu-btn" src="images/change.png" alt="Bus Changes"></div>
 
@@ -32,13 +32,21 @@
                     
             </div>
             <div id="tabs" class="flex-container">
-                <div id="view-all" onclick="location.href='#';">View All</div>
-                <div id="search" onclick="location.href='#';">Search</div>
+                <div id="view-all" onclick="viewBusList()">View All</div>
+                <div id="search" onclick="searchBusList()">Search</div>  
+
             </div>
+            <div id="allBusses" class="flex-container">
+
+            </div>
+            <!--
+            <div id="searchBusses" class="flex-container">
+
+            </div> -->
         </div>
     </body>
 
-    <script src="js/administrator.js"></script>
+    <script src="js/buslist.js"></script>
     <script>
         let button = document.getElementById('buslist');
         button.style.filter = "invert(1)";

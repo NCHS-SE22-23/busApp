@@ -6,6 +6,7 @@ function resize() {
     var newW = w/5.88;
     document.getElementById('redbar').style.width = newW+"px";
 
+
     // Resize the buttons
     var buttonMargin = (newW-(newW*0.882352941176471))/2;
     var newBtnW = newW*0.882352941176471;
