@@ -1,10 +1,11 @@
 function newBtn() {
     let div = document.createElement("div");
-    div.style.width = "100%";
-    div.style.height = "100%";
+    div.classList.add('flex-fill');
     div.style.backgroundColor = "red";
     div.style.borderRadius = "30px";
     div.style.margin = "10px";
+    div.style.flexWrap = "wrap";
+    div.style.flex = "1 1 200px";
 
 
     document.getElementById('allBusses').appendChild(div);  
