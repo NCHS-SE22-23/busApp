@@ -57,11 +57,12 @@ a, a:link, a:visited, a:hover, a:active {
 #log_body {
     background-color: white;
     width: 900px; 
-    height: 600px;
+    height: 550px;
     position: absolute;
-    right: 60px;
-    margin-top: 30px;
+    right: 20px;
+    margin: 40px;
     text-align: left;
+    
     
 }
 #page{
