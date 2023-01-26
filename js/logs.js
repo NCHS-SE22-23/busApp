@@ -6,7 +6,9 @@ function resize() {
     var newW = w/5.88;
     document.getElementById('redbar').style.width = newW+"px";
     // resize log body
-    document.getElementById('log_body').style.width = w-newW+"px";
+    document.getElementById('log_body').style.width = w-newW-95+"px";
+    document.getElementById('log_body').style.height = h-80+"px";
+    document.getElementById('log_body').style.left = newW+"px";
 
 
     // Resize the buttons
@@ -29,6 +31,11 @@ function resize() {
             btnIcons[i].style.height = newBtnW*.9+"px";
         }
     }
+}
+function updateText() {
+    var bodyW = document.getElementById('log_body').style.width;
+    var bodyH = document.getElementById('log_body').style.height;
+    //add new line containing time and bus change to log_body each time one happens
 }
 resize();
 window.addEventListener("resize", resize);
