@@ -36,18 +36,21 @@
                 margin-right: auto;
                 width: 85%;
                 border-collapse: collapse;
-                /*margin-top: 0px */
+                
+                table-layout: fixed;
+                margin-top: 15px 
             }
+                /*
             table.PerformanceTable {
                 table-layout: fixed; 
                 width: 500px; 
             }
-            table.PerformanceTable td.PerformanceCell {
+            table.PerformanceTable tr.PerformanceCell {
                 width: 75px;
-            }
+            }*/
             tr:nth-child(even){background-color: #ebebeb;}
             tr:hover {background-color: #ff928e;}
-            th{background-color: #04AA6D;}
+            th{background-color: rgb(220, 53, 69); color: black;}
         </style>
     </head>
 
@@ -83,7 +86,7 @@
         </nav>
         <table>
             <tr>
-                <th>Bus Number</th>
+                <th>Bus Number</th> 
                 <th>Bus Changes</th>
                 <th>Current Status</th>
                 <th>Time</th>
