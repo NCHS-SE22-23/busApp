@@ -34,8 +34,16 @@
                 padding: 10px;
                 margin-left: auto;
                 margin-right: auto;
-                width: 70%;
+                width: 85%;
                 border-collapse: collapse;
+                /*margin-top: 0px */
+            }
+            table.PerformanceTable {
+                table-layout: fixed; 
+                width: 500px; 
+            }
+            table.PerformanceTable td.PerformanceCell {
+                width: 75px;
             }
             tr:nth-child(even){background-color: #ebebeb;}
             tr:hover {background-color: #ff928e;}
@@ -74,24 +82,28 @@
                 <th>Bus Number</th>
                 <th>Bus Changes</th>
                 <th>Current Status</th>
+                <th>Time</th>
             </tr>
 
             <tr>
                 <td>5</td>
                 <td>None</td>
                 <td>Not Arrived</td>
+                <td> </td>
             </tr>
 
             <tr>
                 <td>36</td>
                 <td>36 -> 12</td>
                 <td>Here Now</td>
+                <td>3:30 PM</td>
             </tr>
 
             <tr>
                 <td>15</td>
                 <td>15 -> 12</td>
                 <td>Left</td>
+                <td>3:45 PM</td>
             </tr>
         </table>
 
