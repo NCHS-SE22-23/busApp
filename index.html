@@ -44,22 +44,26 @@
     </head>
 
     <body>
-        <div id="g_id_onload"
-     data-client_id="699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-login_uri="https://nchs-se22-23.github.io/busApp/"
-     data-auto_prompt="false">
-</div>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="signin"
-     data-size="large"
-     data-logo_alignment="left">
-</div>
+      <div id="g_id_onload"
+         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+         data-login_uri="https://your.domain/your_login_endpoint"
+         data-auto_prompt="false">
+      </div>
+
+      <div class="g_id_signin"
+
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+
+      </div>
+ 
+
         <nav class="navbar navbar-expand bg-danger navbar-dark">
             <a class="navbar-brand" href="index.html">
                 <img src="./images/Naperville_Central_Logo.png" alt="NCHS Logo" style="width: 80px;">
