@@ -78,7 +78,7 @@ a, a:link, a:visited, a:hover, a:active {
     background-color: #dcdcdc;
 }
 #allBusses {
-    background-color: white;
+
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;

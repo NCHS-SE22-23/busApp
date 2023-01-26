@@ -4,24 +4,32 @@ function newBtn() {
     div.style.backgroundColor = "red";
     div.style.borderRadius = "30px";
     div.style.margin = "10px";
-    div.style.flexWrap = "wrap";
-    div.style.flex = "1 1 200px";
+
+    var h = window.innerHeight;
+    div.style.height = (h-180)/10+"px";
+
 
 
     document.getElementById('allBusses').appendChild(div);  
 }
 
 function displayBusses() {
-    
+    // get bus list AND status from server, create a table using the data
 }
 
 function viewBusList() {
     let searchTab = document.getElementById('searchBusses');
+    let bussesTab = document.getElementById('allBusses');
     searchTab.style.display = "none";
+    bussesTab.style.display = "flex";
+    displayBusses();
 }
 
 function searchBusList() {
-
+    let searchTab = document.getElementById('searchBusses');
+    let bussesTab = document.getElementById('allBusses');
+    searchTab.style.display = "flex";
+    bussesTab.style.display = "none";
 }
 
 function resize() {

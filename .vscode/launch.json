@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open logs.html",
-            "file": "c:\\Users\\brokhmanov\\Desktop\\swag repo\\busApp\\logs.html"
+            "name": "Open buslist.html",
+            "file": "/Users/aremiasz/Documents/School/2022-2023/Software Engineering/Bus Changes WebApp/buslist.html"
         }
     ]
 }
