@@ -13,6 +13,59 @@ function newBtn() {
     document.getElementById('allBusses').appendChild(div);  
 }
 
+function getBusses() {
+    let o = document.getElementsByClassName('busObj');
+    for (let i = 0; i < o.length; i++) {
+        o[i].style.display = 'none';
+    }
+
+    fetch('/getbus')
+    .then(response => {
+        if(response.ok) {
+            return response.json();
+        }
+        }).then(data => {
+        if(data) {
+            console.log(data);
+            let i = 0;
+            while(i < data.length) {
+                let div = document.createElement("div");
+                div.classList.add('flex-fill');
+                div.style.backgroundColor = "red";
+                div.style.borderRadius = "30px";
+                div.style.margin = "10px";
+
+                var h = window.innerHeight;
+                div.style.height = (h-180)/10+"px";
+
+                div.textContent = data[i];
+                div.style.textAlign = 'center';
+                div.style.fontFamily = 'Gill Sans';
+
+
+                document.getElementById('allBusses').appendChild(div);  
+                i++;
+            }
+        }
+    }).catch(err => console.error(err));
+}
+getBusses();
+
+function newBus(text) {
+    let div = document.createElement("div");
+    div.classList.add('flex-fill');
+    div.style.backgroundColor = "red";
+    div.style.borderRadius = "30px";
+    div.style.margin = "10px";
+
+    var h = window.innerHeight;
+    div.style.height = (h-180)/10+"px";
+
+    div.textContent = text;
+
+    document.getElementById('allBusses').appendChild(div);  
+}
+
 function displayBusses() {
     // get bus list AND status from server, create a table using the data
 }
