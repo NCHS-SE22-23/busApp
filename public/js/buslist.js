@@ -120,6 +120,8 @@ function resize() {
             btnIcons[i].style.height = newBtnW*.9+"px";
         }
     }
+
+    document.getElementById('main-container').style.display = "flex";
 }
 resize();
 window.addEventListener("resize", resize);

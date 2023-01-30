@@ -36,6 +36,10 @@ app.get('/buslist', function (req, res) {
     res.render('pages/buslist');
 });
 
+app.get('/buschanges', function(req, res) {
+    res.render('pages/buschanges');
+});
+
 app.get('/logs', function (req, res) {
     res.render('pages/logs');
 });
