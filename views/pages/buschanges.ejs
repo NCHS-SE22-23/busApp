@@ -11,7 +11,7 @@
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <link rel="stylesheet" href="css/buslist.css">
+        <link rel="stylesheet" href="css/buschanges.css">
     
 
     </head>
@@ -20,7 +20,7 @@
         <div id="main-container" class="flex-container" style="display: none;">
             <div id="redbar" class="flex-container">
                     
-                    <div id="buslist" class="flex-fill" onclick="location.href='buslist'" style="cursor:default;"><img id="menu-btn" src="images/clipboard.png" alt="Bus List" style="top: 100px;"></div>
+                    <div id="buslist" class="flex-fill" onclick="location.href='buslist'"><img id="menu-btn" src="images/clipboard.png" alt="Bus List" style="top: 100px;"></div>
 
                     <div id="buschanges" class="flex-fill" onclick="location.href='buschanges';"><img id="menu-btn" src="images/change.png" alt="Bus Changes"></div>
 
@@ -36,19 +36,13 @@
                 <div id="search" onclick="searchBusList()">Search</div>  
 
             </div>
-            <div id="allBusses" class="flex-container">
-
-            </div>
             
-            <div id="searchBusses" class="flex-container" style="display: none;">
-
-            </div> 
         </div>
     </body>
 
-    <script src="js/buslist.js"></script>
+    <script src="js/buschanges.js"></script>
     <script>
-        let button = document.getElementById('buslist');
+        let button = document.getElementById('buschanges');
         button.style.filter = "invert(1)";
         button.style.boxShadow = "0px 7px 14px rgb(237, 237, 237)";
 
