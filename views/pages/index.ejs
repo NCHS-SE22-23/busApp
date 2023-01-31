@@ -10,8 +10,9 @@
 
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
 
         <style>
             html {
@@ -41,6 +42,7 @@
                 
                 table-layout: fixed;
                 margin-top: 15px 
+                
             }
                 /*
             table.PerformanceTable {
@@ -86,6 +88,17 @@
                 <li class="nav-item"><a href="buslist" class="nav-link">Login</a></li>
             </ul>
         </nav>
+
+        <script>
+            fetch('./buslist.json')
+            .then(results => results.JSON);
+            console.log(JSON.parse(results));/*
+            var list = fs.readFile(buslist.JSON);
+            var bus = JSON.parse(list);
+            window.print(bus[[1]]);*/
+            
+        </script>
+
         <table>
             <tr>
                 <th>Bus Number</th> 
