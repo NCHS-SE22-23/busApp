@@ -9,6 +9,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 // Port website will run on
 app.listen(8080);
+console.log('On Successfully (probably)')
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
