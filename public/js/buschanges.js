@@ -1,3 +1,18 @@
+function viewBusList() {
+    let searchTab = document.getElementById('searchBusses');
+    let bussesTab = document.getElementById('allBusses');
+    searchTab.style.display = "none";
+    bussesTab.style.display = "flex";
+    displayBusses();
+}
+
+function searchBusList() {
+    let searchTab = document.getElementById('searchBusses');
+    let bussesTab = document.getElementById('allBusses');
+    searchTab.style.display = "flex";
+    bussesTab.style.display = "none";
+}
+
 function resize() {
     var w = window.innerWidth;
     var h = window.innerHeight;
