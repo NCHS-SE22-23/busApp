@@ -90,15 +90,33 @@
         </nav>
 
         <script>
+            
             fetch('./buslist.json')
             .then(results => results.JSON);
-            console.log(JSON.parse(results));/*
+            var obj = JSON.parse(results);
+            var res = [];
+
+            console.log(obj);
+             
+            for(var i in obj)
+                res.push(obj[i]);
+             
+            for (var b in res)
+            {
+                <body>
+                    sdsdasdadasd
+                </body>
+            }
+            <body>
+                    sdsdasdadasd
+                    </body>
+            
+            /*
             var list = fs.readFile(buslist.JSON);
             var bus = JSON.parse(list);
             window.print(bus[[1]]);*/
             
         </script>
-
         <table>
             <tr>
                 <th>Bus Number</th> 
