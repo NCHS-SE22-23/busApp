@@ -17,7 +17,7 @@
     </head>
 
     <body>
-        <div id="main-container" class="flex-container">
+        <div id="main-container" class="flex-container" style="display: none;">
             <div id="redbar" class="flex-container">
                     
                     <div id="buslist" class="flex-fill" onclick="location.href='buslist'"><img id="menu-btn" src="images/clipboard.png" alt="Bus List" style="top: 100px;"></div>
@@ -34,10 +34,13 @@
 
             <div id="list">
                 <form action="/addbus" method="post">
-                    <input type="text" name="busnum">
+                    <input type="text" name="busnum" placeholder="Add Bus">
                     <input type="submit" value="Submit">
                 </form>
-                <button onclick="listBus()">Refresh (not really)</button>
+                <form action="/delbus" method="post">
+                    <input type="text" name="busnum" placeholder="Delete Bus">
+                    <input type="submit" value="Submit">
+                </form>
 
             </div>
             

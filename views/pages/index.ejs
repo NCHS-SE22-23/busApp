@@ -90,34 +90,58 @@
         </nav>
 
         <script>
-            
-            fetch('./buslist.json')
-            .then(results => results.JSON);
-            var obj = JSON.parse(results);
-            var res = [];
+            function makeTable() {
+            fetch('/getbus')
+            .then(response => { 
+                if(response.ok) {
+                    return response.json(); // not important
+                }
+            }).then(data => {
+                if(data) { // if there is data
+                    let i = 0;
+                    let busses = data.buslist;
+                    let table = document.getElementById('busTable');
+                    while(i < busses.length) { // busses[i]
+                        let row = table.insertRow(-1);
+                        
+                        row.insertCell(0).innerHTML = busses[i].number;
+                        row.insertCell(1).innerHTML = busses[i].change;
+                        row.insertCell(2).innerHTML = busses[i].status;
+                        row.insertCell(3).innerHTML = busses[i].timestamp;
+                        i++;
+                    }
 
-            console.log(obj);
-             
-            for(var i in obj)
-                res.push(obj[i]);
-             
-            for (var b in res)
-            {
-                <body>
-                    sdsdasdadasd
-                </body>
-            }
-            <body>
-                    sdsdasdadasd
-                    </body>
-            
-            /*
-            var list = fs.readFile(buslist.JSON);
-            var bus = JSON.parse(list);
-            window.print(bus[[1]]);*/
-            
+                    
+                }
+            });
+        }
+
+            function fetchBusses() {
+            fetch('/getbus')
+            .then(response => { 
+                if(response.ok) {
+                    return response.json(); // not important
+                }
+            }).then(data => {
+                if(data) { // if there is data
+                    let i = 1;
+                    let busses = data.buslist;
+                    let table = document.getElementById('busTable');
+                    while(i < busses.length) { // busses[i]
+                        let row = table.rows[i];
+                        row.cells[0].innerHTML = busses[i-1].number;
+                        row.cells[1].innerHTML = busses[i-1].change;
+                        row.cells[2].innerHTML = busses[i-1].status;
+                        row.cells[3].innerHTML = busses[i-1].timestamp;
+                        i++;
+                    }
+
+                    
+                }
+            });
+        }
         </script>
-        <table>
+        <table id="busTable">
             <tr>
                 <th>Bus Number</th> 
                 <th>Bus Changes</th>
@@ -125,27 +149,10 @@
                 <th>Time</th>
             </tr>
 
-            <tr>
-                <td>5</td>
-                <td>None</td>
-                <td>Not Arrived</td>
-                <td> </td>
-            </tr>
-
-            <tr>
-                <td>36</td>
-                <td>36 -> 12</td>
-                <td>Here Now</td>
-                <td>3:30 PM</td>
-            </tr>
-
-            <tr>
-                <td>15</td>
-                <td>15 -> 12</td>
-                <td>Left</td>
-                <td>3:45 PM</td>
-            </tr>
         </table>
-
+        <script>
+            makeTable();
+            setInterval(fetchBusses, 10000);
+        </script>
     </body>
 </html>

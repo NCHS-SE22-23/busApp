@@ -20,15 +20,14 @@ function getBusses() {
     }
 
     fetch('/getbus')
-    .then(response => {
+    .then(response => { 
         if(response.ok) {
-            return response.json();
+            return response.json(); // not important
         }
         }).then(data => {
-        if(data) {
-            console.log(data);
+        if(data) { // if there is data
             let i = 0;
-            while(i < data.length) {
+            while(i < data.buslist.length) {
                 let div = document.createElement("div");
                 div.classList.add('flex-fill');
                 div.style.backgroundColor = "red";
@@ -38,9 +37,11 @@ function getBusses() {
                 var h = window.innerHeight;
                 div.style.height = (h-180)/10+"px";
 
-                div.textContent = data[i];
+                div.textContent = data.buslist[i].number;
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
+
+
 
 
                 document.getElementById('allBusses').appendChild(div);  

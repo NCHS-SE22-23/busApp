@@ -48,23 +48,77 @@ app.get('/settings', function (req, res) {
     res.render('pages/settings');
 });
 app.post('/addbus', (req, res) => {
-    const fs = require('fs');
-    let num = Number(req.body.busnum);
+
+    let busNum = Number(req.body.busnum);
+
+    let newBusObj = {
+        number: busNum,
+        status: "Not Arrived",
+        change: null,
+        timestamp: null
+    };
+
+    let fullList = {"buslist":[]};
 
 
-    let bus = JSON.stringify(num);
+    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
-    let datajson = fs.readFileSync('buslist.json');
-    let data = JSON.parse(datajson);
-    data.push(bus);
+        let buslist = JSON.parse(jsonString);
 
-    fs.writeFile('buslist.json', JSON.stringify(data), function(err) {
-        if (err) throw err;
+        for (i = 0; i < buslist.buslist.length; i++) {
+            fullList.buslist.push(buslist.buslist[i])
+        };
+
+        fullList.buslist.push(newBusObj);
+
+        fullList.buslist = fullList.buslist.sort((a, b) => {
+            if (a.number < b.number) {
+                return -1;
+              }
+        })
+
+        let final = JSON.stringify(fullList);
+
+        fs.writeFile('buslist.json', final, err => {})
+
+        res.redirect('settings');
     });
-    res.redirect('settings');
+
 });
 app.get('/getbus', (req, res) => {
     let datajson = fs.readFileSync('buslist.json');
     let data = JSON.parse(datajson);
-    res.send(datajson);
+    res.send(data);
+});
+app.post('/delbus', (req, res) => {
+    let fullList = {"buslist":[]};
+
+    if(req.body.busnum == "clear") {
+        let final = JSON.stringify(fullList);
+
+        fs.writeFile('buslist.json', final, err => {});
+        res.redirect('settings');
+        return;
+    }
+
+    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+
+        let buslist = JSON.parse(jsonString);
+
+        for (i = 0; i < buslist.buslist.length; i++) {
+            fullList.buslist.push(buslist.buslist[i])
+        };
+
+        for (i = 0; i < fullList.buslist.length; i++) {
+            if(fullList.buslist[i].number == req.body.busnum) fullList.buslist.splice(i, i+1);
+        }
+
+        let final = JSON.stringify(fullList);
+
+        fs.writeFile('buslist.json', final, err => {});
+    });
+    res.redirect('settings');
+});
+app.get('/logout', (req, res) => {
+    res.redirect('/');
 })
