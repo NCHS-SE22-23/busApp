@@ -50,12 +50,17 @@ app.get('/settings', function (req, res) {
 app.post('/addbus', (req, res) => {
 
     let busNum = Number(req.body.busnum);
+    
+    var action = new Date(); 
+    var date = action.getFullYear()+'-'+(action.getMonth()+1)+'-'+action.getDate();
+    var time = action.getHours() + ":" + action.getMinutes() + ":" + action.getSeconds();
+    var dateTime = date+' '+time;
 
     let newBusObj = {
         number: busNum,
         status: "Not Arrived",
         change: null,
-        timestamp: null
+        timestamp: dateTime
     };
 
     let fullList = {"buslist":[]};
@@ -81,7 +86,7 @@ app.post('/addbus', (req, res) => {
 
         fs.writeFile('buslist.json', final, err => {})
 
-        res.redirect('settings');
+        res.redirect('settings'); 
     });
 
 });
