@@ -1,12 +1,11 @@
-function viewBusList() {
+function viewBusEdit() {
     let searchTab = document.getElementById('searchBusses');
-    let bussesTab = document.getElementById('allBusses');
+    let bussesTab = document.getElementById('viewBusses');
     searchTab.style.display = "none";
     bussesTab.style.display = "flex";
-    displayBusses();
 }
 
-function searchBusList() {
+function viewBusChanges() {
     let searchTab = document.getElementById('searchBusses');
     let bussesTab = document.getElementById('allBusses');
     searchTab.style.display = "flex";

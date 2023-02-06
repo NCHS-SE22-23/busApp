@@ -25,6 +25,7 @@ a, a:link, a:visited, a:hover, a:active {
     flex-direction: column;
     width: 170px;
     height: 100%;
+    box-shadow: 0px 10px 34px rgb(18, 18, 18);
 }
 #buslist, #buschanges, #logs, #settings, #logout {
     background-color: #ffffff;
