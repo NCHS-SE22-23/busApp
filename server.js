@@ -52,15 +52,22 @@ app.post('/addbus', (req, res) => {
     let busNum = Number(req.body.busnum);
     
     var action = new Date(); 
-    var date = action.getFullYear()+'-'+(action.getMonth()+1)+'-'+action.getDate();
-    var time = action.getHours() + ":" + action.getMinutes() + ":" + action.getSeconds();
-    var dateTime = date+' '+time;
+    var seconds = action.getTime();
+    seconds = seconds/(1000*60*60*24);
+    var days_since = Math.trunc(seconds);
+    var temp = seconds - days_since;
+    var hour = Math.trunc(temp * 24);
+    temp = temp*24 - hour
+    var minute = Math.trunc(temp * 60)
+
+    var time = (hour-6 + ":" + minute);
+
 
     let newBusObj = {
         number: busNum,
         status: "Not Arrived",
         change: null,
-        timestamp: dateTime
+        timestamp: time
     };
 
     let fullList = {"buslist":[]};
