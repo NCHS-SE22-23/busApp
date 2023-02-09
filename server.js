@@ -10,6 +10,9 @@ app.set('view engine', 'ejs');
 // Port website will run on
 app.listen(8080);
 
+app.use(express.json({  extended: true }));
+app.use(express.urlencoded({  extended: true }));
+
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
     extended:true
@@ -133,4 +136,30 @@ app.post('/delbus', (req, res) => {
 });
 app.get('/logout', (req, res) => {
     res.redirect('/');
+})
+
+app.post('/updateStatus', (req, res) => {
+
+    let bus = req.body;
+    console.log(bus);
+
+    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+
+        let buslist = JSON.parse(jsonString);
+
+        for (i = 0; i < buslist.buslist.length; i++) {
+            if (buslist.buslist[i].number == bus.number) {
+                console.log(buslist.buslist[i].status);
+                buslist.buslist[i].status = bus.newStatus;
+                console.log(buslist.buslist[i].status);
+            }
+        };
+
+        let final = JSON.stringify(buslist);
+
+        fs.writeFile('buslist.json', final, err => {})
+
+        res.redirect('buslist'); 
+    });
+
 })

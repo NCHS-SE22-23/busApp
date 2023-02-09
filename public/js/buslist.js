@@ -30,22 +30,96 @@ function getBusses() {
             while(i < data.buslist.length) {
                 let div = document.createElement("div");
                 div.classList.add('flex-fill');
-                div.style.backgroundColor = "red";
+
+                if(data.buslist[i].status == "Not Arrived") div.style.backgroundColor = "red";
+                else if(data.buslist[i].status == "Arrived") div.style.backgroundColor = "green";
+                else if(data.buslist[i].status == "Departed") div.style.backgroundColor = "grey";
+
                 div.style.borderRadius = "30px";
                 div.style.margin = "10px";
 
                 var h = window.innerHeight;
                 div.style.height = (h-180)/10+"px";
 
-                div.textContent = data.buslist[i].number;
+                let busNumber = data.buslist[i].number;
+                div.textContent = busNumber;
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
 
-
-
+                div.onclick = changeColor;
 
                 document.getElementById('allBusses').appendChild(div);  
                 i++;
+
+                function changeColor() {
+                    if (div.style.backgroundColor == 'red') {
+
+                        let busdata = {
+                            number: busNumber,
+                            newStatus: "Arrived"
+                        };
+
+                        fetch('/updateStatus', {
+                            method: 'POST',
+                            body: JSON.stringify(busdata),
+                            headers: {
+                                'Content-Type': 'application/json',
+                              }
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+
+                        div.style.backgroundColor = 'green';
+                    } else if (div.style.backgroundColor == 'green'){
+                        let busdata = {
+                            number: busNumber,
+                            newStatus: "Departed"
+                        };
+
+                        fetch('/updateStatus', {
+                            method: 'POST',
+                            body: JSON.stringify(busdata),
+                            headers: {
+                                'Content-Type': 'application/json',
+                              }
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+
+                        div.style.backgroundColor = 'grey';
+                    } else {
+                        let busdata = {
+                            number: busNumber,
+                            newStatus: "Not Arrived"
+                        };
+
+                        fetch('/updateStatus', {
+                            method: 'POST',
+                            body: JSON.stringify(busdata),
+                            headers: {
+                                'Content-Type': 'application/json',
+                              }
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                        div.style.backgroundColor = 'red';
+                    }
+                }
             }
         }
     }).catch(err => console.error(err));
