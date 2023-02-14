@@ -13,6 +13,31 @@ function newBtn() {
     document.getElementById('allBusses').appendChild(div);  
 }
 
+function updateBusses() {
+    let o = document.getElementsByClassName('busObj');
+    fetch('/getbus')
+    .then(response => { 
+        if(response.ok) {
+            return response.json(); // not important
+        }
+        }).then(data => {
+        if(data) { // if there is data
+            let i = 0;
+            while(i < data.buslist.length) {
+                let div = o[i];
+                changeColor();
+                i++;
+
+                function changeColor() {
+                    if (data.buslist[i].status == "Not Arrived") div.style.backgroundColor = 'red';
+                    else if (data.buslist[i].status == "Arrived") div.style.backgroundColor = 'green';
+                    else div.style.backgroundColor = 'grey';
+                }
+            }
+        }
+    }).catch(err => console.error(err));
+}
+
 function getBusses() {
     let o = document.getElementsByClassName('busObj');
     for (let i = 0; i < o.length; i++) {
@@ -29,6 +54,7 @@ function getBusses() {
             let i = 0;
             while(i < data.buslist.length) {
                 let div = document.createElement("div");
+                div.classList.add('busObj')
                 div.classList.add('flex-fill');
 
                 if(data.buslist[i].status == "Not Arrived") div.style.backgroundColor = "red";

@@ -141,17 +141,26 @@ app.get('/logout', (req, res) => {
 app.post('/updateStatus', (req, res) => {
 
     let bus = req.body;
-    console.log(bus);
 
     fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
         let buslist = JSON.parse(jsonString);
 
+        var action = new Date(); 
+        var seconds = action.getTime();
+        seconds = seconds/(1000*60*60*24);
+        var days_since = Math.trunc(seconds);
+        var temp = seconds - days_since;
+        var hour = Math.trunc(temp * 24);
+        temp = temp*24 - hour
+        var minute = Math.trunc(temp * 60)
+
+    var time = (hour-6 + ":" + minute);
+
         for (i = 0; i < buslist.buslist.length; i++) {
             if (buslist.buslist[i].number == bus.number) {
-                console.log(buslist.buslist[i].status);
                 buslist.buslist[i].status = bus.newStatus;
-                console.log(buslist.buslist[i].status);
+                buslist.buslist[i].timestamp = time;
             }
         };
 
