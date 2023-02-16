@@ -36,6 +36,7 @@ function resize() {
 function updateText() {
     var bodyW = document.getElementById('log_body').style.width;
     var bodyH = document.getElementById('log_body').style.height;
+    //document.getElementById('log_text').innerHTML += 
     //add new line containing time and bus change to log_body each time one happens
 }
 resize();
