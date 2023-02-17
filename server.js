@@ -26,6 +26,8 @@ app.get('/', function (req, res) {
     res.render('pages/index');
 });
 
+console.log(new Date().getHours());
+
 app.get('/buslist', function (req, res) {
     const f = require('fs');
     const readline = require('readline');

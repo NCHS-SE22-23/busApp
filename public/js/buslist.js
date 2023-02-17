@@ -25,10 +25,10 @@ function updateBusses() {
             let i = 0;
             while(i < data.buslist.length) {
                 let div = o[i];
-                changeColor();
+                getColor();
                 i++;
 
-                function changeColor() {
+                function getColor() {
                     if (data.buslist[i].status == "Not Arrived") div.style.backgroundColor = 'red';
                     else if (data.buslist[i].status == "Arrived") div.style.backgroundColor = 'green';
                     else div.style.backgroundColor = 'grey';
