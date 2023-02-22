@@ -82,6 +82,59 @@
     
                 </table>
             </div> 
+
+            <script>
+                function makeTable() {
+            fetch('/getbus')
+            .then(response => { 
+                if(response.ok) {
+                    return response.json(); // not important
+                }
+            }).then(data => {
+                if(data) { // if there is data
+                    let i = 0;
+                    let busses = data.buslist;
+                    let table = document.getElementById('busTable');
+                    while(i < busses.length) { // busses[i]
+                        let row = table.insertRow(-1);
+                        
+                        row.insertCell(0).innerHTML = busses[i].number;
+                        row.insertCell(1).innerHTML = busses[i].change;
+                        row.insertCell(2).innerHTML = busses[i].status;
+                        row.insertCell(3).innerHTML = busses[i].timestamp;
+                        i++;
+                    }
+
+                    
+                }
+            });
+        }
+
+            function fetchBusses() {
+            fetch('/getbus')
+            .then(response => { 
+                if(response.ok) {
+                    return response.json(); // not important
+                }
+            }).then(data => {
+                if(data) { // if there is data
+                    let i = 1;
+                    let busses = data.buslist;
+                    let table = document.getElementById('busTable');
+                    while(i < busses.length) { // busses[i]
+                        let row = table.rows[i];
+                        row.cells[0].innerHTML = busses[i-1].number;
+                        row.cells[1].innerHTML = busses[i-1].change;
+                        row.cells[2].innerHTML = busses[i-1].status;
+                        row.cells[3].innerHTML = busses[i-1].timestamp;
+                        i++;
+                    }
+
+                    
+                }
+            });
+        }
+        </script>
             
         
     </body>
