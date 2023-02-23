@@ -158,5 +158,100 @@
             data-logo_alignment="left">
 
         </div>
+
+        <script>
+
+            // variable to check that the button must be clicked manually
+            var googleSigninClicked = false;
+        
+            // when the button is clicked by user
+            function googleSigninClick() {
+                googleSigninClicked = true;
+            }
+        
+            // called when the google API is initialized
+            function googleInit() {
+        
+                // load the auth API
+                gapi.load('auth2', () => {
+        
+                    // initialize the auth library
+                    gapi.auth2.init({ client_id: "699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com" }).then(() => {
+        
+                        // render the google sign in button
+                        gapi.signin2.render('myGoogleButton', {
+                            'scope': 'profile email',
+                            'width': 240,
+                            'height': 40,
+                            'longtitle': true,
+                            'theme': 'dark',
+        
+                            onsuccess: (googleUser) => {
+        
+                                // this function is called when the page is loaded too,
+                                // so we must login the user when the button is manually clicked
+                                if (!googleSigninClicked) {
+                                    return false;
+                                }
+                                googleSigninClicked = false;
+        
+                                // get user profile
+                                console.log(googleUser);
+                                var profile = googleUser.getBasicProfile();
+        
+                                console.log({
+                                    "id": profile.getId(),
+                                    "name": profile.getName(),
+                                    "picture": profile.getImageUrl(),
+                                    "email": profile.getEmail()
+                                });
+        
+                                // get token to be verified from server
+                                var id_token = googleUser.getAuthResponse().id_token;
+        
+                                // send an AJAX request to the server to verify the token
+                                var ajax = new XMLHttpRequest();
+                                ajax.open("POST", "google-sign-in.php", true);
+        
+                                // when the status of request is changed
+                                ajax.onreadystatechange = function () {
+                                    // when the response is received from server
+                                    if (this.readyState == 4) {
+        
+                                        // if the server is successfull
+                                        if (this.status == 200) {
+        
+                                            // the response will be a JSON string, convert that into javascript object
+                                            var data = JSON.parse(this.responseText);
+                                            console.log(data);
+                                        }
+        
+                                        // if there is any internal server error
+                                        if (this.status == 500) {
+                                            console.log(this.responseText);
+                                        }
+                                    }
+                                };
+        
+                                // create form data object
+                                var formData = new FormData();
+        
+                                // append the token in the request
+                                formData.append("id_token", id_token);
+        
+                                // send the request
+                                ajax.send(formData);
+                            },
+        
+                            onfailure: (error) => {
+                                console.log(error);
+                            }
+                        });
+        
+                    });
+                });
+            }
+        
+        </script>
     </body>
 </html>
