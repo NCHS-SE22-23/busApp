@@ -10,23 +10,7 @@ app.set('view engine', 'ejs');
 // Port website will run on
 app.listen(8080);
 
-const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(CLIENT_ID);
 
-async function verify() {
-  const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-      // Or, if multiple clients access the backend:
-      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-  });
-  const payload = ticket.getPayload();
-  const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
-}
-
-verify().catch(console.error);
 app.use(express.json({  extended: true }));
 app.use(express.urlencoded({  extended: true }));
 
@@ -45,7 +29,7 @@ app.get('/', function (req, res) {
 
 console.log(new Date().getHours());
 
-let busNum = Number(req.body.busnum);    
+//let busNum = Number(req.body.busnum);    
 var action = new Date(); 
 var seconds = action.getTime();
 seconds = seconds/(1000*60*60*24);
