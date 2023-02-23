@@ -28,6 +28,17 @@ app.get('/', function (req, res) {
 
 console.log(new Date().getHours());
 
+let busNum = Number(req.body.busnum);    
+var action = new Date(); 
+var seconds = action.getTime();
+seconds = seconds/(1000*60*60*24);
+var days_since = Math.trunc(seconds);
+var temp = seconds - days_since;
+var hour = Math.trunc(temp * 24);
+temp = temp*24 - hour
+var minute = Math.trunc(temp * 60)
+var time = (hour-6 + ":" + minute);
+
 app.get('/buslist', function (req, res) {
     const f = require('fs');
     const readline = require('readline');
@@ -53,20 +64,6 @@ app.get('/settings', function (req, res) {
     res.render('pages/settings');
 });
 app.post('/addbus', (req, res) => {
-
-    let busNum = Number(req.body.busnum);
-    
-    var action = new Date(); 
-    var seconds = action.getTime();
-    seconds = seconds/(1000*60*60*24);
-    var days_since = Math.trunc(seconds);
-    var temp = seconds - days_since;
-    var hour = Math.trunc(temp * 24);
-    temp = temp*24 - hour
-    var minute = Math.trunc(temp * 60)
-
-    var time = (hour-6 + ":" + minute);
-
 
     let newBusObj = {
         number: busNum,
@@ -100,6 +97,8 @@ app.post('/addbus', (req, res) => {
 
         res.redirect('settings'); 
     });
+
+    
 
 });
 app.get('/getbus', (req, res) => {
@@ -146,19 +145,6 @@ app.post('/updateStatus', (req, res) => {
 
     fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
-        let buslist = JSON.parse(jsonString);
-
-        var action = new Date(); 
-        var seconds = action.getTime();
-        seconds = seconds/(1000*60*60*24);
-        var days_since = Math.trunc(seconds);
-        var temp = seconds - days_since;
-        var hour = Math.trunc(temp * 24);
-        temp = temp*24 - hour
-        var minute = Math.trunc(temp * 60)
-
-    var time = (hour-6 + ":" + minute);
-
         for (i = 0; i < buslist.buslist.length; i++) {
             if (buslist.buslist[i].number == bus.number) {
                 buslist.buslist[i].status = bus.newStatus;
@@ -174,3 +160,19 @@ app.post('/updateStatus', (req, res) => {
     });
 
 })
+
+app.get('/getlogs', (req, res) => {
+    let status_change = {
+        number: busNum,
+        change: null,
+        timestamp: time
+    };
+
+    
+    
+    
+    
+    let datajson = fs.readFileSync('buslist.json');
+    let data = JSON.parse(datajson);
+    res.send(data);
+});
