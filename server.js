@@ -39,6 +39,7 @@ var hour = Math.trunc(temp * 24);
 temp = temp*24 - hour
 var minute = Math.trunc(temp * 60)
 var time = (hour-6 + ":" + minute);
+var action_done = "";
 
 app.get('/buslist', function (req, res) {
     const f = require('fs');
@@ -65,6 +66,7 @@ app.get('/settings', function (req, res) {
     res.render('pages/settings');
 });
 app.post('/addbus', (req, res) => {
+    action_data = "Bus Added";
 
     let newBusObj = {
         number: busNum,
@@ -108,6 +110,8 @@ app.get('/getbus', (req, res) => {
     res.send(data);
 });
 app.post('/delbus', (req, res) => {
+    action_data = "Bus Deleted";
+
     let fullList = {"buslist":[]};
 
     if(req.body.busnum == "clear") {
@@ -141,6 +145,7 @@ app.get('/logout', (req, res) => {
 })
 
 app.post('/updateStatus', (req, res) => {
+    change = bus.newStatus;
 
     let bus = req.body;
 
@@ -165,9 +170,13 @@ app.post('/updateStatus', (req, res) => {
 app.get('/getlogs', (req, res) => {
     let status_change = {
         number: busNum,
-        change: null,
+        change: change,
         timestamp: time
     };
+
+    
+
+    
 
     
     
