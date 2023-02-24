@@ -27,7 +27,28 @@ app.get('/', function (req, res) {
     res.render('pages/index');
 });
 
-console.log(new Date().getHours());
+function reset() {
+    let hour = new Date().getHours();
+    console.log(hour);
+    if (hour == 0) {
+        fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+
+            let buslist = JSON.parse(jsonString);
+    
+            for (i = 0; i < buslist.buslist.length; i++) {
+                buslist.buslist[i].status = "Not Arrived";
+                buslist.buslist[i].change = null;
+                buslist.buslist[i].timestamp = null;
+            };
+    
+            let final = JSON.stringify(buslist);
+    
+            fs.writeFile('buslist.json', final, err => {})
+        });
+    }
+}
+reset();
+setInterval(reset, (1000*60*60)); 
 
 //let busNum = Number(req.body.busnum);    
 var action = new Date(); 
@@ -145,6 +166,8 @@ app.post('/updateStatus', (req, res) => {
     let bus = req.body;
 
     fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+
+        let buslist = JSON.parse(jsonString);
 
         for (i = 0; i < buslist.buslist.length; i++) {
             if (buslist.buslist[i].number == bus.number) {

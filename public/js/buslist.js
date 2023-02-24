@@ -29,7 +29,7 @@ function updateBusses() {
                 i++;
 
                 function getColor() {
-                    if (data.buslist[i].status == "Not Arrived") div.style.backgroundColor = 'red';
+                    if (data.buslist[i].status == "Not Arrived") div.style.backgroundColor = "rgb(255, 44, 44)";
                     else if (data.buslist[i].status == "Arrived") div.style.backgroundColor = 'green';
                     else div.style.backgroundColor = 'grey';
                 }
@@ -57,7 +57,7 @@ function getBusses() {
                 div.classList.add('busObj')
                 div.classList.add('flex-fill');
 
-                if(data.buslist[i].status == "Not Arrived") div.style.backgroundColor = "red";
+                if(data.buslist[i].status == "Not Arrived") div.style.backgroundColor = "rgb(255, 44, 44)";
                 else if(data.buslist[i].status == "Arrived") div.style.backgroundColor = "green";
                 else if(data.buslist[i].status == "Departed") div.style.backgroundColor = "grey";
 
@@ -78,7 +78,7 @@ function getBusses() {
                 i++;
 
                 function changeColor() {
-                    if (div.style.backgroundColor == 'red') {
+                    if (div.style.backgroundColor == "rgb(255, 44, 44)") {
 
                         let busdata = {
                             number: busNumber,
@@ -143,7 +143,7 @@ function getBusses() {
                         .catch((error) => {
                             console.error('Error:', error);
                         });
-                        div.style.backgroundColor = 'red';
+                        div.style.backgroundColor = "rgb(255, 44, 44)";
                     }
                 }
             }
