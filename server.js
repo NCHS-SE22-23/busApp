@@ -166,9 +166,9 @@ app.get('/logout', (req, res) => {
 })
 
 app.post('/updateStatus', (req, res) => {
-    change = bus.newStatus;
 
     let bus = req.body;
+    change = bus.newStatus;
 
     fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
