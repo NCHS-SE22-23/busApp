@@ -14,7 +14,7 @@ function listBus() {
             console.log(data);
             let i = 0;
             while(i < data.length) {
-                let bus = document.createElement("h5");
+                let bus = document.createElement("h5"); 
                 bus.style.fontSize = "large";
                 bus.className = "busObj";
                 bus.textContent = data[i];

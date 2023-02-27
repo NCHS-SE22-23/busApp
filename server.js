@@ -194,20 +194,34 @@ app.post('/updateStatus', (req, res) => {
 
 app.get('/getlogs', (req, res) => {
     let status_change = {
-        number: busNum,
-        change: change,
+        bus: busNum,
+        description: action_done,
         timestamp: time
     };
+    bus = Number(req.body.busnum);
+    
+    let changeList = {"buslist":[]};
 
-    
+    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {
 
-    
+        let buslist = JSON.parse(jsonString);
 
-    
-    
-    
-    
-    let datajson = fs.readFileSync('buslist.json');
-    let data = JSON.parse(datajson);
-    res.send(data);
+        for (i = 0; i < buslist.buslist.length; i++) {
+            changeList.buslist.push(buslist.buslist[i])
+        };
+
+        changeList.buslist.push(status_change);
+
+        changeList.buslist = changeList.buslist.sort((a, b) => {
+            if (a.number < b.number) {
+                return -1;
+              }
+        })
+
+        let final = JSON.stringify(changeList);
+
+        fs.writeFile('logs.JSON', final, err => {})
+
+        res.redirect('logs'); 
+    });
 });
