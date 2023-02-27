@@ -66,7 +66,22 @@
             </a>
             <h1>NCHS Bus Status Page</h1>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="buslist" class="nav-link">Login</a></li>
+                <li class="nav-item"><div id="g_id_onload"
+                    data-client_id="699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com"
+                    data-login_uri="/verify"
+                    data-auto_prompt="false">
+                </div>
+                    
+                <div class="g_id_signin"
+        
+                    data-type="standard"
+                    data-size="medium"
+                    data-theme="outline"
+                    data-text="sign_in_with"
+                    data-shape="rectangular"
+                    data-logo_alignment="left">
+        
+                </div></li>
             </ul>
         </nav>
 
@@ -142,22 +157,7 @@
 
         <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-        <div id="g_id_onload"
-            data-client_id="699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com"
-            data-login_uri="http://localhost:8080/"
-            data-auto_prompt="false">
-        </div>
-            
-        <div class="g_id_signin"
-
-            data-type="standard"
-            data-size="medium"
-            data-theme="outline"
-            data-text="sign_in_with"
-            data-shape="rectangular"
-            data-logo_alignment="left">
-
-        </div>
+        
 
         <script>
 
@@ -212,6 +212,7 @@
                                 // send an AJAX request to the server to verify the token
                                 var ajax = new XMLHttpRequest();
                                 ajax.open("POST", "google-sign-in.php", true);
+
         
                                 // when the status of request is changed
                                 ajax.onreadystatechange = function () {

@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({
     extended:true
 }));
 const fs = require('fs');
+const { ok } = require('assert');
 
 // *** GET Routes - display pages ***
 // Root Route
@@ -208,4 +209,8 @@ app.get('/getlogs', (req, res) => {
     let datajson = fs.readFileSync('buslist.json');
     let data = JSON.parse(datajson);
     res.send(data);
+});
+app.post('/verify', (req, res) => {
+    console.log('hi adesh');
+
 });
