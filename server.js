@@ -88,7 +88,8 @@ app.get('/settings', function (req, res) {
     res.render('pages/settings');
 });
 app.post('/addbus', (req, res) => {
-    action_data = "Bus Added";
+    action_done = "Bus Added";
+    let busNum = Number(req.body.busnum);    
 
     let newBusObj = {
         number: busNum,
@@ -132,7 +133,7 @@ app.get('/getbus', (req, res) => {
     res.send(data);
 });
 app.post('/delbus', (req, res) => {
-    action_data = "Bus Deleted";
+    action_done = "Bus Deleted";
 
     let fullList = {"buslist":[]};
 
@@ -209,8 +210,4 @@ app.get('/getlogs', (req, res) => {
     let datajson = fs.readFileSync('buslist.json');
     let data = JSON.parse(datajson);
     res.send(data);
-});
-app.post('/verify', (req, res) => {
-    console.log('hi adesh');
-
 });
