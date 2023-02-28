@@ -1,4 +1,4 @@
-import { time } from 'console';
+//import { time } from 'console';
 
 function newBtn() {
     let div = document.createElement("div");
