@@ -228,34 +228,14 @@ app.get('/getlogs', (req, res) => {
 
 });
 });
+
+
+
+
+
+
 //google sign in
 app.post('/verify', (req, res) => {
-    /*
-    csrf_token_cookie = this.request.cookies.get('g_csrf_token')
-if  (csrf_token_cookie)
-    webapp2.abort(400, 'No CSRF token in Cookie.');
-csrf_token_body = this.request.get('g_csrf_token');
-if  (! csrf_token_body)
-    webapp2.abort(400, 'No CSRF token in post body.');
-if (csrf_token_cookie != csrf_token_body)
-    webapp2.abort(400, 'Failed to verify double submit cookie.');
-
-    const {OAuth2Client} = require('google-auth-library');
-    const client = new OAuth2Client('699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com');
-    async function verify() {
-    const ticket = await client.verifyIdToken({
-      idToken: csrf_token_cookie,
-      audience: '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
-      // Or, if multiple clients access the backend:
-      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-    });
-    const payload = ticket.getPayload();
-    const userid = payload['sub'];
-    // If request specified a G Suite domain:
-    // const domain = payload['hd'];
-}
-verify().catch(console.error);
-*/
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
@@ -322,22 +302,29 @@ async function authenticate(scopes) {
     destroyer(server);
   });
 }
+console.log('marker1');
 
 async function runSample() {
+    console.log('marker2');
   // retrieve user profile
-  const res = await people.people.get({
+  const data_1 = await people.people.get({
     resourceName: 'people/me',
     personFields: 'emailAddresses',
   });
-  console.log(res.data);
+  console.log(data_1.data);
 }
+
+
 
 const scopes = [
   'https://www.googleapis.com/auth/userinfo.email',
   'profile',
 ];
+
+
+
 authenticate(scopes)
-  .then(client => runSample(client))
+runSample();
 
 });
 
