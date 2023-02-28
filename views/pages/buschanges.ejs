@@ -32,8 +32,8 @@
                     
             </div>
             <div id="tabs" class="flex-container">
-                <div id="view-changes" onclick="">View Bus Changes</div>
-                <div id="edit-changes" onclick="">Edit Bus Changes</div>  
+                <div id="view-changes" onclick="viewBusChanges()">View Bus Changes</div>
+                <div id="edit-changes" onclick="viewBusEdit()">Edit Bus Changes</div>  
             </div>
             <div id="viewBusses" class="flex-container"></div>
             <div id="editBusses" class="flex-container" style="display: none;"></div>
@@ -47,6 +47,7 @@
         button.style.filter = "invert(1)";
         button.style.boxShadow = "0px 7px 14px rgb(237, 237, 237)";
 
+        //setInterval(updateBusses, 1000);
     </script>
 
 </html>
