@@ -166,7 +166,7 @@ function newBus(text) {
 
     div.textContent = text;
 
-    fetch('/getbus')
+    /*fetch('/getbus')
     .then(response => {
         if(response.ok) {
             return response.json();
@@ -179,7 +179,7 @@ function newBus(text) {
             var json = '{"bus":0, "description":"Bus Created", "timestamp":"' + time + '"}'
             fs.writeFileSync(filename, JSON.stringify(json)); 
         }
-    }).catch(err => console.error(err));
+    }).catch(err => console.error(err));*/
 
     
 }

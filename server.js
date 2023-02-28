@@ -30,6 +30,7 @@ app.get('/', function (req, res) {
 
 function reset() {
     let hour = new Date().getHours();
+    console.log(hour);
     if (hour == 0) {
         fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
@@ -44,6 +45,14 @@ function reset() {
             let final = JSON.stringify(buslist);
     
             fs.writeFile('buslist.json', final, err => {})
+
+            /*let logWrite = {
+                "bus" : 0,
+                "description" : "All bus statuses reset",
+                "timestamp" : time
+            }
+            fs.writeFile('logs.json', JSON.stringify(logWrite), err => {})*/
+
         });
     }
 }
@@ -217,7 +226,7 @@ app.get('/getlogs', (req, res) => {
     let data = JSON.parse(datajson);
     res.send(data);
 
-    });
+});
 });
 //google sign in
 app.post('/verify', (req, res) => {
