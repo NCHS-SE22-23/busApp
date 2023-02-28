@@ -217,6 +217,7 @@ app.get('/getlogs', (req, res) => {
     let data = JSON.parse(datajson);
     res.send(data);
 
+    });
 });
 //google sign in
 app.post('/verify', (req, res) => {
