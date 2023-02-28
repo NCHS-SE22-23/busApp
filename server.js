@@ -210,18 +210,128 @@ app.get('/getlogs', (req, res) => {
             changeList.buslist.push(buslist.buslist[i])
         };
 
-        changeList.buslist.push(status_change);
+    
+    
+    
+    
+    let datajson = fs.readFileSync('buslist.json');
+    let data = JSON.parse(datajson);
+    res.send(data);
 
-        changeList.buslist = changeList.buslist.sort((a, b) => {
-            if (a.number < b.number) {
-                return -1;
-              }
-        })
+});
+//google sign in
+app.post('/verify', (req, res) => {
+    /*
+    csrf_token_cookie = this.request.cookies.get('g_csrf_token')
+if  (csrf_token_cookie)
+    webapp2.abort(400, 'No CSRF token in Cookie.');
+csrf_token_body = this.request.get('g_csrf_token');
+if  (! csrf_token_body)
+    webapp2.abort(400, 'No CSRF token in post body.');
+if (csrf_token_cookie != csrf_token_body)
+    webapp2.abort(400, 'Failed to verify double submit cookie.');
 
-        let final = JSON.stringify(changeList);
-
-        fs.writeFile('logs.JSON', final, err => {})
-
-        res.redirect('logs'); 
+    const {OAuth2Client} = require('google-auth-library');
+    const client = new OAuth2Client('699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com');
+    async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken: csrf_token_cookie,
+      audience: '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
+      // Or, if multiple clients access the backend:
+      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
     });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+    // If request specified a G Suite domain:
+    // const domain = payload['hd'];
+}
+verify().catch(console.error);
+*/
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
+const url = require('url');
+const opn = require('open');
+const destroyer = require('server-destroy');
+
+const {google} = require('googleapis');
+const people = google.people('v1');
+
+/**
+ * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI.  To get these credentials for your application, visit https://console.cloud.google.com/apis/credentials.
+ */
+const keyPath = path.join(__dirname, 'oauth2.keys.json');
+let keys = {redirect_uris: ['http://localhost:8080/verify']};
+if (fs.existsSync(keyPath)) {
+  keys = require(keyPath).web;
+}
+
+/**
+ * Create a new OAuth2 client with the configured keys.
+ */
+const oauth2Client = new google.auth.OAuth2(
+  keys.client_id = '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com',
+  keys.client_secret = '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',
+  keys.redirect_uris[0]
+);
+
+/**
+ * This is one of the many ways you can configure googleapis to use authentication credentials.  In this method, we're setting a global reference for all APIs.  Any other API you use here, like google.drive('v3'), will now use this auth client. You can also override the auth client at the service and method call levels.
+ */
+google.options({auth: oauth2Client});
+
+/**
+ * Open an http server to accept the oauth callback. In this simple example, the only request to our webserver is to /callback?code=<code>
+ */
+async function authenticate(scopes) {
+  return new Promise((resolve, reject) => {
+    // grab the url that will be used for authorization
+    const authorizeUrl = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: scopes.join(' '),
+    });
+    const server = http
+      .createServer(async (req, res) => {
+        try {
+          if (req.url.indexOf('/oauth2callback') > -1) {
+            const qs = new url.URL(req.url, 'http://localhost:8080')
+              .searchParams;
+            res.end('Authentication successful! Please return to the console.');
+            server.destroy();
+            const {tokens} = await oauth2Client.getToken(qs.get('code'));
+            oauth2Client.credentials = tokens; // eslint-disable-line require-atomic-updates
+            resolve(oauth2Client);
+          }
+        } catch (e) {
+          reject(e);
+        }
+      })
+      .listen(3000, () => {
+        // open the browser to the authorize url to start the workflow
+        opn(authorizeUrl, {wait: false}).then(cp => cp.unref());
+      });
+    destroyer(server);
+  });
+}
+
+async function runSample() {
+  // retrieve user profile
+  const res = await people.people.get({
+    resourceName: 'people/me',
+    personFields: 'emailAddresses',
+  });
+  console.log(res.data);
+}
+
+const scopes = [
+  'https://www.googleapis.com/auth/userinfo.email',
+  'profile',
+];
+authenticate(scopes)
+  .then(client => runSample(client))
+
+});
+
+app.get('/verify', (req, res) => {
+    res.redirect('/buslist');
 });
