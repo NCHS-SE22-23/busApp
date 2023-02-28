@@ -317,11 +317,25 @@ async function runSample() {
 }
 
 const scopes = [
-  'https://www.googleapis.com/auth/contacts.readonly',
-  'https://www.googleapis.com/auth/user.emails.read',
+  'https://www.googleapis.com/auth/userinfo.email',
   'profile',
 ];
 authenticate(scopes)
   .then(client => runSample(client))
 
+});
+
+app.get('/verify', (req, res) => {
+    res.redirect('/buslist');
+    //GET /oauthcallback?code= {authorizationCode}
+    /*const {tokens} = await oauth2Client.getToken(code)
+    oauth2Client.setCredentials(tokens);
+
+    oauth2Client.on('tokens', (tokens) => {
+        if (tokens.refresh_token) {
+          // store the refresh_token in my database!
+          console.log(tokens.refresh_token);
+        }
+        console.log(tokens.access_token);
+    }*/
 });
