@@ -327,15 +327,4 @@ authenticate(scopes)
 
 app.get('/verify', (req, res) => {
     res.redirect('/buslist');
-    //GET /oauthcallback?code= {authorizationCode}
-    /*const {tokens} = await oauth2Client.getToken(code)
-    oauth2Client.setCredentials(tokens);
-
-    oauth2Client.on('tokens', (tokens) => {
-        if (tokens.refresh_token) {
-          // store the refresh_token in my database!
-          console.log(tokens.refresh_token);
-        }
-        console.log(tokens.access_token);
-    }*/
 });
