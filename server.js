@@ -67,7 +67,16 @@ var temp = seconds - days_since;
 var hour = Math.trunc(temp * 24);
 temp = temp*24 - hour
 var minute = Math.trunc(temp * 60)
-var time = (hour-6 + ":" + minute);
+if (minute < 10) {
+    minute = '0' + minute;
+}
+if(hour > 12){
+    hour -= 12;
+    var time = (hour-6 + ":" + minute + "PM");
+} else {
+    var time = (hour-6 + ":" + minute + "AM");
+}
+
 var action_done = "";
 
 app.get('/buslist', function (req, res) {
