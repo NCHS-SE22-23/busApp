@@ -66,8 +66,8 @@ seconds = seconds/(1000*60*60*24);
 var days_since = Math.trunc(seconds);
 var temp = seconds - days_since;
 var hour = Math.trunc(temp * 24);
-temp = temp*24 - hour
-var minute = Math.trunc(temp * 60)
+temp = temp*24 - hour;
+var minute = Math.trunc(temp * 60);
 var time = (hour-6 + ":" + minute);
 var action_done = "";
 
@@ -210,7 +210,7 @@ app.get('/getlogs', (req, res) => {
     
     let logsList = {"logs":[]};
 
-    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {
+    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {``
 
         let changeList = JSON.parse(jsonString);
 
