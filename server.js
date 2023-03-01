@@ -30,6 +30,7 @@ app.get('/', function (req, res) {
 
 function reset() {
     let hour = new Date().getHours();
+    console.log(hour);
     if (hour == 0) {
         fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
@@ -207,15 +208,30 @@ app.get('/getlogs', (req, res) => {
     };
     bus = Number(req.body.busnum);
     
-    let changeList = {"buslist":[]};
+    let logsList = {"logs":[]};
 
     fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {
 
-        let buslist = JSON.parse(jsonString);
+        let changeList = JSON.parse(jsonString);
 
-        for (i = 0; i < buslist.buslist.length; i++) {
-            changeList.buslist.push(buslist.buslist[i])
+        for (i = 0; i < changeList.changeList.length; i++) {
+            logsList.changeList.push(changeList.changeList[i])
         };
+
+        logsList.changeList.push(status_change);
+
+        logsList.changeList = changeList.changeList.sort((a, b) => {
+            if (a.number < b.number) {
+                return -1;
+              }
+        })
+
+        let final = JSON.stringify(logsList);
+
+        fs.writeFile('logs.JSON', final, err => {})
+
+        res.redirect('settings'); 
+    });
 
     
     
@@ -225,7 +241,6 @@ app.get('/getlogs', (req, res) => {
     let data = JSON.parse(datajson);
     res.send(data);
 
-});
 });
 
 
@@ -329,4 +344,4 @@ runSample();
 
 app.get('/verify', (req, res) => {
     res.redirect('/buslist');
-});
+})
