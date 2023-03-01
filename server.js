@@ -219,7 +219,7 @@ app.get('/getlogs', (req, res) => {
     
     let logsList = {"logs":[]};
 
-    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {
+    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {``
 
         let changeList = JSON.parse(jsonString);
 
