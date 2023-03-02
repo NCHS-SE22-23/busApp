@@ -73,6 +73,7 @@ function getBusses() {
                 div.textContent = busNumber;
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
+                div.style.fontSize = '200%';
 
                 div.onclick = changeColor;
 

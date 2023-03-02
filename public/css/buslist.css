@@ -44,13 +44,6 @@ a, a:link, a:visited, a:hover, a:active {
     background-color: #dcdcdc;
     transform: translateY(3px);
 }
-#buslist-container {
-    display: flex;
-    background-color: white;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
-}
 #main-container {
     display: flex;
     flex-wrap: wrap;

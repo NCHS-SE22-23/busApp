@@ -53,7 +53,7 @@ a, a:link, a:visited, a:hover, a:active {
     flex-direction: row;
     height: 50px;
 }
-#view-changes, #edit-changes {
+#view-all, #edit {
     background-color: white;
     margin: 10px;
     width: 100%;
@@ -68,7 +68,7 @@ a, a:link, a:visited, a:hover, a:active {
     cursor: pointer;
     box-shadow: 0px 5px 15px rgb(18, 18, 18) ;
 }
-#view-changes:hover, #edit-changes:hover {
+#view-all:hover, #edit:hover {
     background-color: #dcdcdc;
 }
 #viewBusses {

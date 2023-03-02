@@ -30,7 +30,6 @@ app.get('/', function (req, res) {
 
 function reset() {
     let hour = new Date().getHours();
-    console.log(hour);
     if (hour == 0) {
         fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 

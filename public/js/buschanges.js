@@ -27,12 +27,14 @@ function getBusses() {
         if(data) { // if there is data
             let i = 0;
             while(i < data.buslist.length) {
+                while(data.buslist[i].change == null) i++;
+                if (i >= data.buslist.length) break;
+
                 let div = document.createElement("div");
                 div.classList.add('busObj')
                 div.classList.add('flex-fill');
 
                 div.style.backgroundColor = "rgb(255, 44, 44)";
-                
 
                 div.style.borderRadius = "30px";
                 div.style.margin = "10px";
@@ -44,13 +46,14 @@ function getBusses() {
                 div.textContent = busNumber;
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
+                div.style.fontSize = '200%';
 
-                div.onclick = editChange;
+                div.onclick = remove;
 
-                document.getElementById('editBusses').appendChild(div);  
+                document.getElementById('viewBusses').appendChild(div);  
                 i++;
 
-                function editChange() {
+                function remove() {
                     
                 }
             }
@@ -93,7 +96,10 @@ function resize() {
     document.getElementById('redbar').style.width = newW+"px";
     // resize the tab bar
     document.getElementById('tabs').style.width = w-newW+"px";
-
+    // resize bus container
+    document.getElementById('viewBusses').style.width = w-newW+"px";
+    document.getElementById('viewBusses').style.height = h-50+"px";
+    document.getElementById('viewBusses').style.left = newW+"px";
 
     // Resize the buttons
     var buttonMargin = (newW-(newW*0.882352941176471))/2;

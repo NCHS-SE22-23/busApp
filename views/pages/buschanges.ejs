@@ -32,11 +32,17 @@
                     
             </div>
             <div id="tabs" class="flex-container">
-                <div id="view-changes" onclick="viewBusChanges()">View Bus Changes</div>
-                <div id="edit-changes" onclick="viewBusEdit()">Edit Bus Changes</div>  
+                <div id="view-all" onclick="viewBusChanges()">View Bus Changes</div>
+                <div id="edit" onclick="viewBusEdit()">Edit Bus Changes</div>  
+
             </div>
-            <div id="viewBusses" class="flex-container"></div>
-            <div id="editBusses" class="flex-container" style="display: none;"></div>
+            <div id="viewBusses" onload="getBusses()" class="flex-container">
+
+            </div>
+            
+            <div id="editBusses" class="flex-container" style="display: none;">
+
+            </div> 
 
         </div>
     </body>
