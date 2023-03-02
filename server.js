@@ -264,7 +264,7 @@ app.get('/getlogs', (req, res) => {
 
         fs.writeFile('logs.JSON', final, err => {})
 
-        res.redirect('settings'); 
+        res.redirect('logs'); 
     });
     let datajson = fs.readFileSync('logs.JSON');
     let data = JSON.parse(datajson);
