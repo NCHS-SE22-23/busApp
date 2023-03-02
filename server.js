@@ -59,6 +59,7 @@ reset();
 setInterval(reset, (1000*60*60)); 
 
 //let busNum = Number(req.body.busnum);    
+/*
 var action = new Date(); 
 var seconds = action.getTime();
 seconds = seconds/(1000*60*60*24);
@@ -76,7 +77,31 @@ if(hour > 12){
 } else {
     var time = (hour-6 + ":" + minute + "AM");
 }
+*/
 
+var action = new Date(); 
+var seconds = action.getTime();
+seconds = seconds/(1000*60*60*24);
+
+var days_since = Math.trunc(seconds);
+var temp = seconds - days_since;
+var hour = Math.trunc(temp * 24);
+
+temp = temp*24 - hour;
+var minute = Math.trunc(temp * 60);
+hour -= 6
+
+if (hour > 12)
+{
+	hour = hour - 6 - 12;
+}
+var time = (hour + ":" + minute);
+if (minute < 10)
+{
+	time = (hour + ":0" + minute);
+}
+console.log(time);
+    
 var action_done = "";
 
 app.get('/buslist', function (req, res) {
@@ -238,14 +263,9 @@ app.get('/getlogs', (req, res) => {
 
         fs.writeFile('logs.JSON', final, err => {})
 
-        res.redirect('settings'); 
+        res.redirect('logs'); 
     });
-
-    
-    
-    
-    
-    let datajson = fs.readFileSync('buslist.json');
+    let datajson = fs.readFileSync('logs.JSON');
     let data = JSON.parse(datajson);
     res.send(data);
 
