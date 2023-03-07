@@ -10,6 +10,27 @@ app.set('view engine', 'ejs');
 // Port website will run on
 app.listen(8080);
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDaw4Il91xB0vD8ZIr3TAkXT1OIV785JVc",
+  authDomain: "busapp-sign-in.firebaseapp.com",
+  projectId: "busapp-sign-in",
+  storageBucket: "busapp-sign-in.appspot.com",
+  messagingSenderId: "699278121565",
+  appId: "1:699278121565:web:7fa5062dd388468f0e8bb4",
+  measurementId: "G-8F2SX62GJM"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 app.use(express.json({  extended: true }));
 app.use(express.urlencoded({  extended: true }));
@@ -237,6 +258,30 @@ app.post('/updateStatus', (req, res) => {
 
 })
 
+app.post('/updateChange', (req, res) => {
+
+    let bus = req.body;
+    change = bus.newChange;
+
+    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+
+        let buslist = JSON.parse(jsonString);
+
+        for (i = 0; i < buslist.buslist.length; i++) {
+            if (buslist.buslist[i].number == bus.number) {
+                buslist.buslist[i].change = bus.newChange;
+            }
+        };
+
+        let final = JSON.stringify(buslist);
+
+        fs.writeFile('buslist.json', final, err => {})
+
+        res.redirect('buslist'); 
+    });
+
+})
+
 app.get('/getlogs', (req, res) => {
     let status_change = {
         bus: busNum,
@@ -282,6 +327,7 @@ app.get('/getlogs', (req, res) => {
 
 //google sign in
 app.post('/verify', (req, res) => {
+    /*
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
@@ -292,35 +338,48 @@ const destroyer = require('server-destroy');
 const {google} = require('googleapis');
 const people = google.people('v1');
 
-/**
- * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI.  To get these credentials for your application, visit https://console.cloud.google.com/apis/credentials.
- */
+
 const keyPath = path.join(__dirname, 'oauth2.keys.json');
 let keys = {redirect_uris: ['http://localhost:8080/verify']};
 if (fs.existsSync(keyPath)) {
   keys = require(keyPath).web;
 }
 
-/**
- * Create a new OAuth2 client with the configured keys.
- */
+
 const oauth2Client = new google.auth.OAuth2(
   keys.client_id = '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com',
   keys.client_secret = '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',
   keys.redirect_uris[0]
 );
 
-/**
- * This is one of the many ways you can configure googleapis to use authentication credentials.  In this method, we're setting a global reference for all APIs.  Any other API you use here, like google.drive('v3'), will now use this auth client. You can also override the auth client at the service and method call levels.
- */
+
 google.options({auth: oauth2Client});
 
-/**
- * Open an http server to accept the oauth callback. In this simple example, the only request to our webserver is to /callback?code=<code>
- */
+const docs = require('@googleapis/docs')
+const { GoogleAuth } = require('google-auth-library');
+
+const auth = new docs.auth.GoogleAuth({
+  keyFilename: 'PATH_TO_SERVICE_ACCOUNT_KEY.json',
+    
+  scopes: ['https://www.googleapis.com/auth/documents']
+});
+var clientId = '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com';
+var clientSecret = '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';
+var redirectUrl = '/verify';
+
+oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+	oauth2Client.credentials = {
+	                refresh_token: 'your_refresh_token'
+	};
+	oauth2Client.refreshAccessToken(function(err, tokens){
+	console.log(tokens)
+	oauth2Client.credentials = {access_token : tokens.access_token}
+	callback(oauth2Client);
+    });
+
 async function authenticate(scopes) {
   return new Promise((resolve, reject) => {
-    // grab the url that will be used for authorization
+    
     const authorizeUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: scopes.join(' '),
@@ -334,7 +393,7 @@ async function authenticate(scopes) {
             res.end('Authentication successful! Please return to the console.');
             server.destroy();
             const {tokens} = await oauth2Client.getToken(qs.get('code'));
-            oauth2Client.credentials = tokens; // eslint-disable-line require-atomic-updates
+            oauth2Client.credentials = tokens; 
             resolve(oauth2Client);
           }
         } catch (e) {
@@ -342,17 +401,20 @@ async function authenticate(scopes) {
         }
       })
       .listen(3000, () => {
-        // open the browser to the authorize url to start the workflow
+        
         opn(authorizeUrl, {wait: false}).then(cp => cp.unref());
       });
     destroyer(server);
   });
 }
+
+    
+
 console.log('marker1');
 
 async function runSample() {
     console.log('marker2');
-  // retrieve user profile
+  
   const data_1 = await people.people.get({
     resourceName: 'people/me',
     personFields: 'emailAddresses',
@@ -372,6 +434,22 @@ const scopes = [
 authenticate(scopes)
 runSample(oauth2Client)
 
+*/
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client('699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com');
+async function verify() {
+  const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
+      // Or, if multiple clients access the backend:
+      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+  });
+  const payload = ticket.getPayload();
+  const userid = payload['sub'];
+  // If request specified a G Suite domain:
+  // const domain = payload['hd'];
+}
+verify().catch(console.error);
 
 
 
