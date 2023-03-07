@@ -79,7 +79,7 @@ if(hour > 12){
 }
 */
 
-var action = new Date(); 
+var action = new Date(); /*
 var seconds = action.getTime();
 seconds = seconds/(1000*60*60*24);
 
@@ -90,10 +90,14 @@ var hour = Math.trunc(temp * 24);
 temp = temp*24 - hour;
 var minute = Math.trunc(temp * 60);
 hour -= 6
+*/
+var hour = action.getHours();
+var minute = action.getMinutes();
 
 if (hour > 12)
 {
-	hour = hour - 6 - 12;
+	//hour = hour - 6 - 12;
+    hour -= 12;
 }
 var time = (hour + ":" + minute);
 if (minute < 10)
