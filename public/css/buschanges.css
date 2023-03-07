@@ -79,3 +79,11 @@ a, a:link, a:visited, a:hover, a:active {
     position: absolute;
     margin-top: 50px;
 }
+#editBusses {
+
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    margin-top: 50px;
+    flex-direction: column;
+}

@@ -254,6 +254,30 @@ app.post('/updateStatus', (req, res) => {
 
 })
 
+app.post('/updateChange', (req, res) => {
+
+    let bus = req.body;
+    change = bus.newChange;
+
+    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+
+        let buslist = JSON.parse(jsonString);
+
+        for (i = 0; i < buslist.buslist.length; i++) {
+            if (buslist.buslist[i].number == bus.number) {
+                buslist.buslist[i].change = bus.newChange;
+            }
+        };
+
+        let final = JSON.stringify(buslist);
+
+        fs.writeFile('buslist.json', final, err => {})
+
+        res.redirect('buslist'); 
+    });
+
+})
+
 app.get('/getlogs', (req, res) => {
     let status_change = {
         bus: busNum,

@@ -46,7 +46,8 @@ function getBusses() {
                 div.textContent = busNumber;
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
-                div.style.fontSize = '200%';
+                div.style.lineHeight = div.style.height;
+                div.style.fontSize = div.style.height;
 
                 div.onclick = remove;
 
@@ -61,6 +62,80 @@ function getBusses() {
     }).catch(err => console.error(err));
 }
 getBusses();
+
+function editBusses() {
+    let o = document.getElementsByClassName('busObj');
+    for (let i = 0; i < o.length; i++) {
+        o[i].style.display = 'none';
+    }
+
+    fetch('/getbus')
+    .then(response => { 
+        if(response.ok) {
+            return response.json(); // not important
+        }
+        }).then(data => {
+        if(data) { // if there is data
+            let i = 0;
+            while(i < data.buslist.length) {
+                let div = document.createElement("div");
+                div.classList.add('busObj')
+                div.classList.add('flex-fill');
+
+                div.style.backgroundColor = "rgb(255, 44, 44)";
+
+                div.style.borderRadius = "30px";
+                div.style.margin = "10px";
+
+                var h = window.innerHeight;
+                div.style.height = (h-180)/10+"px";
+
+                let busNumber = data.buslist[i].number;
+                if (data.buslist[i].change == null)
+                    div.textContent = busNumber;
+                else {
+                    div.textContent = busNumber + " (" + data.buslist[i].change + ")";
+                }
+                div.style.textAlign = 'center';
+                div.style.fontFamily = 'Gill Sans';
+                div.style.lineHeight = div.style.height;
+                div.style.fontSize = div.style.height;
+                div.style.cursor = 'pointer';
+
+                div.onclick = edit;
+
+                document.getElementById('editBusses').appendChild(div);  
+                i++;
+
+                function edit() {
+                    let newChange = Number(prompt('What is the Bus Change?'));
+                    
+                    let busdata = {
+                        number: busNumber,
+                        change: newChange
+                    };
+
+                    fetch('/updateChange', {
+                        method: 'POST',
+                        body: JSON.stringify(busdata),
+                        headers: {
+                            'Content-Type': 'application/json',
+                          }
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+                }
+            }
+        }
+    }).catch(err => console.error(err));
+}
+editBusses();
 
 function updateBusses() {
     let o = document.getElementsByClassName('busObj');
@@ -100,6 +175,9 @@ function resize() {
     document.getElementById('viewBusses').style.width = w-newW+"px";
     document.getElementById('viewBusses').style.height = h-50+"px";
     document.getElementById('viewBusses').style.left = newW+"px";
+    document.getElementById('editBusses').style.width = w-newW+"px";
+    document.getElementById('editBusses').style.height = h-50+"px";
+    document.getElementById('editBusses').style.left = newW+"px";
 
     // Resize the buttons
     var buttonMargin = (newW-(newW*0.882352941176471))/2;
