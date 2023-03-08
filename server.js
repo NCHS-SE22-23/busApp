@@ -81,10 +81,13 @@ setInterval(reset, (1000*60*60));
 
 //let busNum = Number(req.body.busnum);    
 
-var action = new Date();
-var hour = action.getHours();
-var minute = action.getMinutes();
 
+var time;
+function getTime() {
+    var action = new Date();
+    var hour = action.getHours();
+    var minute = action.getMinutes();
+}
 if (minute < 10)//formatting correctly
 {
 	time = (hour + ":0" + minute);
