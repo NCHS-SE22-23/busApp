@@ -70,7 +70,12 @@ function getBusses() {
                 div.style.height = (h-180)/10+"px";
 
                 let busNumber = data.buslist[i].number;
-                div.textContent = busNumber;
+                if (data.buslist[i].change == null)
+                    div.textContent = busNumber;
+                else {
+                    div.textContent = data.buslist[i].change;
+                }
+
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
                 div.style.fontSize = (h-180)/10+"px";

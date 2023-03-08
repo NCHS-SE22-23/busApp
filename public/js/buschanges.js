@@ -43,7 +43,11 @@ function getBusses() {
                 div.style.height = (h-180)/10+"px";
 
                 let busNumber = data.buslist[i].number;
-                div.textContent = busNumber;
+                if (data.buslist[i].change == null)
+                    div.textContent = busNumber;
+                else {
+                    div.textContent = busNumber + " changed to " + data.buslist[i].change;
+                }
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
                 div.style.lineHeight = div.style.height;
@@ -94,7 +98,7 @@ function editBusses() {
                 if (data.buslist[i].change == null)
                     div.textContent = busNumber;
                 else {
-                    div.textContent = busNumber + " (" + data.buslist[i].change + ")";
+                    div.textContent = busNumber + " changed to " + data.buslist[i].change;
                 }
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
@@ -129,7 +133,7 @@ function editBusses() {
                     .catch((error) => {
                         console.error('Error:', error);
                     });
-
+                    location.reload();
                 }
             }
         }
