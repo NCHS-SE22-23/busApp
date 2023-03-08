@@ -116,17 +116,27 @@ var hour = Math.trunc(temp * 24);
 temp = temp*24 - hour;
 var minute = Math.trunc(temp * 60);
 hour -= 6
+*/
+var time;
+function getTime() {
+    var action = new Date();
+    var hour = action.getHours();
+    var minute = action.getMinutes();
 
-if (hour > 12)
-{
-	hour = hour - 6 - 12;
+    if (hour > 12)
+    {
+        //hour = hour - 6 - 12;
+        hour -= 12;
+    }
+    time = (hour + ":" + minute);
+    if (minute < 10)
+    {
+        time = (hour + ":0" + minute);
+    }
+    time = `${time} PM`;
 }
-var time = (hour + ":" + minute);
-if (minute < 10)
-{
-	time = (hour + ":0" + minute);
-}
-console.log(time);
+getTime();
+setInterval(getTime, 1000);
     
 var action_done = "";
 
