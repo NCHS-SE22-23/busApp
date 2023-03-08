@@ -49,9 +49,9 @@ app.get('/', function (req, res) {
     res.render('pages/index');
 });
 
-function reset() {
+function reset(condition) {
     let hour = new Date().getHours();
-    if (hour == 0) {
+    if (hour == 0 || condition) {
         fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
             let buslist = JSON.parse(jsonString);
@@ -76,8 +76,13 @@ function reset() {
         });
     }
 }
-reset();
-setInterval(reset, (1000*60*60)); 
+reset(false);
+setInterval(reset, (1000*60*60), false);
+
+app.get("/reset", (req, res) => {
+    reset(true);
+    res.redirect("/buslist");
+})
 
 //let busNum = Number(req.body.busnum);    
 /*
@@ -100,7 +105,7 @@ if(hour > 12){
 }
 */
 
-/*
+var action = new Date(); 
 var seconds = action.getTime();
 seconds = seconds/(1000*60*60*24);
 
@@ -111,22 +116,16 @@ var hour = Math.trunc(temp * 24);
 temp = temp*24 - hour;
 var minute = Math.trunc(temp * 60);
 hour -= 6
-*/
-var action = new Date();
-var hour = action.getHours();
-var minute = action.getMinutes();
 
 if (hour > 12)
 {
-	//hour = hour - 6 - 12;
-    hour -= 12;
+	hour = hour - 6 - 12;
 }
 var time = (hour + ":" + minute);
 if (minute < 10)
 {
 	time = (hour + ":0" + minute);
 }
-time = `${time} PM`;
 console.log(time);
     
 var action_done = "";
@@ -271,7 +270,7 @@ app.post('/updateChange', (req, res) => {
 
         for (i = 0; i < buslist.buslist.length; i++) {
             if (buslist.buslist[i].number == bus.number) {
-                buslist.buslist[i].change = bus.change;
+                buslist.buslist[i].change = bus.newChange;
             }
         };
 

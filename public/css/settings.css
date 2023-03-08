@@ -27,10 +27,20 @@ a, a:link, a:visited, a:hover, a:active {
     height: 100%;
     box-shadow: 0px 10px 34px rgb(18, 18, 18);
 }
-#buslist, #buschanges, #logs, #settings, #logout {
+#buslist, #buschanges, #logs, #settings, #logout{
     background-color: #ffffff;
     width: 150px; 
     height: 150px;
+    margin: 10px; /* Distance from right side of screen */
+    cursor: pointer; /* Make button look clickable */
+    border-radius: 25px; /* Rounded Corners */
+    text-align: center;
+    box-shadow: 0px 10px 14px rgb(18, 18, 18);
+}
+#reset-button{
+    background-color: #ffffff;
+    width: 150px; 
+    height: 50px;
     margin: 10px; /* Distance from right side of screen */
     cursor: pointer; /* Make button look clickable */
     border-radius: 25px; /* Rounded Corners */
