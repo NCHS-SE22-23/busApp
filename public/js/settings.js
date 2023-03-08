@@ -1,3 +1,18 @@
+function reset(){
+    fetch('/reset')
+    .then(response => {
+        if(response.ok) {
+            return response.json();
+        }
+        }).then(data => {
+        if(data) {
+            
+            
+            
+        }
+    }).catch(err => console.error(err));
+}
+
 function listBus() {
     let o = document.getElementsByClassName('busObj');
     for (let i = 0; i < o.length; i++) {
