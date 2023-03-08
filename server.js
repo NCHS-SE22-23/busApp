@@ -92,26 +92,28 @@ function getTime() {
     var action = new Date();
     var hour = action.getHours();
     var minute = action.getMinutes();
+
+    if (minute < 10)//formatting correctly
+    {
+	    time = (hour + ":0" + minute);
+    }
+    else{
+        time = (hour + ":" + minute);
+    }
+    if (hour > 12)//switching from military to regular time
+    {
+        hour -= 12;
+        var time = time + " PM";//AM vs PM
+    }
+    else if (hour = 12){
+        var time = time + " PM"
+    }
+    else {
+        var time = time + " AM";
+    }
+    console.log(time);
 }
-if (minute < 10)//formatting correctly
-{
-	time = (hour + ":0" + minute);
-}
-else{
-    time = (hour + ":" + minute);
-}
-if (hour > 12)//switching from military to regular time
-{
-    hour -= 12;
-    var time = time + " PM";//AM vs PM
-}
-else if (hour = 12){
-    var time = time + " PM"
-}
-else {
-    var time = time + " AM";
-}
-console.log(time);
+
     
 var action_done = "";
 
