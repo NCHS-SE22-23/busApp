@@ -113,7 +113,7 @@ function getTime() {
     }
     console.log(time);
 }
-
+//getTime();
     
 var action_done = "";
 
