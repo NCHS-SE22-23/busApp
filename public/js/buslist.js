@@ -136,10 +136,10 @@ function getBusses() {
                     } else {
                         let busdata = {
                             number: busNumber,
-                            newStatus: "Not Arrived"
+                            newStatus: "Not Arrived",
                         };
 
-                        fetch('/updateStatus', {
+                        fetch('/updateStatusTime', {
                             method: 'POST',
                             body: JSON.stringify(busdata),
                             headers: {

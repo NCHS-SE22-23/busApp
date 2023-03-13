@@ -112,6 +112,7 @@ function getTime() {
         var time = time + " AM";
     }
     console.log(time);
+    return time;
 }
 
     
@@ -225,6 +226,7 @@ app.post('/updateStatus', (req, res) => {
 
     let bus = req.body;
     change = bus.newStatus;
+    time = getTime();
 
     fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
 
@@ -233,7 +235,33 @@ app.post('/updateStatus', (req, res) => {
         for (i = 0; i < buslist.buslist.length; i++) {
             if (buslist.buslist[i].number == bus.number) {
                 buslist.buslist[i].status = bus.newStatus;
+                console.log(time);
                 buslist.buslist[i].timestamp = time;
+            }
+        };
+
+        let final = JSON.stringify(buslist);
+
+        fs.writeFile('buslist.json', final, err => {})
+
+        res.redirect('buslist'); 
+    });
+
+})
+
+app.post('/updateStatusTime', (req, res) => {
+
+    let bus = req.body;
+    change = bus.newStatus;
+
+    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+
+        let buslist = JSON.parse(jsonString);
+
+        for (i = 0; i < buslist.buslist.length; i++) {
+            if (buslist.buslist[i].number == bus.number) {
+                buslist.buslist[i].status = bus.newStatus;
+                buslist.buslist[i].timestamp = "";
             }
         };
 
@@ -257,7 +285,7 @@ app.post('/updateChange', (req, res) => {
 
         for (i = 0; i < buslist.buslist.length; i++) {
             if (buslist.buslist[i].number == bus.number) {
-                buslist.buslist[i].change = bus.newChange;
+                buslist.buslist[i].change = bus.change;
             }
         };
 
