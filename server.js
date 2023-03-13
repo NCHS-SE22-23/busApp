@@ -175,11 +175,41 @@ app.post('/addbus', (req, res) => {
         let final = JSON.stringify(fullList);
 
         fs.writeFile('buslist.json', final, err => {})
-
-        res.redirect('settings'); 
     });
 
-    
+    //
+
+    let newChangeObj = {
+        number: busNum,
+        description: "Bus Added",
+        timestamp: time
+    };
+
+    let changeList = {"logs":[]};
+
+
+    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {
+
+        let buslist = JSON.parse(jsonString);
+
+        for (i = 0; i < buslist.buslist.length; i++) {
+            changeList.buslist.push(buslist.buslist[i])
+        };
+
+        changeList.buslist.push(newChangeObj);
+
+        changeList.buslist = changeList.buslist.sort((a, b) => {
+            if (a.number < b.number) {
+                return -1;
+              }
+        })
+
+        let final = JSON.stringify(changeList);
+
+        fs.writeFile('logs.JSON', final, err => {})
+    });
+
+    res.redirect('logs'); 
 
 });
 app.get('/getbus', (req, res) => {
@@ -299,41 +329,9 @@ app.post('/updateChange', (req, res) => {
 })
 
 app.get('/getlogs', (req, res) => {
-    let status_change = {
-        bus: busNum,
-        description: action_done,
-        timestamp: time
-    };
-    bus = Number(req.body.busnum);
-    
-    let logsList = {"logs":[]};
-
-    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {``
-
-        let changeList = JSON.parse(jsonString);
-
-        for (i = 0; i < changeList.changeList.length; i++) {
-            logsList.changeList.push(changeList.changeList[i])
-        };
-
-        logsList.changeList.push(status_change);
-
-        logsList.changeList = changeList.changeList.sort((a, b) => {
-            if (a.number < b.number) {
-                return -1;
-              }
-        })
-
-        let final = JSON.stringify(logsList);
-
-        fs.writeFile('logs.JSON', final, err => {})
-
-        res.redirect('logs'); 
-    });
     let datajson = fs.readFileSync('logs.JSON');
     let data = JSON.parse(datajson);
     res.send(data);
-
 });
 
 
