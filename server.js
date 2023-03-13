@@ -114,7 +114,7 @@ function getTime() {
     console.log(time);
     return time;
 }
-
+//getTime();
     
 var action_done = "";
 
