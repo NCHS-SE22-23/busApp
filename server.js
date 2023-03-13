@@ -105,7 +105,7 @@ function getTime() {
         hour -= 12;
         var time = time + " PM";//AM vs PM
     }
-    else if (hour = 12){
+    else if (hour == 12){
         var time = time + " PM"
     }
     else {
@@ -113,7 +113,7 @@ function getTime() {
     }
     console.log(time);
 }
-//getTime();
+getTime();
     
 var action_done = "";
 
