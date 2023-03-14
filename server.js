@@ -81,7 +81,7 @@ setInterval(reset, (1000*60*60), false);
 
 app.get("/reset", (req, res) => {
     reset(true);
-    res.redirect("/buslist");
+    res.render('pages/buslist')
 })
 
 //let busNum = Number(req.body.busnum);    
@@ -93,24 +93,28 @@ function getTime() {
     var hour = action.getHours();
     var minute = action.getMinutes();
 
-    if (minute < 10)//formatting correctly
-    {
-	    time = (hour + ":0" + minute);
-    }
-    else{
-        time = (hour + ":" + minute);
-    }
+    let now = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
+    console.log(now.slice(now.indexOf(',')+2, now.indexOf(':')+3) + " " + now.slice(now.indexOf('M')-1))
+
+    return now.slice(now.indexOf(',')+2, now.indexOf(':')+3) + " " + now.slice(now.indexOf('M')-1);
+    
+    // following code does not execute
+
+    let pm = false;
     if (hour > 12)//switching from military to regular time
     {
         hour -= 12;
-        var time = time + " PM";//AM vs PM
+        pm = true;
     }
-    else if (hour == 12){
-        var time = time + " PM"
-    }
-    else {
-        var time = time + " AM";
-    }
+    if (minute < 10)//formatting correctly
+        {
+            if (pm) time = (hour + ":0" + minute + " PM");
+            else time = (hour + ":0" + minute + " AM");
+        }
+        else{
+            if (pm) time = (hour + ":" + minute+ " PM");
+            else time = (hour + ":" + minute+ " PM");
+        }
     console.log(time);
     return time;
 }

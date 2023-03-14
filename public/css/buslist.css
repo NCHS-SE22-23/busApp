@@ -53,7 +53,7 @@ a, a:link, a:visited, a:hover, a:active {
     flex-direction: row;
     height: 50px;
 }
-#view-all, #search {
+#view-all {
     background-color: white;
     margin: 10px;
     width: 100%;
@@ -65,11 +65,7 @@ a, a:link, a:visited, a:hover, a:active {
     text-align: center;
     line-height: 125px;
     font-size: xx-large;
-    cursor: pointer;
     box-shadow: 0px 5px 15px rgb(18, 18, 18) ;
-}
-#view-all:hover, #search:hover {
-    background-color: #dcdcdc;
 }
 #allBusses {
 
