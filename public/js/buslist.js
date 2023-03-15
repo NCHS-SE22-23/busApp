@@ -73,7 +73,7 @@ function getBusses() {
                 if (data.buslist[i].change == null)
                     div.textContent = busNumber;
                 else {
-                    div.textContent = data.buslist[i].change;
+                    div.textContent = busNumber + " / " + data.buslist[i].change + "";
                 }
 
                 div.style.textAlign = 'center';
