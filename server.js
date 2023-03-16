@@ -1,184 +1,171 @@
 // Load Node modules
-var express = require('express');
-const ejs = require('ejs');
+var express = require("express");
+const ejs = require("ejs");
 // Initialise Express
 var app = express();
 // Render static files
-app.use(express.static('public'));
+app.use(express.static("public"));
 // Set the view engine to ejs
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 // Port website will run on
 app.listen(8080);
 
-// Import the functions you need from the SDKs you need
-//import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDaw4Il91xB0vD8ZIr3TAkXT1OIV785JVc",
-  authDomain: "busapp-sign-in.firebaseapp.com",
-  projectId: "busapp-sign-in",
-  storageBucket: "busapp-sign-in.appspot.com",
-  messagingSenderId: "699278121565",
-  appId: "1:699278121565:web:7fa5062dd388468f0e8bb4",
-  measurementId: "G-8F2SX62GJM"
-};
-
-// Initialize Firebase
-//const app = initializeApp(firebaseConfig);
-//const analytics = getAnalytics(app);
-
-app.use(express.json({  extended: true }));
-app.use(express.urlencoded({  extended: true }));
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({
-    extended:true
-}));
-const fs = require('fs');
-const { ok } = require('assert');
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+const fs = require("fs");
+const { ok } = require("assert");
 
 // *** GET Routes - display pages ***
 // Root Route
-app.use(express.static('public'));
-app.get('/', function (req, res) {
-    res.render('pages/index');
+app.use(express.static("public"));
+app.get("/", function (req, res) {
+  res.render("pages/index");
 });
 
 function reset(condition) {
-    let hour = new Date().getHours();
-    if (hour == 0 || condition) {
-        fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+  let hour = new Date().getHours();
+  if (hour == 0 || condition) {
+    fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
+      let buslist = JSON.parse(jsonString);
 
-            let buslist = JSON.parse(jsonString);
-    
-            for (i = 0; i < buslist.buslist.length; i++) {
-                buslist.buslist[i].status = "Not Arrived";
-                buslist.buslist[i].change = null;
-                buslist.buslist[i].timestamp = null;
-            };
-    
-            let final = JSON.stringify(buslist);
-    
-            fs.writeFile('buslist.json', final, err => {})
+      for (i = 0; i < buslist.buslist.length; i++) {
+        buslist.buslist[i].status = "Not Arrived";
+        buslist.buslist[i].change = null;
+        buslist.buslist[i].timestamp = null;
+      }
 
-            /*let logWrite = {
+      let final = JSON.stringify(buslist);
+
+      fs.writeFile("buslist.json", final, (err) => {});
+
+      /*let logWrite = {
                 "bus" : 0,
                 "description" : "All bus statuses reset",
                 "timestamp" : time
             }
             fs.writeFile('logs.json', JSON.stringify(logWrite), err => {})*/
-
-        });
-    }
+    });
+  }
 }
 reset(false);
-setInterval(reset, (1000*60*60), false);
+setInterval(reset, 1000 * 60 * 60, false);
 
 app.get("/reset", (req, res) => {
-    reset(true);
-    res.redirect("/buslist");
-})
+  reset(true);
+  res.render("pages/buslist");
+});
 
-//let busNum = Number(req.body.busnum);    
-
+//let busNum = Number(req.body.busnum);
 
 var time;
 function getTime() {
-    var action = new Date();
-    var hour = action.getHours();
-    var minute = action.getMinutes();
+  var action = new Date();
+  var hour = action.getHours();
+  var minute = action.getMinutes();
 
-    if (minute < 10)//formatting correctly
-    {
-	    time = (hour + ":0" + minute);
-    }
-    else{
-        time = (hour + ":" + minute);
-    }
-    if (hour > 12)//switching from military to regular time
-    {
-        hour -= 12;
-        var time = time + " PM";//AM vs PM
-    }
-    else if (hour == 12){
-        var time = time + " PM"
-    }
-    else {
-        var time = time + " AM";
-    }
-    console.log(time);
-    return time;
+  let now = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
+  console.log(
+    now.slice(now.indexOf(",") + 2, now.indexOf(":") + 3) +
+      " " +
+      now.slice(now.indexOf("M") - 1)
+  );
+
+  return (
+    now.slice(now.indexOf(",") + 2, now.indexOf(":") + 3) +
+    " " +
+    now.slice(now.indexOf("M") - 1)
+  );
+
+  // following code does not execute
+
+  let pm = false;
+  if (hour > 12) {
+    //switching from military to regular time
+    hour -= 12;
+    pm = true;
+  }
+  if (minute < 10) {
+    //formatting correctly
+    if (pm) time = hour + ":0" + minute + " PM";
+    else time = hour + ":0" + minute + " AM";
+  } else {
+    if (pm) time = hour + ":" + minute + " PM";
+    else time = hour + ":" + minute + " PM";
+  }
+  console.log(time);
+  return time;
 }
 getTime();
-    
+
 var action_done = "";
 
-app.get('/buslist', function (req, res) {
-    const f = require('fs');
-    const readline = require('readline');
-    var user_file = 'buslist.txt';
-    var r = readline.createInterface({
-        input : f.createReadStream(user_file)
-    });
-    r.on('line', function (text) {
-        res.send
-    }); 
-    res.render('pages/buslist');
+app.get("/buslist", function (req, res) {
+  const f = require("fs");
+  const readline = require("readline");
+  var user_file = "buslist.txt";
+  var r = readline.createInterface({
+    input: f.createReadStream(user_file),
+  });
+  r.on("line", function (text) {
+    res.send;
+  });
+  res.render("pages/buslist");
 });
 
-app.get('/buschanges', function(req, res) {
-    res.render('pages/buschanges');
+app.get("/buschanges", function (req, res) {
+  res.render("pages/buschanges");
 });
 
-app.get('/logs', function (req, res) {
-    res.render('pages/logs');
+app.get("/logs", function (req, res) {
+  res.render("pages/logs");
 });
 
-app.get('/settings', function (req, res) {
-    res.render('pages/settings');
+app.get("/settings", function (req, res) {
+  res.render("pages/settings");
 });
-app.post('/addbus', (req, res) => {
-    action_done = "Bus Added";
-    let busNum = Number(req.body.busnum);    
+app.post("/addbus", (req, res) => {
+  action_done = "Bus Added";
+  let busNum = Number(req.body.busnum);
 
-    let newBusObj = {
-        number: busNum,
-        status: "Not Arrived",
-        change: null,
-        timestamp: time
-    };
+  let newBusObj = {
+    number: busNum,
+    status: "Not Arrived",
+    change: null,
+    timestamp: time,
+  };
 
-    let fullList = {"buslist":[]};
+  let fullList = { buslist: [] };
 
+  fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
+    let buslist = JSON.parse(jsonString);
 
-    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+    for (i = 0; i < buslist.buslist.length; i++) {
+      fullList.buslist.push(buslist.buslist[i]);
+    }
 
-        let buslist = JSON.parse(jsonString);
+    fullList.buslist.push(newBusObj);
 
-        for (i = 0; i < buslist.buslist.length; i++) {
-            fullList.buslist.push(buslist.buslist[i])
-        };
-
-        fullList.buslist.push(newBusObj);
-
-        fullList.buslist = fullList.buslist.sort((a, b) => {
-            if (a.number < b.number) {
-                return -1;
-              }
-        })
-
-        let final = JSON.stringify(fullList);
-
-        fs.writeFile('buslist.json', final, err => {})
+    fullList.buslist = fullList.buslist.sort((a, b) => {
+      if (a.number < b.number) {
+        return -1;
+      }
     });
 
-    //
+    let final = JSON.stringify(fullList);
 
+    fs.writeFile("buslist.json", final, (err) => {});
+
+    res.redirect("settings");
+  });
+
+  
     let newChangeObj = {
         number: busNum,
         description: "Bus Added",
@@ -187,13 +174,14 @@ app.post('/addbus', (req, res) => {
 
     let changeList = {"logs":[]};
 
-
-    fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {
+//asdasdasdasdasdasdas
+/*    
+fs.readFile('logs.JSON', "utf-8", (err, jsonString) => {
 
         let buslist = JSON.parse(jsonString);
 
-        for (i = 0; i < buslist.buslist.length; i++) {
-            changeList.buslist.push(buslist.buslist[i])
+        for (i = 0; i < logs.buslist.length; i++) {
+            changeList.buslist.push(logs.buslist[i])
         };
 
         changeList.buslist.push(newChangeObj);
@@ -207,268 +195,153 @@ app.post('/addbus', (req, res) => {
         let final = JSON.stringify(changeList);
 
         fs.writeFile('logs.JSON', final, err => {})
-    });
+        res.redirect(settings);
+    });*/
 
-    res.redirect('logs'); 
+
 
 });
-app.get('/getbus', (req, res) => {
-    let datajson = fs.readFileSync('buslist.json');
-    let data = JSON.parse(datajson);
-    res.send(data);
+app.get("/getbus", (req, res) => {
+  let datajson = fs.readFileSync("buslist.json");
+  let data = JSON.parse(datajson);
+  res.send(data);
 });
-app.post('/delbus', (req, res) => {
-    action_done = "Bus Deleted";
+app.post("/delbus", (req, res) => {
+  action_done = "Bus Deleted";
 
-    let fullList = {"buslist":[]};
+  let fullList = { buslist: [] };
 
-    if(req.body.busnum == "clear") {
-        let final = JSON.stringify(fullList);
+  if (req.body.busnum == "clear") {
+    let final = JSON.stringify(fullList);
 
-        fs.writeFile('buslist.json', final, err => {});
-        res.redirect('settings');
-        return;
+    fs.writeFile("buslist.json", final, (err) => {});
+    res.redirect("settings");
+    return;
+  }
+
+  fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
+    let buslist = JSON.parse(jsonString);
+
+    for (i = 0; i < buslist.buslist.length; i++) {
+      fullList.buslist.push(buslist.buslist[i]);
     }
 
-    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
+    for (i = 0; i < fullList.buslist.length; i++) {
+      if (fullList.buslist[i].number == req.body.busnum)
+        fullList.buslist.splice(i, i + 1);
+    }
 
-        let buslist = JSON.parse(jsonString);
+    let final = JSON.stringify(fullList);
 
-        for (i = 0; i < buslist.buslist.length; i++) {
-            fullList.buslist.push(buslist.buslist[i])
-        };
-
-        for (i = 0; i < fullList.buslist.length; i++) {
-            if(fullList.buslist[i].number == req.body.busnum) fullList.buslist.splice(i, i+1);
-        }
-
-        let final = JSON.stringify(fullList);
-
-        fs.writeFile('buslist.json', final, err => {});
-    });
-    res.redirect('settings');
+    fs.writeFile("buslist.json", final, (err) => {});
+  });
+  res.redirect("settings");
 });
-app.get('/logout', (req, res) => {
-    res.redirect('/');
-})
+app.get("/logout", (req, res) => {
+  res.redirect("/");
+});
 
-app.post('/updateStatus', (req, res) => {
+app.post("/updateStatus", (req, res) => {
+  let bus = req.body;
+  change = bus.newStatus;
+  time = getTime();
 
-    let bus = req.body;
-    change = bus.newStatus;
-    time = getTime();
-
-    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
-
-        let buslist = JSON.parse(jsonString);
+  fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
+    let buslist = JSON.parse(jsonString);
 
         for (i = 0; i < buslist.buslist.length; i++) {
-            if (buslist.buslist[i].number == bus.number) {
+            if (buslist.buslist[i].number == bus.number || buslist.buslist[i].change == bus.number || buslist.buslist[i].number == bus.change || buslist.buslist[i].change == bus.change) {
                 buslist.buslist[i].status = bus.newStatus;
-                console.log(time);
                 buslist.buslist[i].timestamp = time;
             }
         };
 
-        let final = JSON.stringify(buslist);
+    let final = JSON.stringify(buslist);
 
-        fs.writeFile('buslist.json', final, err => {})
+    fs.writeFile("buslist.json", final, (err) => {});
 
-        res.redirect('buslist'); 
-    });
+    res.redirect("buslist");
+  });
+});
 
-})
+app.post("/updateStatusTime", (req, res) => {
+  let bus = req.body;
+  change = bus.newStatus;
 
-app.post('/updateStatusTime', (req, res) => {
-
-    let bus = req.body;
-    change = bus.newStatus;
-
-    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
-
-        let buslist = JSON.parse(jsonString);
+  fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
+    let buslist = JSON.parse(jsonString);
 
         for (i = 0; i < buslist.buslist.length; i++) {
-            if (buslist.buslist[i].number == bus.number) {
+            if (buslist.buslist[i].number == bus.number || buslist.buslist[i].change == bus.number || buslist.buslist[i].number == bus.change || buslist.buslist[i].change == bus.change) {
                 buslist.buslist[i].status = bus.newStatus;
                 buslist.buslist[i].timestamp = "";
             }
         };
 
-        let final = JSON.stringify(buslist);
+    let final = JSON.stringify(buslist);
 
-        fs.writeFile('buslist.json', final, err => {})
+    fs.writeFile("buslist.json", final, (err) => {});
 
-        res.redirect('buslist'); 
-    });
+    res.redirect("buslist");
+  });
+});
 
-})
+app.post("/updateChange", (req, res) => {
+  let bus = req.body;
+  change = bus.newChange;
 
-app.post('/updateChange', (req, res) => {
-
-    let bus = req.body;
-    change = bus.newChange;
-
-    fs.readFile('buslist.json', "utf-8", (err, jsonString) => {
-
-        let buslist = JSON.parse(jsonString);
+  fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
+    let buslist = JSON.parse(jsonString);
 
         for (i = 0; i < buslist.buslist.length; i++) {
             if (buslist.buslist[i].number == bus.number) {
-                buslist.buslist[i].change = bus.change;
+                if (bus.change == 0) buslist.buslist[i].change = null;
+                else buslist.buslist[i].change = bus.change;
             }
         };
 
-        let final = JSON.stringify(buslist);
+    let final = JSON.stringify(buslist);
 
-        fs.writeFile('buslist.json', final, err => {})
+    fs.writeFile("buslist.json", final, (err) => {});
 
-        res.redirect('buslist'); 
-    });
-
-})
-
-app.get('/getlogs', (req, res) => {
-    let datajson = fs.readFileSync('logs.JSON');
-    let data = JSON.parse(datajson);
-    res.send(data);
+    res.redirect("buslist");
+  });
 });
 
+app.get("/getlogs", (req, res) => {
+  let status_change = {
+    bus: busNum,
+    description: action_done,
+    timestamp: time,
+  };
+  bus = Number(req.body.busnum);
 
+  let logsList = { logs: [] };
 
+  fs.readFile("logs.JSON", "utf-8", (err, jsonString) => {
+    ``;
 
+    let changeList = JSON.parse(jsonString);
 
+    for (i = 0; i < changeList.changeList.length; i++) {
+      logsList.changeList.push(changeList.changeList[i]);
+    }
 
-//google sign in
-app.post('/verify', (req, res) => {
-    /*
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
-const url = require('url');
-const opn = require('open');
-const destroyer = require('server-destroy');
+    logsList.changeList.push(status_change);
 
-const {google} = require('googleapis');
-const people = google.people('v1');
-
-
-const keyPath = path.join(__dirname, 'oauth2.keys.json');
-let keys = {redirect_uris: ['http://localhost:8080/verify']};
-if (fs.existsSync(keyPath)) {
-  keys = require(keyPath).web;
-}
-
-
-const oauth2Client = new google.auth.OAuth2(
-  keys.client_id = '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com',
-  keys.client_secret = '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',
-  keys.redirect_uris[0]
-);
-
-
-google.options({auth: oauth2Client});
-
-const docs = require('@googleapis/docs')
-const { GoogleAuth } = require('google-auth-library');
-
-const auth = new docs.auth.GoogleAuth({
-  keyFilename: 'PATH_TO_SERVICE_ACCOUNT_KEY.json',
-    
-  scopes: ['https://www.googleapis.com/auth/documents']
-});
-var clientId = '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com';
-var clientSecret = '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';
-var redirectUrl = '/verify';
-
-oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-	oauth2Client.credentials = {
-	                refresh_token: 'your_refresh_token'
-	};
-	oauth2Client.refreshAccessToken(function(err, tokens){
-	console.log(tokens)
-	oauth2Client.credentials = {access_token : tokens.access_token}
-	callback(oauth2Client);
+    logsList.changeList = changeList.changeList.sort((a, b) => {
+      if (a.number < b.number) {
+        return -1;
+      }
     });
 
-async function authenticate(scopes) {
-  return new Promise((resolve, reject) => {
-    
-    const authorizeUrl = oauth2Client.generateAuthUrl({
-      access_type: 'offline',
-      scope: scopes.join(' '),
-    });
-    const server = http
-      .createServer(async (req, res) => {
-        try {
-          if (req.url.indexOf('/oauth2callback') > -1) {
-            const qs = new url.URL(req.url, 'http://localhost:8080')
-              .searchParams;
-            res.end('Authentication successful! Please return to the console.');
-            server.destroy();
-            const {tokens} = await oauth2Client.getToken(qs.get('code'));
-            oauth2Client.credentials = tokens; 
-            resolve(oauth2Client);
-          }
-        } catch (e) {
-          reject(e);
-        }
-      })
-      .listen(3000, () => {
-        
-        opn(authorizeUrl, {wait: false}).then(cp => cp.unref());
-      });
-    destroyer(server);
+    let final = JSON.stringify(logsList);
+
+    fs.writeFile("logs.JSON", final, (err) => {});
+
+    res.redirect("logs");
   });
-}
-
-    
-
-console.log('marker1');
-
-async function runSample() {
-    console.log('marker2');
-  
-  const data_1 = await people.people.get({
-    resourceName: 'people/me',
-    personFields: 'emailAddresses',
-  });
-  console.log(data_1.data);
-}
-
-
-
-const scopes = [
-  'https://www.googleapis.com/auth/userinfo.email',
-  'profile',
-];
-
-
-
-authenticate(scopes)
-runSample(oauth2Client)
-
-*/
-const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client('699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com');
-async function verify() {
-  const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: '699278121565-mp5qevri37pjnueollo755hdnjbqocrm.apps.googleusercontent.com',  // Specify the CLIENT_ID of the app that accesses the backend
-      // Or, if multiple clients access the backend:
-      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-  });
-  const payload = ticket.getPayload();
-  const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
-}
-verify().catch(console.error);
-
-
-
-app.get('/verify', (req, res) => {
-    res.redirect('/buslist');
-})
-
+  let datajson = fs.readFileSync("logs.JSON");
+  let data = JSON.parse(datajson);
+  res.send(data);
 });
