@@ -75,6 +75,9 @@ function getBusses() {
                 else {
                     div.textContent = busNumber + " / " + data.buslist[i].change + "";
                 }
+                let change;
+                if (data.buslist[i].change != undefined) change = data.buslist[i].change;
+                else change = 0;
 
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
@@ -92,7 +95,8 @@ function getBusses() {
 
                         let busdata = {
                             number: busNumber,
-                            newStatus: "Arrived"
+                            newStatus: "Arrived",
+                            change: change
                         };
 
                         fetch('/updateStatus', {
@@ -114,7 +118,8 @@ function getBusses() {
                     } else if (div.style.backgroundColor == 'green'){
                         let busdata = {
                             number: busNumber,
-                            newStatus: "Departed"
+                            newStatus: "Departed",
+                            change: change
                         };
 
                         fetch('/updateStatus', {
@@ -136,10 +141,11 @@ function getBusses() {
                     } else {
                         let busdata = {
                             number: busNumber,
-                            newStatus: "Not Arrived"
+                            newStatus: "Not Arrived",
+                            change: change
                         };
 
-                        fetch('/updateStatus', {
+                        fetch('/updateStatusTime', {
                             method: 'POST',
                             body: JSON.stringify(busdata),
                             headers: {
@@ -160,7 +166,7 @@ function getBusses() {
         }
     }).catch(err => console.error(err));
 }
-getBusses();
+
 
 function newBus(text) {
     let div = document.createElement("div");
@@ -197,6 +203,7 @@ function displayBusses() {
 }
 
 function resize() {
+    getBusses();
     var w = window.innerWidth;
     var h = window.innerHeight;
 

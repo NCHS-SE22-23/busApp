@@ -213,13 +213,12 @@ app.post("/updateStatus", (req, res) => {
   fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
     let buslist = JSON.parse(jsonString);
 
-    for (i = 0; i < buslist.buslist.length; i++) {
-      if (buslist.buslist[i].number == bus.number) {
-        buslist.buslist[i].status = bus.newStatus;
-        console.log(time);
-        buslist.buslist[i].timestamp = time;
-      }
-    }
+        for (i = 0; i < buslist.buslist.length; i++) {
+            if (buslist.buslist[i].number == bus.number || buslist.buslist[i].change == bus.number || buslist.buslist[i].number == bus.change || buslist.buslist[i].change == bus.change) {
+                buslist.buslist[i].status = bus.newStatus;
+                buslist.buslist[i].timestamp = time;
+            }
+        };
 
     let final = JSON.stringify(buslist);
 
@@ -236,12 +235,12 @@ app.post("/updateStatusTime", (req, res) => {
   fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
     let buslist = JSON.parse(jsonString);
 
-    for (i = 0; i < buslist.buslist.length; i++) {
-      if (buslist.buslist[i].number == bus.number) {
-        buslist.buslist[i].status = bus.newStatus;
-        buslist.buslist[i].timestamp = "";
-      }
-    }
+        for (i = 0; i < buslist.buslist.length; i++) {
+            if (buslist.buslist[i].number == bus.number || buslist.buslist[i].change == bus.number || buslist.buslist[i].number == bus.change || buslist.buslist[i].change == bus.change) {
+                buslist.buslist[i].status = bus.newStatus;
+                buslist.buslist[i].timestamp = "";
+            }
+        };
 
     let final = JSON.stringify(buslist);
 
@@ -258,11 +257,12 @@ app.post("/updateChange", (req, res) => {
   fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
     let buslist = JSON.parse(jsonString);
 
-    for (i = 0; i < buslist.buslist.length; i++) {
-      if (buslist.buslist[i].number == bus.number) {
-        buslist.buslist[i].change = bus.change;
-      }
-    }
+        for (i = 0; i < buslist.buslist.length; i++) {
+            if (buslist.buslist[i].number == bus.number) {
+                if (bus.change == 0) buslist.buslist[i].change = null;
+                else buslist.buslist[i].change = bus.change;
+            }
+        };
 
     let final = JSON.stringify(buslist);
 

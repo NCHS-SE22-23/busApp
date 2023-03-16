@@ -65,7 +65,7 @@ function getBusses() {
         }
     }).catch(err => console.error(err));
 }
-getBusses();
+
 
 function editBusses() {
     let o = document.getElementsByClassName('busObj');
@@ -98,7 +98,7 @@ function editBusses() {
                 if (data.buslist[i].change == null)
                     div.textContent = busNumber;
                 else {
-                    div.textContent = busNumber + " changed to " + data.buslist[i].change;
+                    div.textContent = busNumber + " / " + data.buslist[i].change;
                 }
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
@@ -139,7 +139,7 @@ function editBusses() {
         }
     }).catch(err => console.error(err));
 }
-editBusses();
+
 
 function updateBusses() {
     let o = document.getElementsByClassName('busObj');
@@ -167,6 +167,8 @@ function updateBusses() {
 }
 
 function resize() {
+    getBusses();
+    editBusses();
     var w = window.innerWidth;
     var h = window.innerHeight;
 
