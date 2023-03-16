@@ -73,7 +73,7 @@ function getBusses() {
                 if (data.buslist[i].change == null)
                     div.textContent = busNumber;
                 else {
-                    div.textContent = busNumber + " / " + data.buslist[i].change + "";
+                    div.textContent = busNumber + " → " + data.buslist[i].change + "";
                 }
                 let change;
                 if (data.buslist[i].change != undefined) change = data.buslist[i].change;

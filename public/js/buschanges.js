@@ -46,7 +46,7 @@ function getBusses() {
                 if (data.buslist[i].change == null)
                     div.textContent = busNumber;
                 else {
-                    div.textContent = busNumber + " changed to " + data.buslist[i].change;
+                    div.textContent = busNumber + " → " + data.buslist[i].change;
                 }
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
@@ -98,7 +98,7 @@ function editBusses() {
                 if (data.buslist[i].change == null)
                     div.textContent = busNumber;
                 else {
-                    div.textContent = busNumber + " / " + data.buslist[i].change;
+                    div.textContent = busNumber + " → " + data.buslist[i].change;
                 }
                 div.style.textAlign = 'center';
                 div.style.fontFamily = 'Gill Sans';
