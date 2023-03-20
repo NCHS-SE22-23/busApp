@@ -11,6 +11,8 @@ function reset(){
             
         }
     }).catch(err => console.error(err));
+
+
 }
 
 function listBus() {

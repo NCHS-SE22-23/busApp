@@ -71,11 +71,7 @@ function getTime() {
   var minute = action.getMinutes();
 
   let now = new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
-  console.log(
-    now.slice(now.indexOf(",") + 2, now.indexOf(":") + 3) +
-      " " +
-      now.slice(now.indexOf("M") - 1)
-  );
+
 
   return (
     now.slice(now.indexOf(",") + 2, now.indexOf(":") + 3) +
@@ -201,6 +197,9 @@ app.post("/delbus", (req, res) => {
   });
   res.redirect("settings");
 });
+app.get('/login', (req, res) => {
+    res.render('pages/login');
+})
 app.get("/logout", (req, res) => {
   res.redirect("/");
 });
