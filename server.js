@@ -76,6 +76,7 @@ function getTime() {
       " " +
       now.slice(now.indexOf("M") - 1)
   );
+  time = now.slice(now.indexOf(",") + 2, now.indexOf(":") + 3) + " " +  now.slice(now.indexOf("M") - 1);
 
   return (
     now.slice(now.indexOf(",") + 2, now.indexOf(":") + 3) +
@@ -140,7 +141,6 @@ app.post("/addbus", (req, res) => {
     change: null,
     timestamp: time,
   };
-
   let fullList = { buslist: [] };
 
   fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
@@ -165,7 +165,7 @@ app.post("/addbus", (req, res) => {
 
   let newChange = {
     bus: busNum,
-    description: "Not Arrived",
+    description: "Bus Added",
     timestamp: time,
   };
 
@@ -235,7 +235,38 @@ app.post("/delbus", (req, res) => {
 
     fs.writeFile("buslist.json", final, (err) => {});
   });
-  res.redirect("settings");
+
+  let busNum = Number(req.body.busnum);
+  let newChange = {
+    bus: busNum,
+    description: "Bus Removed",
+    timestamp: time,
+  };
+
+  let changeList = { logs: [] };
+
+  fs.readFile("logs.json", "utf-8", (err, jsonString) => {
+    let buslist = JSON.parse(jsonString);
+
+    for (i = 0; i < buslist.logs.length; i++) {
+      changeList.logs.push(buslist.logs[i]);
+    }
+
+    changeList.logs.push(newChange);
+
+    changeList.logs = changeList.logs.sort((a, b) => {
+      if (a.number < b.number) {
+        return -1;
+      }
+    });
+
+    let final = JSON.stringify(changeList);
+
+    fs.writeFile("logs.json", final, (err) => {});
+
+    res.redirect("settings");
+  });
+  
 });
 app.get("/logout", (req, res) => {
   res.redirect("/");
@@ -260,8 +291,40 @@ app.post("/updateStatus", (req, res) => {
 
     fs.writeFile("buslist.json", final, (err) => {});
 
-    res.redirect("buslist");
+    let newChange = {
+      bus: bus.number,
+      description: bus.newStatus,
+      timestamp: time,
+    };
+  
+    let changeList = { logs: [] };
+  
+    fs.readFile("logs.json", "utf-8", (err, jsonString) => {
+      let buslist = JSON.parse(jsonString);
+  
+      for (i = 0; i < buslist.logs.length; i++) {
+        changeList.logs.push(buslist.logs[i]);
+      }
+  
+      changeList.logs.push(newChange);
+  
+      changeList.logs = changeList.logs.sort((a, b) => {
+        if (a.number < b.number) {
+          return -1;
+        }
+      });
+  
+      let final = JSON.stringify(changeList);
+  
+      fs.writeFile("logs.json", final, (err) => {});
+  
+      res.redirect("buslist");
+    });
+    
   });
+
+  
+
 });
 
 app.post("/updateStatusTime", (req, res) => {

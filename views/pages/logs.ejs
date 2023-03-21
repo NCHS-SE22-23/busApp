@@ -53,7 +53,7 @@
                     }).then(data => {
                         if(data) { // if there is data
                             let i = 0;
-                            let busses = data.buslist;
+                            let busses = data.logs;
                             let table = document.getElementById('busTable');
                             while(i < busses.length) { // busses[i]
                                 let row = table.insertRow(-1);
@@ -78,7 +78,7 @@
                 }).then(data => {
                     if(data) { // if there is data
                         let i = 1;
-                        let busses = data.buslist;
+                        let busses = data.logs;
                         let table = document.getElementById('busTable');
                         while(i < busses.length) { // busses[i]
                             let row = table.rows[i];
