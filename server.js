@@ -44,6 +44,19 @@ function reset(condition) {
       let final = JSON.stringify(buslist);
 
       fs.writeFile("buslist.json", final, (err) => {});
+/*==================*/
+      fs.readFile("logs.json", "utf-8", (err, jsonString) => {
+      let buslist = JSON.parse(jsonString);
+
+      for (i = 0; i < buslist.logs.length; i++) {
+        buslist.buslist[i].bus = null
+        buslist.buslist[i].description = null;
+        buslist.buslist[i].timestamp = null;
+      }
+      let final = JSON.stringify(changeList);
+
+      fs.writeFile("logs.json", final, (err) => {});
+  });
 
       /*let logWrite = {
                 "bus" : 0,
@@ -291,7 +304,13 @@ app.post("/updateStatus", (req, res) => {
 
     fs.writeFile("buslist.json", final, (err) => {});
 
-    let newChange = {
+    res.redirect("buslist");
+  });
+});
+
+  /*
+   
+  let newChange = {
       bus: bus.number,
       description: bus.newStatus,
       timestamp: time,
@@ -320,12 +339,8 @@ app.post("/updateStatus", (req, res) => {
   
       res.redirect("buslist");
     });
-    
-  });
-
+*/    
   
-
-});
 
 app.post("/updateStatusTime", (req, res) => {
   let bus = req.body;

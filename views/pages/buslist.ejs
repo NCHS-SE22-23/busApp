@@ -32,8 +32,7 @@
                     
             </div>
             <div id="tabs" class="flex-container">
-                <div id="view-all" onclick="viewBusList()">View All</div>
-                <div id="search" onclick="searchBusList()">Search</div>  
+                <div id="view-all">View All</div> 
 
             </div>
             <div id="allBusses" onload="getBusses()" class="flex-container">
@@ -51,7 +50,6 @@
         let button = document.getElementById('buslist');
         button.style.filter = "invert(1)";
         button.style.boxShadow = "0px 7px 14px rgb(237, 237, 237)";
-
         setInterval(updateBusses, 1000);
     </script>
 
