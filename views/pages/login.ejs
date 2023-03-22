@@ -22,15 +22,26 @@
 
         <nav class="navbar navbar-expand bg-danger navbar-dark" style="box-shadow: 0px 0px 20px rgb(18, 18, 18);">
             <a class="navbar-brand">
-                <img src="images/Naperville_Central_Logo.png" alt="NCHS Logo" style="width: 80px;">
+                <img id='nchslogo' src="images/Naperville_Central_Logo.png" alt="NCHS Logo" style="width: 80px;">
             </a>
-            <h1>NCHS Bus Status Page</h1>
+            <h1 id="nchsbusstatuspage">NCHS Bus Status Page</h1>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
             </ul>
         </nav>
 
-        <div id="login-box">Login</div>
+        <div id="returntohome" style="position:absolute; top: 0px; height: 116px; width:50%; cursor: pointer;" onclick="location.href='/'"></div>
+
+        <div id="login-box">
+            <h1 id="login-text">Login</h1>
+            <form action="" method="post">
+                <input id="usernamefield" type="text" name="username" placeholder="Username" required><br>
+                <input id="passwordfield" type="password" name="password" placeholder="Password" required><br>
+                <input id="submitfield" type="submit" value="Login">
+            </form>
+        </div>
 
     </body>
+
+    <script src="js/login.js"></script>
 </html>
