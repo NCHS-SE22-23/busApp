@@ -16,15 +16,15 @@ h1, a {
 
 #login-text {
     color: black;
-    margin-left: 70px;
-    margin-top: 50px;
+    margin-left: 12.33%;
+    margin-top: 9%;
 }
 
 #login-box {
     background-color: white;
     padding: 5px;
-    margin-left: auto;
-    margin-right: auto;
+
+
     margin-top: 50px;
     width: 40%;
     height: 70%;
@@ -34,11 +34,11 @@ h1, a {
 
 #usernamefield, #passwordfield {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
-    margin-left: 70px;
+    margin-left: 12.33%;    
 }
 
 #submitfield {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
-    margin-left: 70px;
-    width: 70%;
+    width: 40%;
+    margin-left: 12.33%;
 }
