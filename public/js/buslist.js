@@ -62,6 +62,30 @@ function getBusses() {
                 if(data.buslist[i].status == "Not Arrived") div.style.backgroundColor = "rgb(255, 44, 44)";
                 else if(data.buslist[i].status == "Arrived") div.style.backgroundColor = "green";
                 else if(data.buslist[i].status == "Departed") div.style.backgroundColor = "grey";
+                if (data.buslist[i].status == "Departed" && data.buslist[i].number == 1234567890){
+                    div.style.backgroundColor = "rgb(60, 60, 200)";
+                    /*let r = 0;
+                    let g = 255;
+                    let b = 0;
+                    while(data.buslist[i].status == "Departed" && data.buslist[i].number == 1234567890){
+                        div.style.backgroundColor == "rgb(" + r + ", " + g + ", " + b + ")";
+                        if (r >= 255){
+                            r -= 255;
+                        } else {
+                            r++;
+                        }
+                        if (g <= 0){
+                            g += 255;
+                        } else {
+                            g--;
+                        }
+                        if (b >= 255){
+                            b -= 255;
+                        } else {
+                            b++;
+                        }
+                    }*/
+                }
 
                 div.style.borderRadius = "30px";
                 div.style.margin = "10px";
@@ -86,6 +110,7 @@ function getBusses() {
                 div.style.lineHeight = div.style.height;
 
                 div.onclick = changeColor;
+                
 
                 document.getElementById('allBusses').appendChild(div);  
                 i++;
