@@ -78,25 +78,6 @@ function getTime() {
     " " +
     now.slice(now.indexOf("M") - 1)
   );
-
-  // following code does not execute
-
-  let pm = false;
-  if (hour > 12) {
-    //switching from military to regular time
-    hour -= 12;
-    pm = true;
-  }
-  if (minute < 10) {
-    //formatting correctly
-    if (pm) time = hour + ":0" + minute + " PM";
-    else time = hour + ":0" + minute + " AM";
-  } else {
-    if (pm) time = hour + ":" + minute + " PM";
-    else time = hour + ":" + minute + " PM";
-  }
-  console.log(time);
-  return time;
 }
 getTime();
 
