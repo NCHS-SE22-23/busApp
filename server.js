@@ -22,6 +22,8 @@ app.use(
 const fs = require("fs");
 const { ok } = require("assert");
 
+var crypto = require('crypto');
+
 // *** GET Routes - display pages ***
 // Root Route
 app.use(express.static("public"));
@@ -83,29 +85,56 @@ getTime();
 
 var action_done = "";
 
+function verifyToken(req) {
+  let cookies = req.headers.cookie;
+  let c_email = cookies.slice(cookies.indexOf('=')+1, cookies.indexOf('%')) + '@' + cookies.slice(cookies.indexOf('%') + 3, cookies.indexOf(';'));
+  let l = cookies.slice(0, cookies.indexOf(';')).length + 9;
+  let temp = cookies.slice(l+1);
+  let c_token = temp.slice(0, temp.indexOf(';'));
+
+  let shasum = crypto.createHash('sha1');
+  shasum.update(c_email);
+  let hashedEmail = shasum.digest('hex');
+
+  if (hashedEmail == c_token) return true;
+  return false;
+}
+
 app.get("/buslist", function (req, res) {
-  const f = require("fs");
-  const readline = require("readline");
-  var user_file = "buslist.txt";
-  var r = readline.createInterface({
-    input: f.createReadStream(user_file),
-  });
-  r.on("line", function (text) {
-    res.send;
-  });
-  res.render("pages/buslist");
+  if (verifyToken(req)) {
+    /*
+    const f = require("fs");
+    const readline = require("readline");
+    var user_file = "buslist.txt";
+    var r = readline.createInterface({
+      input: f.createReadStream(user_file),
+    });
+    r.on("line", function (text) {
+      res.send;
+    }); */
+    res.render("pages/buslist");
+  }
+  else {
+    res.redirect('/')
+  }
 });
 
 app.get("/buschanges", function (req, res) {
+  if (verifyToken(req)) 
   res.render("pages/buschanges");
+  else res.redirect('/');
 });
 
 app.get("/logs", function (req, res) {
+  if (verifyToken(req))
   res.render("pages/logs");
+  else res.redirect('/');
 });
 
 app.get("/settings", function (req, res) {
+  if (verifyToken(req))
   res.render("pages/settings");
+  else res.redirect('/');
 });
 app.post("/addbus", (req, res) => {
   action_done = "Bus Added";
@@ -291,3 +320,35 @@ app.get("/getlogs", (req, res) => {
 });
 
 //google sign in -----------------------------------------------------
+
+app.post('/auth', (req, res) => {
+  const token = req.body.credential;
+  const CLIENT_ID = "297838973559-tfgf8emf1mo242nlmvft5ih5np1pp7hv.apps.googleusercontent.com";
+  const {OAuth2Client} = require('google-auth-library');
+  const client = new OAuth2Client(CLIENT_ID);
+  async function verify() {
+    var shasum = crypto.createHash('sha1')
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+    // If request specified a G Suite domain:
+    // const domain = payload['hd']; 
+    let whitelist = JSON.parse(fs.readFileSync("whitelist.json", "utf-8")).users;
+    for (i = 0; i < whitelist.length; i++) {
+      if (whitelist[i] == payload.email){
+        res.cookie('c_email', payload.email, {maxAge: 3600000, httpOnly: true});
+        shasum.update(payload.email);
+        res.cookie('c_token', shasum.digest('hex'), { maxAge: 3600000, httpOnly: true })
+        res.redirect('/buslist')
+      }
+    }
+    res.redirect('/')
+    
+  }
+  verify().catch(console.error);
+});

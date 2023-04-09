@@ -1,5 +1,7 @@
 //import { time } from 'console';
 
+console.log();
+
 function newBtn() {
     let div = document.createElement("div");
     div.classList.add('flex-fill');
