@@ -23,6 +23,8 @@ const fs = require("fs");
 const { ok } = require("assert");
 
 var crypto = require('crypto');
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 // *** GET Routes - display pages ***
 // Root Route
@@ -86,11 +88,10 @@ getTime();
 var action_done = "";
 
 function verifyToken(req, res) {
-  let cookies = req.headers.cookie;
-  let c_email = cookies.slice(cookies.indexOf('=')+1, cookies.indexOf('%')) + '@' + cookies.slice(cookies.indexOf('%') + 3, cookies.indexOf(';'));
-  let l = cookies.slice(0, cookies.indexOf(';')).length + 9;
-  let temp = cookies.slice(l+1);
-  let c_token = temp.slice(0, temp.indexOf(';'));
+  let cookies = req.cookies;
+  //let c_email = cookies.slice(cookies.indexOf('=')+1, cookies.indexOf('%')) + '@' + cookies.slice(cookies.indexOf('%') + 3, cookies.indexOf(';'));
+  let c_email = cookies['c_email'];
+  let c_token = cookies['c_token'];
 
   let shasum = crypto.createHash('sha1');
   shasum.update(c_email);
