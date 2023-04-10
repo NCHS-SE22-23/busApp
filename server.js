@@ -85,7 +85,7 @@ getTime();
 
 var action_done = "";
 
-function verifyToken(req) {
+function verifyToken(req, res) {
   let cookies = req.headers.cookie;
   let c_email = cookies.slice(cookies.indexOf('=')+1, cookies.indexOf('%')) + '@' + cookies.slice(cookies.indexOf('%') + 3, cookies.indexOf(';'));
   let l = cookies.slice(0, cookies.indexOf(';')).length + 9;
@@ -96,12 +96,19 @@ function verifyToken(req) {
   shasum.update(c_email);
   let hashedEmail = shasum.digest('hex');
 
-  if (hashedEmail == c_token) return true;
+  if (hashedEmail == c_token) {
+    res.clearCookie('c_email');
+    res.clearCookie('c_token');
+    res.cookie('c_email', c_email, {maxAge: 3600000, httpOnly: true});
+    res.cookie('c_token', c_token, {maxAge: 3600000, httpOnly: true})
+
+    return true;
+  }
   return false;
 }
 
 app.get("/buslist", function (req, res) {
-  if (verifyToken(req)) {
+  if (verifyToken(req, res)) {
     /*
     const f = require("fs");
     const readline = require("readline");
@@ -120,19 +127,19 @@ app.get("/buslist", function (req, res) {
 });
 
 app.get("/buschanges", function (req, res) {
-  if (verifyToken(req)) 
+  if (verifyToken(req, res)) 
   res.render("pages/buschanges");
   else res.redirect('/');
 });
 
 app.get("/logs", function (req, res) {
-  if (verifyToken(req))
+  if (verifyToken(req, res))
   res.render("pages/logs");
   else res.redirect('/');
 });
 
 app.get("/settings", function (req, res) {
-  if (verifyToken(req))
+  if (verifyToken(req, res))
   res.render("pages/settings");
   else res.redirect('/');
 });
@@ -211,6 +218,8 @@ app.get('/login', (req, res) => {
     res.render('pages/login');
 })
 app.get("/logout", (req, res) => {
+  res.clearCookie('c_email');
+  res.clearCookie('c_token');
   res.redirect("/");
 });
 
@@ -347,7 +356,8 @@ app.post('/auth', (req, res) => {
         res.redirect('/buslist')
       }
     }
-    res.redirect('/')
+    res.send('<h1>Unauthorized</h1><br><a href="/">Return to Home</a>')
+
     
   }
   verify().catch(console.error);

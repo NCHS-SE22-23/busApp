@@ -112,28 +112,32 @@ function editBusses() {
                 i++;
 
                 function edit() {
-                    let newChange = Number(prompt('What is the Bus Change?'));
+                    let newChange = prompt('What is the Bus Change?');
+                    if (newChange != null)
+                    {
+                        newChange = Number(newChange);
                     
-                    let busdata = {
-                        number: busNumber,
-                        change: newChange
-                    };
+                        let busdata = {
+                            number: busNumber,
+                            change: newChange
+                        };
 
-                    fetch('/updateChange', {
-                        method: 'POST',
-                        body: JSON.stringify(busdata),
-                        headers: {
-                            'Content-Type': 'application/json',
-                          }
-                    })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log('Success:', data);
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-                    location.reload();
+                        fetch('/updateChange', {
+                            method: 'POST',
+                            body: JSON.stringify(busdata),
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                        location.reload();
+                    }
                 }
             }
         }
@@ -167,7 +171,6 @@ function updateBusses() {
 }
 
 function resize() {
-    getBusses();
     editBusses();
     var w = window.innerWidth;
     var h = window.innerHeight;
