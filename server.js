@@ -144,6 +144,18 @@ app.get("/settings", function (req, res) {
   res.render("pages/settings");
   else res.redirect('/');
 });
+
+app.post("/addemail"), (req, res) => {
+  action_done = "Email Added";
+  fs.writeFile("whitelist.json", req.body, (err) => {});
+}
+
+app.post("/delemail"), (req, res) => {
+  action_done = "Email Deleted";
+  
+  fs.writeFile("whitelist.json", req.body, (err) => {});
+}
+
 app.post("/addbus", (req, res) => {
   action_done = "Bus Added";
   let busNum = Number(req.body.busnum);
