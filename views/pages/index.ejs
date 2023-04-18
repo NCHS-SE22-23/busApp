@@ -12,6 +12,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <!-- <meta name="referrer" content="no-referrer-when-downgrade" /> -->
         
 
         <style>
@@ -72,7 +73,7 @@
                     data-client_id="297838973559-tfgf8emf1mo242nlmvft5ih5np1pp7hv.apps.googleusercontent.com"
                     data-context="signin"
                     data-ux_mode="redirect"
-                    data-login_uri="http://localhost:8080/auth"
+                    data-login_uri="http://busapp-env.eba-96sdatvm.us-east-1.elasticbeanstalk.com/auth"
                     data-auto_prompt="false">
                 </div>
 
@@ -89,6 +90,7 @@
         </nav>
         <div id="returntohome" style="position:absolute; top: 0px; height: 116px; width:50%; cursor: pointer;" onclick="location.href='/'"></div>
 
+        Hello 10:58am
         <script>
             function makeTable() {
             fetch('/getbus')
