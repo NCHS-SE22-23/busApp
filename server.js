@@ -147,13 +147,17 @@ app.get("/settings", function (req, res) {
 
 app.post("/addemail"), (req, res) => {
   action_done = "Email Added";
-  fs.writeFile("whitelist.json", req.body, (err) => {});
-}
+  fs.readFile("whitelist.json", (err) => {
+    fs.writeFile("whitelist.json", req.body, (err) => {});
+  })}
 
 app.post("/delemail"), (req, res) => {
   action_done = "Email Deleted";
-  
-  fs.writeFile("whitelist.json", req.body, (err) => {});
+  //delete email
+  fs.readFile("whitelist.json", (err, content) => {
+    var data = JSON.parse(content);
+    delete data[req.body];
+  });
 }
 
 app.post("/addbus", (req, res) => {
@@ -361,18 +365,17 @@ app.post('/auth', (req, res) => {
     // If request specified a G Suite domain:
     // const domain = payload['hd']; 
     let whitelist = JSON.parse(fs.readFileSync("whitelist.json", "utf-8")).users;
-    let authorized = false;
     for (i = 0; i < whitelist.length; i++) {
       if (whitelist[i] == payload.email){
         res.cookie('c_email', payload.email, {maxAge: 3600000, httpOnly: true});
         shasum.update(payload.email);
         res.cookie('c_token', shasum.digest('hex'), { maxAge: 3600000, httpOnly: true })
-        authorized = true;
         res.redirect('/buslist')
-        break;
       }
     }
-    if (!authorized) res.send('<h1>Unauthorized</h1><br><a href="/">Return to Home</a>')
+    res.send('<h1>Unauthorized</h1><br><a href="/">Return to Home</a>')
+
+    
   }
   verify().catch(console.error);
 });
