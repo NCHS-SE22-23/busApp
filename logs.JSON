@@ -1,3 +1,1 @@
-{"logs":[
-    {"bus":3, "description":"Bus Arrived", "timestamp": "3:10pm"}
-]}
+{"logs":[{"bus":3,"description":"Bus Arrived","timestamp":"3:10pm"},{"bus":1234,"description":"Bus Added","timestamp":"11:55 AM"},{"bus":12551235,"description":"Bus Added"},{"bus":657,"description":"Bus Added"},{"bus":12463445,"description":"Bus Added"}]}

@@ -58,7 +58,7 @@
                             while(i < busses.length) { // busses[i]
                                 let row = table.insertRow(-1);
                                 
-                                row.insertCell(0).innerHTML = busses[i].number;
+                                row.insertCell(0).innerHTML = busses[i].bus;
                                 row.insertCell(1).innerHTML = busses[i].description;
                                 row.insertCell(2).innerHTML = busses[i].timestamp;
                                 i++;
@@ -77,12 +77,13 @@
                     }
                 }).then(data => {
                     if(data) { // if there is data
+                        console.log("yeet");
                         let i = 1;
                         let busses = data.buslist;
                         let table = document.getElementById('busTable');
                         while(i < busses.length) { // busses[i]
                             let row = table.rows[i];
-                            row.insertCell(0).innerHTML = busses[i].number;
+                            row.insertCell(0).innerHTML = busses[i].bus;
                             row.insertCell(1).innerHTML = busses[i].description;
                             row.insertCell(2).innerHTML = busses[i].timestamp;
                             i++;
@@ -94,6 +95,10 @@
             }
         </script>
             
+            <script>
+                makeTable();
+                setInterval(fetchBusses, 5000);
+            </script>
         
     </body>
 
