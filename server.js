@@ -208,7 +208,7 @@ app.post("/addbus", (req, res) => {
 
     fs.writeFile("logs.json", final, (err) => {});
 
-    res.redirect("logs");
+    res.redirect("settings");
   });
 
 
