@@ -20,7 +20,7 @@ The last button on the left-side menu, when pressed, will take the administrator
 #### Student Experience
 Immediately upon opening the NCHS Bus App, students are able to see a table of the information they need on the Bus Status Page. This information includes all of the bus numbers, bus changes (if there are any), the current status of the bus, and the timestamp of the current status. The admin pages are not accessible to students. 
 
-As administrators make changes on their side, students will be able to see them live on the Bus Status within about 5 seconds. They should check their bus status periodically while waiting for their bus to arrive. 
+As administrators make changes on their side, students will be able to see them live on the Bus Status Page within about 5 seconds. They should check their bus status periodically while waiting for their bus to arrive. 
 
 ### Project Setup
 Follow these steps to set up the NCHS Bus App project:
