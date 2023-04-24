@@ -178,7 +178,6 @@ app.post("/addbus", (req, res) => {
 
   });
 
-  console.log("sdsd");
 
   let newChange = {
     bus: busNum,
@@ -189,7 +188,6 @@ app.post("/addbus", (req, res) => {
   let changeList = { logs: [] };
 
   fs.readFile("logs.json", "utf-8", (err, jsonString) => {
-    console.log("432");
     let buslist = JSON.parse(jsonString);
 
     for (i = 0; i < buslist.logs.length; i++) {
