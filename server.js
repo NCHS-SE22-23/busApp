@@ -144,6 +144,22 @@ app.get("/settings", function (req, res) {
   res.render("pages/settings");
   else res.redirect('/');
 });
+
+app.post("/addemail"), (req, res) => {
+  action_done = "Email Added";
+  fs.readFile("whitelist.json", (err) => {
+    fs.writeFile("whitelist.json", req.body, (err) => {});
+  })}
+
+app.post("/delemail"), (req, res) => {
+  action_done = "Email Deleted";
+  //delete email
+  fs.readFile("whitelist.json", (err, content) => {
+    var data = JSON.parse(content);
+    delete data[req.body];
+  });
+}
+
 app.post("/addbus", (req, res) => {
   action_done = "Bus Added";
   let busNum = Number(req.body.busnum);
@@ -178,7 +194,6 @@ app.post("/addbus", (req, res) => {
 
   });
 
-
   let newChange = {
     bus: busNum,
     description: "Bus Added",
@@ -211,15 +226,19 @@ app.post("/addbus", (req, res) => {
 
 
 
-
-
-
 });
 app.get("/getbus", (req, res) => {
   let datajson = fs.readFileSync("buslist.json");
   let data = JSON.parse(datajson);
   res.send(data);
 });
+
+app.get("/getlogs", (req, res) => {
+  let datajson = fs.readFileSync("logs.json");
+  let data = JSON.parse(datajson);
+  res.send(data);
+});
+
 app.post("/delbus", (req, res) => {
   action_done = "Bus Deleted";
 
@@ -328,7 +347,39 @@ app.post("/updateChange", (req, res) => {
 });
 
 app.get("/getlogs", (req, res) => {
-  let datajson = fs.readFileSync("logs.json");
+  let status_change = {
+    bus: busNum,
+    description: action_done,
+    timestamp: time,
+  };
+  bus = Number(req.body.busnum);
+
+  let logsList = { logs: [] };
+
+  fs.readFile("logs.JSON", "utf-8", (err, jsonString) => {
+    ``;
+
+    let changeList = JSON.parse(jsonString);
+
+    for (i = 0; i < changeList.changeList.length; i++) {
+      logsList.changeList.push(changeList.changeList[i]);
+    }
+
+    logsList.changeList.push(status_change);
+
+    logsList.changeList = changeList.changeList.sort((a, b) => {
+      if (a.number < b.number) {
+        return -1;
+      }
+    });
+
+    let final = JSON.stringify(logsList);
+
+    fs.writeFile("logs.JSON", final, (err) => {});
+
+    res.redirect("logs");
+  });
+  let datajson = fs.readFileSync("logs.JSON");
   let data = JSON.parse(datajson);
   res.send(data);
 });
@@ -353,18 +404,17 @@ app.post('/auth', (req, res) => {
     // If request specified a G Suite domain:
     // const domain = payload['hd']; 
     let whitelist = JSON.parse(fs.readFileSync("whitelist.json", "utf-8")).users;
-    let authorized = false;
     for (i = 0; i < whitelist.length; i++) {
-      if (whitelist[i] == payload.email){
+      if (whitelist[i].toLowerCase == payload.email.toLowerCase){
         res.cookie('c_email', payload.email, {maxAge: 3600000, httpOnly: true});
         shasum.update(payload.email);
         res.cookie('c_token', shasum.digest('hex'), { maxAge: 3600000, httpOnly: true })
-        authorized = true;
         res.redirect('/buslist')
-        break;
       }
     }
-    if (!authorized) res.send('<h1>Unauthorized</h1><br><a href="/">Return to Home</a>')
+    res.send('<h1>Unauthorized</h1><br><a href="/">Return to Home</a>')
+
+    
   }
   verify().catch(console.error);
 });
