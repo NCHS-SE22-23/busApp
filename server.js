@@ -366,7 +366,7 @@ app.post('/auth', (req, res) => {
     // const domain = payload['hd']; 
     let whitelist = JSON.parse(fs.readFileSync("whitelist.json", "utf-8")).users;
     for (i = 0; i < whitelist.length; i++) {
-      if (whitelist[i].toLowerCase == payload.email.toLowerCase){
+      if (whitelist[i].toLowerCase() == payload.email.toLowerCase()){
         res.cookie('c_email', payload.email, {maxAge: 3600000, httpOnly: true});
         shasum.update(payload.email);
         res.cookie('c_token', shasum.digest('hex'), { maxAge: 3600000, httpOnly: true })
