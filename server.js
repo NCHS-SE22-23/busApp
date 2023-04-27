@@ -90,7 +90,6 @@ var action_done = "";
 function verifyToken(req, res) {
   let cookies = req.cookies;
   //let c_email = cookies.slice(cookies.indexOf('=')+1, cookies.indexOf('%')) + '@' + cookies.slice(cookies.indexOf('%') + 3, cookies.indexOf(';'));
-  console.log(cookies['c_email'])
   if (cookies['c_email'] == undefined || cookies['c_token'] == undefined) return false
   let c_email = cookies['c_email'];
   let c_token = cookies['c_token'];
