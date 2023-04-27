@@ -248,4 +248,4 @@ function resize() {
     document.getElementById('main-container').style.display = "flex";
 }
 resize();
-window.addEventListener("resize", resize);
+//window.addEventListener("resize", resize);
