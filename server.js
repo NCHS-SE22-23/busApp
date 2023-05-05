@@ -148,9 +148,21 @@ app.get("/settings", function (req, res) {
 
 app.post("/addemail"), (req, res) => {
   action_done = "Email Added";
-  fs.readFile("whitelist.json", (err) => {
-    fs.writeFile("whitelist.json", req.body, (err) => {});
-  })}
+  let email = req.body.email;
+
+  let emailist = { users: [] };
+  fs.readFile("whitelist.json", "utf-8", (err, jsonString) => {
+    let emails = JSON.parse(jsonString);
+    for (i = 0;  i < emails.users.length; i++) {
+      emailist.users.push(emails.users[i])
+    }
+  });
+  emailist.users.push(email)
+
+
+  fs.writeFile("buslist.json", JSON.stringify(emailist), (err) => {});
+  res.redirect("settings");
+}
 
 app.post("/delemail"), (req, res) => {
   action_done = "Email Deleted";
