@@ -155,9 +155,21 @@
 
         </table>
 
+        <p onclick="hmm()" style="text-align: center; color: grey;"><small>Created by Simi Kama, Adesh Kumar, Theo Ng, Alex Remiasz, and Boris Rokhmanov</small></p>
         <script>
             makeTable();
             setInterval(fetchBusses, 5000);
+            
+            
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * max);
+            }
+            function hmm() {
+                let c1 = getRandomInt(255)
+                let c2 = getRandomInt(255)
+                let c3 = getRandomInt(255)
+                document.body.style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
+            }
         </script>
         <!-- Google sign in script-->
         <script src="https://accounts.google.com/gsi/client" async defer></script>
