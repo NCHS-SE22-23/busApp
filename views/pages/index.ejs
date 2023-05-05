@@ -155,7 +155,7 @@
 
         </table>
 
-        <p style="text-align: center; color: grey;"><small>Created by Simi Kama, Adesh Kumar, Theo Ng, </small><small onclick="hmm()">Alex Remiasz, </small><small>and Boris Rokhmanov</small></p>
+        <p style="text-align: center; color: grey;"><small>Created by Simi Kama, Adesh Kumar, Theodore Ng, </small><small onclick="hmm()">Alex Remiasz, </small><small>and Boris Rokhmanov</small></p>
         <script>
             makeTable();
             setInterval(fetchBusses, 5000);
@@ -168,8 +168,19 @@
                 let c1 = getRandomInt(255)
                 let c2 = getRandomInt(255)
                 let c3 = getRandomInt(255)
-                document.body.style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
+                document.body.style.backgroundColor = "rgb("+(c1+50)+", "+(c2+50)+", "+(c3+50)+")"
                 document.getElementById('navbar').style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
+                document.querySelectorAll('th').forEach(cell=>{
+                    cell.style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
+                })
+                document.querySelectorAll('tr').forEach(cell=>{
+                    cell.onmouseover = function() {
+                        c1 = getRandomInt(255)
+                        c2 = getRandomInt(255)
+                        c3 = getRandomInt(255)
+                        cell.style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
+                    }
+                })
             }
         </script>
         <!-- Google sign in script-->
