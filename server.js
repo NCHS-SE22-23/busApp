@@ -409,7 +409,7 @@ app.post("/updateChange", (req, res) => {
 
   let newChange = {
     bus: bus.number,
-    description: bus.change,
+    description: "Changed to Bus " + bus.change,
     timestamp: getTime(),
   };
 
