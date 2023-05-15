@@ -146,20 +146,51 @@ app.get("/settings", function (req, res) {
   else res.redirect('/');
 });
 
-app.post("/addemail"), (req, res) => {
-  action_done = "Email Added";
-  fs.readFile("whitelist.json", (err) => {
-    fs.writeFile("whitelist.json", req.body, (err) => {});
-  })}
+app.get("/getemails", (req, res) => {
+  fs.readFile("whitelist.json", "utf-8", (err, jsonString) => {
+    let emails = JSON.parse(jsonString);
+    res.send(emails)
+  })
+})
 
-app.post("/delemail"), (req, res) => {
+app.post("/addemail", (req, res) => {
+  action_done = "Email Added";
+  let email = req.body.email;
+
+  let emailist = { users: [] };
+  fs.readFile("whitelist.json", "utf-8", (err, jsonString) => {
+    let emails = JSON.parse(jsonString);
+    for (i = 0;  i < emails.users.length; i++) {
+      emailist.users.push(emails.users[i])
+    }
+    emailist.users.push(email)
+    fs.writeFile("whitelist.json", JSON.stringify(emailist), (err) => {});
+  });
+  
+  res.redirect("settings");
+})
+
+app.post("/delemail", (req, res) => {
   action_done = "Email Deleted";
   //delete email
-  fs.readFile("whitelist.json", (err, content) => {
-    var data = JSON.parse(content);
-    delete data[req.body];
+  let email = req.body.email;
+
+  let emailist = { users: [] };
+  fs.readFile("whitelist.json", "utf-8", (err, jsonString) => {
+    let emails = JSON.parse(jsonString);
+    for (i = 0;  i < emails.users.length; i++) {
+      emailist.users.push(emails.users[i])
+    }
+    for (i = 0; i < emailist.users.length; i++) {
+      if (emailist.users[i].toLowerCase() == email.toLowerCase()) {
+        emailist.users.splice(i, i + 1);
+      }
+    }
+    fs.writeFile("whitelist.json", JSON.stringify(emailist), (err) => {});
   });
-}
+  
+  res.redirect("settings");
+});
 
 app.post("/addbus", (req, res) => {
   action_done = "Bus Added";
