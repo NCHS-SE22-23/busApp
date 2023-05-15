@@ -23,7 +23,7 @@
                 margin: 0;
                 background-repeat: no-repeat;
                 background-attachment: fixed;
-                background-color: rgb(249, 254, 255);
+
                 /*background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(204,204,204,1) 100%);*/
                 display: block;
                 overflow: scroll;
@@ -41,12 +41,12 @@
                 margin-right: auto;
                 width: 85%;
                 border-collapse: collapse;
-                
+                background-color: white;
                 table-layout: fixed;
                 margin-top: 15px;
                 margin-bottom: 15px;
                 position: sticky;
-            
+                
                 
             }
                 /*
@@ -57,7 +57,7 @@
             table.PerformanceTable tr.PerformanceCell {
                 width: 75px;
             }*/
-            tr:nth-child(even){background-color: #ebebeb;}
+
             tr:hover {background-color: #ff928e;}
             th{background-color: rgb(230, 55, 72); color: black;}
         </style>
@@ -80,7 +80,7 @@
                     
             </div>
             
-            <div id="log_body" class="flex-container">
+            <div id="log_body" class="flex-container" style="overflow-x: hidden; overflow-y: auto;">
                 <table id="busTable">
                     <thead>
                         <tr>
