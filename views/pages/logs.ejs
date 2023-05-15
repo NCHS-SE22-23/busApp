@@ -11,9 +11,56 @@
         <!-- Latest compiled JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
         <link rel="stylesheet" href="/css/logs.css">
         
-    
+        <style>
+            html {
+                height: 100%;
+            }          
+            body {
+                height: 100%;
+                margin: 0;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+
+                /*background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(204,204,204,1) 100%);*/
+                display: block;
+                overflow: scroll;
+            }
+            h1, a {
+                color: white;
+                font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+
+            table, th, td{
+                /*border: 1px solid;*/
+                border-bottom: 1px solid rgb(0,0,0);
+                padding: 5px;
+                margin-left: auto;
+                margin-right: auto;
+                width: 85%;
+                border-collapse: collapse;
+                background-color: white;
+                table-layout: fixed;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                position: sticky;
+                
+                
+            }
+                /*
+            table.PerformanceTable {
+                table-layout: fixed; 
+                width: 500px; 
+            }
+            table.PerformanceTable tr.PerformanceCell {
+                width: 75px;
+            }*/
+
+            tr:hover {background-color: #ff928e;}
+            th{background-color: rgb(230, 55, 72); color: black;}
+        </style>
 
     </head>
 
@@ -33,13 +80,15 @@
                     
             </div>
             
-            <div id="log_body" class="flex-container">
+            <div id="log_body" class="flex-container" style="overflow-x: hidden; overflow-y: auto;">
                 <table id="busTable">
-                    <tr>
-                        <th>Bus Affected</th> 
-                        <th>Action Done</th>
-                        <th>Timestamp</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Bus Affected</th> 
+                            <th>Action Done</th>
+                            <th>Timestamp</th>
+                        </tr>
+                      </thead>
     
                 </table>
             </div> 
@@ -54,22 +103,20 @@
                     }).then(data => {
                         if(data) { // if there is data
                             let i = 0;
-                            let busses = data.buslist;
+                            let busses = data.logs;
                             let table = document.getElementById('busTable');
                             while(i < busses.length) { // busses[i]
-                                let row = table.insertRow(-1);
+                                let row = table.insertRow(1);
                                 
-                                row.insertCell(0).innerHTML = busses[i].number;
+                                row.insertCell(0).innerHTML = busses[i].bus;
                                 row.insertCell(1).innerHTML = busses[i].description;
                                 row.insertCell(2).innerHTML = busses[i].timestamp;
                                 i++;
                             }
-
                             
                         }
                     });
                 }
-
             function fetchBusses() {
                 fetch('/getlogs')
                 .then(response => { 
@@ -79,31 +126,35 @@
                 }).then(data => {
                     if(data) { // if there is data
                         let i = 1;
-                        let busses = data.buslist;
+                        let busses = data.logs;
                         let table = document.getElementById('busTable');
                         while(i < busses.length) { // busses[i]
                             let row = table.rows[i];
-                            row.insertCell(0).innerHTML = busses[i].number;
+                            row.insertCell(0).innerHTML = busses[i].bus;
                             row.insertCell(1).innerHTML = busses[i].description;
                             row.insertCell(2).innerHTML = busses[i].timestamp;
                             i++;
                         }
-
                         
                     }
                 });
+                
             }
+            </script>
+        
+        <script>
+            
+            makeTable();
         </script>
             
         
     </body>
-
+    
     <script src="/js/logs.js"></script>
     <script>
         let button = document.getElementById('logs'); //invert button colors on webpage select
         button.style.filter = "invert(1)";
         button.style.boxShadow = "0px 7px 14px rgb(237, 237, 237)";
-
     </script>
 
 </html>
