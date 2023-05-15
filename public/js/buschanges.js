@@ -179,7 +179,7 @@ function resize() {
     var newW = w/5.88;
     document.getElementById('redbar').style.width = newW+"px";
     // resize the tab bar
-    document.getElementById('tabs').style.width = w-newW-5+"px";
+    document.getElementById('tabs').style.width = w-newW+"px";
     // resize bus container
     document.getElementById('viewBusses').style.width = w-newW+"px";
     document.getElementById('viewBusses').style.height = h-50+"px";
@@ -211,6 +211,5 @@ function resize() {
 
     document.getElementById('main-container').style.display = "flex";
 }
-
-resize(); 
-//window.addEventListener("resize", resize);
+resize();
+window.addEventListener("resize", resize);

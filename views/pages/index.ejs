@@ -14,7 +14,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="referrer" content="no-referrer-when-downgrade" />
         <meta name="google-site-verification" content="Ylp0UBYDFaaNsDJs8DcM8Cw1ImHAHrgMfkQmdg7Y2As" />
-        <meta name="description" content="Displays the Statuses of Busses at NCHS after school days.">
         
 
         <style>
@@ -65,17 +64,17 @@
 
     <body>
 
-        <nav id="navbar" class="navbar navbar-expand navbar-dark" style="box-shadow: 0px 0px 20px rgb(18, 18, 18); background-color: rgb(220, 53, 69);">
+        <nav class="navbar navbar-expand bg-danger navbar-dark" style="box-shadow: 0px 0px 20px rgb(18, 18, 18);">
             <a class="navbar-brand">
                 <img src="/images/Naperville_Central_Logo.png" alt="NCHS Logo" style="width: 80px;">
             </a>
             <h1>NCHS Bus Status Page</h1>
             <ul class="navbar-nav ms-auto">
                 <div id="g_id_onload"
-                    data-client_id="442103711074-9jiakb0h9okfqia38vnvmdhaq7ej9rdk.apps.googleusercontent.com"
+                    data-client_id="297838973559-tfgf8emf1mo242nlmvft5ih5np1pp7hv.apps.googleusercontent.com"
                     data-context="signin"
                     data-ux_mode="redirect"
-                    data-login_uri="https://nchsbusapp.org/auth"
+                    data-login_uri="http://localhost:8080/auth"
                     data-auto_prompt="false">
                 </div>
 
@@ -144,7 +143,7 @@
                 }
             });
         }
-        </script> 
+        </script>
         <table id="busTable">
             <tr>
                 <th>Bus Number</th> 
@@ -155,33 +154,9 @@
 
         </table>
 
-        <p style="text-align: center; color: grey;"><small>Created by Simi Kama, Adesh Kumar, Theodore Ng, </small><small onclick="hmm()">Alex Remiasz, </small><small>and Boris Rokhmanov</small></p>
         <script>
             makeTable();
             setInterval(fetchBusses, 5000);
-            
-            
-            function getRandomInt(max) {
-                return Math.floor(Math.random() * max);
-            }
-            function hmm() {
-                let c1 = getRandomInt(255)
-                let c2 = getRandomInt(255)
-                let c3 = getRandomInt(255)
-                document.body.style.backgroundColor = "rgb("+(c1+50)+", "+(c2+50)+", "+(c3+50)+")"
-                document.getElementById('navbar').style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
-                document.querySelectorAll('th').forEach(cell=>{
-                    cell.style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
-                })
-                document.querySelectorAll('tr').forEach(cell=>{
-                    cell.onmouseover = function() {
-                        c1 = getRandomInt(255)
-                        c2 = getRandomInt(255)
-                        c3 = getRandomInt(255)
-                        cell.style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
-                    }
-                })
-            }
         </script>
         <!-- Google sign in script-->
         <script src="https://accounts.google.com/gsi/client" async defer></script>
