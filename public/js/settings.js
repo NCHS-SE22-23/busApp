@@ -40,6 +40,9 @@ function listBus() {
             }
         }
     }).catch(err => console.error(err));
+
+    console.log(c);
+
     
 
 

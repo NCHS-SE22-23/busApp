@@ -155,7 +155,6 @@ app.get("/getemails", (req, res) => {
 
 app.post("/addemail", (req, res) => {
   action_done = "Email Added";
-
   let email = req.body.email;
 
   let emailist = { users: [] };
@@ -171,11 +170,9 @@ app.post("/addemail", (req, res) => {
   res.redirect("settings");
 })
 
-
 app.post("/delemail", (req, res) => {
   action_done = "Email Deleted";
   //delete email
-
   let email = req.body.email;
 
   let emailist = { users: [] };
@@ -195,7 +192,6 @@ app.post("/delemail", (req, res) => {
   res.redirect("settings");
 });
 
-
 app.post("/addbus", (req, res) => {
   action_done = "Bus Added";
   let busNum = Number(req.body.busnum);
@@ -204,7 +200,7 @@ app.post("/addbus", (req, res) => {
     number: busNum,
     status: "Not Arrived",
     change: null,
-    timestamp: getTime(),
+    timestamp: time,
   };
 
   let fullList = { buslist: [] };
@@ -228,54 +224,17 @@ app.post("/addbus", (req, res) => {
 
     fs.writeFile("buslist.json", final, (err) => {});
 
-  });
-
-  let newChange = {
-    bus: busNum,
-    description: "Bus Added",
-    timestamp: getTime(),
-  };
-
-  let changeList = { logs: [] };
-
-  fs.readFile("logs.json", "utf-8", (err, jsonString) => {
-    let buslist = JSON.parse(jsonString);
-
-    for (i = 0; i < buslist.logs.length; i++) {
-      changeList.logs.push(buslist.logs[i]);
-    }
-
-    changeList.logs.push(newChange);
-
-    changeList.logs = changeList.logs.sort((a, b) => {
-      if (a.number < b.number) {
-        return -1;
-      }
-    });
-
-    let final = JSON.stringify(changeList);
-
-    fs.writeFile("logs.json", final, (err) => {});
-
     res.redirect("settings");
   });
-
-
-
 });
 app.get("/getbus", (req, res) => {
   let datajson = fs.readFileSync("buslist.json");
   let data = JSON.parse(datajson);
   res.send(data);
 });
-
-app.get("/getlogs", (req, res) => {
-  let datajson = fs.readFileSync("logs.json");
-  let data = JSON.parse(datajson);
-  res.send(data);
-});
-
 app.post("/delbus", (req, res) => {
+  action_done = "Bus Deleted";
+
   let fullList = { buslist: [] };
 
   if (req.body.busnum == "clear") {
@@ -302,40 +261,7 @@ app.post("/delbus", (req, res) => {
 
     fs.writeFile("buslist.json", final, (err) => {});
   });
-
-  let busNum = Number(req.body.busnum);
-  let newChange = {
-    bus: busNum,
-    description: "Bus Removed",
-    timestamp: getTime(),
-  };
-
-  let changeList = { logs: [] };
-
-  fs.readFile("logs.json", "utf-8", (err, jsonString) => {
-    let buslist = JSON.parse(jsonString);
-
-    for (i = 0; i < buslist.logs.length; i++) {
-      changeList.logs.push(buslist.logs[i]);
-    }
-
-    changeList.logs.push(newChange);
-
-    changeList.logs = changeList.logs.sort((a, b) => {
-      if (a.number < b.number) {
-        return -1;
-      }
-    });
-
-    let final = JSON.stringify(changeList);
-
-    fs.writeFile("logs.json", final, (err) => {});
-
-    res.redirect("settings");
-  });
-
-
-
+  res.redirect("settings");
 });
 app.get('/login', (req, res) => {
     res.render('pages/login');
@@ -365,41 +291,8 @@ app.post("/updateStatus", (req, res) => {
 
     fs.writeFile("buslist.json", final, (err) => {});
 
-  });
-
-
-  let newChange = {
-    bus: bus.number,
-    description: bus.newStatus,
-    timestamp: getTime(),
-  };
-
-  let changeList = { logs: [] };
-
-  fs.readFile("logs.json", "utf-8", (err, jsonString) => {
-    let buslist = JSON.parse(jsonString);
-
-    for (i = 0; i < buslist.logs.length; i++) {
-      changeList.logs.push(buslist.logs[i]);
-    }
-
-    changeList.logs.push(newChange);
-
-    changeList.logs = changeList.logs.sort((a, b) => {
-      if (a.number < b.number) {
-        return -1;
-      }
-    });
-
-    let final = JSON.stringify(changeList);
-
-    fs.writeFile("logs.json", final, (err) => {});
-
     res.redirect("buslist");
   });
-
-
-
 });
 
 app.post("/updateStatusTime", (req, res) => {
@@ -441,39 +334,9 @@ app.post("/updateChange", (req, res) => {
     let final = JSON.stringify(buslist);
 
     fs.writeFile("buslist.json", final, (err) => {});
-  });
-
-  let newChange = {
-    bus: bus.number,
-    description: "Changed to Bus " + bus.change,
-    timestamp: getTime(),
-  };
-
-  let changeList = { logs: [] };
-
-  fs.readFile("logs.json", "utf-8", (err, jsonString) => {
-    let buslist = JSON.parse(jsonString);
-
-    for (i = 0; i < buslist.logs.length; i++) {
-      changeList.logs.push(buslist.logs[i]);
-    }
-
-    changeList.logs.push(newChange);
-
-    changeList.logs = changeList.logs.sort((a, b) => {
-      if (a.number < b.number) {
-        return -1;
-      }
-    });
-
-    let final = JSON.stringify(changeList);
-
-    fs.writeFile("logs.json", final, (err) => {});
 
     res.redirect("buslist");
   });
-
-
 });
 
 app.get("/getlogs", (req, res) => {
