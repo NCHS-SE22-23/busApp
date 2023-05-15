@@ -90,6 +90,7 @@ var action_done = "";
 function verifyToken(req, res) {
   let cookies = req.cookies;
   //let c_email = cookies.slice(cookies.indexOf('=')+1, cookies.indexOf('%')) + '@' + cookies.slice(cookies.indexOf('%') + 3, cookies.indexOf(';'));
+  if (cookies['c_email'] == undefined || cookies['c_token'] == undefined) return false
   let c_email = cookies['c_email'];
   let c_token = cookies['c_token'];
 
@@ -145,20 +146,55 @@ app.get("/settings", function (req, res) {
   else res.redirect('/');
 });
 
-app.post("/addemail"), (req, res) => {
-  action_done = "Email Added";
-  fs.readFile("whitelist.json", (err) => {
-    fs.writeFile("whitelist.json", req.body, (err) => {});
-  })}
+app.get("/getemails", (req, res) => {
+  fs.readFile("whitelist.json", "utf-8", (err, jsonString) => {
+    let emails = JSON.parse(jsonString);
+    res.send(emails)
+  })
+})
 
-app.post("/delemail"), (req, res) => {
+app.post("/addemail", (req, res) => {
+  action_done = "Email Added";
+
+  let email = req.body.email;
+
+  let emailist = { users: [] };
+  fs.readFile("whitelist.json", "utf-8", (err, jsonString) => {
+    let emails = JSON.parse(jsonString);
+    for (i = 0;  i < emails.users.length; i++) {
+      emailist.users.push(emails.users[i])
+    }
+    emailist.users.push(email)
+    fs.writeFile("whitelist.json", JSON.stringify(emailist), (err) => {});
+  });
+  
+  res.redirect("settings");
+})
+
+
+app.post("/delemail", (req, res) => {
   action_done = "Email Deleted";
   //delete email
-  fs.readFile("whitelist.json", (err, content) => {
-    var data = JSON.parse(content);
-    delete data[req.body];
+
+  let email = req.body.email;
+
+  let emailist = { users: [] };
+  fs.readFile("whitelist.json", "utf-8", (err, jsonString) => {
+    let emails = JSON.parse(jsonString);
+    for (i = 0;  i < emails.users.length; i++) {
+      emailist.users.push(emails.users[i])
+    }
+    for (i = 0; i < emailist.users.length; i++) {
+      if (emailist.users[i].toLowerCase() == email.toLowerCase()) {
+        emailist.users.splice(i, i + 1);
+      }
+    }
+    fs.writeFile("whitelist.json", JSON.stringify(emailist), (err) => {});
   });
-}
+  
+  res.redirect("settings");
+});
+
 
 app.post("/addbus", (req, res) => {
   action_done = "Bus Added";
@@ -482,7 +518,7 @@ app.get("/getlogs", (req, res) => {
 
 app.post('/auth', (req, res) => {
   const token = req.body.credential;
-  const CLIENT_ID = "297838973559-tfgf8emf1mo242nlmvft5ih5np1pp7hv.apps.googleusercontent.com";
+  const CLIENT_ID = "442103711074-9jiakb0h9okfqia38vnvmdhaq7ej9rdk.apps.googleusercontent.com";
   const {OAuth2Client} = require('google-auth-library');
   const client = new OAuth2Client(CLIENT_ID);
   async function verify() {
@@ -499,7 +535,7 @@ app.post('/auth', (req, res) => {
     // const domain = payload['hd']; 
     let whitelist = JSON.parse(fs.readFileSync("whitelist.json", "utf-8")).users;
     for (i = 0; i < whitelist.length; i++) {
-      if (whitelist[i].toLowerCase == payload.email.toLowerCase){
+      if (whitelist[i].toLowerCase() == payload.email.toLowerCase()){
         res.cookie('c_email', payload.email, {maxAge: 3600000, httpOnly: true});
         shasum.update(payload.email);
         res.cookie('c_token', shasum.digest('hex'), { maxAge: 3600000, httpOnly: true })

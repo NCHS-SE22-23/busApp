@@ -78,7 +78,25 @@ function resize() {
     document.getElementById('main-container').style.display = "flex";
 }
 resize();
-listBus();
+//listBus();
+
+function listEmails() {
+    fetch('/getemails')
+    .then(response => {
+        if(response.ok) { 
+            return response.json();
+        }
+        }).then(data => {
+        if(data) {
+            data.users.forEach(element => {
+                document.getElementById("emails").append(element)
+                document.getElementById("emails").append("\n")
+            });
+            
+        }
+    }).catch(err => console.error(err));
+}
+listEmails()
 
 window.addEventListener("resize", resize);
 
