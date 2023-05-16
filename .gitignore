@@ -107,5 +107,5 @@ dist
 .vscode/
 Archive.zip
 buslist.json
-whitelist.json
 logs.JSON
+whitelist.json
