@@ -2,7 +2,7 @@
 The Naperville Central High School bus web application’s purpose is to make it easier for students to get on their bus and for administrators to direct this process. Administrators are able to display bus statuses on the web app for students to see in real time while they are waiting for their bus after school. With this application we hope to abolish the use of the intercom to announce bus changes and whether the buses have arrived, substantially decrease the amount of work for administrators, and ensure that no student misses their bus. 
 
 ### Intended Experience
-To open the bus app on their device, students and administrators can enter the url (______) into a browser. The intended experience is different for students and administrators, however. This is elaborated upon below:
+To open the bus app on their device, students and administrators can enter the url ([nchsbusapp.org](https://nchsbusapp.org)) into a browser. The intended experience is different for students and administrators, however. This is elaborated upon below:
 
 #### Admin Experience
 After typing in the url and opening the web app, administrators will see the Bus Status Page. This is where their changes will be reflected once they are made. Administrators can press the login button in the top right corner and complete authentication with google to make any sort of changes. If they are on the whitelist, they will be redirected to the admin page. 
