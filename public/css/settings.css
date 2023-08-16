@@ -39,7 +39,7 @@ a, a:link, a:visited, a:hover, a:active {
 }
 #reset-button{
     background-color: #ffffff;
-    width: 150px; 
+    width: 160px; 
     height: 50px;
     margin: 10px; /* Distance from right side of screen */
     cursor: pointer; /* Make button look clickable */

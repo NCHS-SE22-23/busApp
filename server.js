@@ -200,7 +200,7 @@ app.post("/addbus", (req, res) => {
     number: busNum,
     status: "Not Arrived",
     change: null,
-    timestamp: time,
+    timestamp: null
   };
 
   let fullList = { buslist: [] };
