@@ -98,5 +98,27 @@ function listEmails() {
 }
 listEmails()
 
+function listBuswhitelist() {
+    console.log('hello')
+    fetch('/getbus')
+    .then(response => { 
+        if(response.ok) {
+            return response.json(); // not important
+        }
+    }).then(data => {
+        if(data) { // if there is data
+            let i = 0;
+            let busses = data.buslist;
+            console.log('busses')
+            while(i < busses.length) { // busses[i]
+                document.getElementById("bus-whitelist").append(busses[i].number)
+                document.getElementById("bus-whitelist").append("\n")
+                i++;
+            }
+        }
+    }).catch(err => console.error(err));
+}
+listBuswhitelist()
+
 window.addEventListener("resize", resize);
 
