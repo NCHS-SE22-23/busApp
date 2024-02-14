@@ -252,9 +252,9 @@ app.post("/delbus", (req, res) => {
       fullList.buslist.push(buslist.buslist[i]);
     }
 
-    for (i = 0; i < fullList.buslist.length; i++) {
+    for (i = fullList.buslist.length - 1; i>= 0; i--) {
       if (fullList.buslist[i].number == req.body.busnum)
-        fullList.buslist.splice(i, i + 1);
+        fullList.buslist.splice(i, 1);
     }
 
     let final = JSON.stringify(fullList);
