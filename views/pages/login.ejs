@@ -28,7 +28,23 @@
             </a>
             <h1 id="nchsbusstatuspage">NCHS Bus Status Page</h1>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                <div id="g_id_onload"
+                    data-client_id="442103711074-9jiakb0h9okfqia38vnvmdhaq7ej9rdk.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="redirect"
+                    data-login_uri="https://nchsbusapp.org/auth"
+                    data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="rectangular"
+                    data-theme="outline"
+                    data-text="signin"
+                    data-size="large"
+                    data-logo_alignment="left"
+                    style="margin-right: 10px;">
+                </div>
             </ul>
         </nav>
 
@@ -36,28 +52,11 @@
 
         <div id="login-box">
             <h2>Login</h2>
-            <form action="" method="post">
+            <form action="/login-auth" method="post">
                 <input id="usernamefield" type="text" name="username" placeholder="Username" required><br>
                 <input id="passwordfield" type="password" name="password" placeholder="Password" required><br>
                 <input id="submitfield" type="submit" value="Login">
             </form>
-        </div>
-
-        <div id="g_id_onload"
-            data-client_id="297838973559-tfgf8emf1mo242nlmvft5ih5np1pp7hv.apps.googleusercontent.com"
-            data-context="signin"
-            data-ux_mode="redirect"
-            data-login_uri="https://nchsbusapp.org/auth"
-            data-auto_prompt="false">
-        </div>
-
-        <div class="g_id_signin"
-            data-type="standard"
-            data-shape="pill"
-            data-theme="filled_black"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left">
         </div>
 
     </body>
