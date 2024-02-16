@@ -279,19 +279,29 @@ app.post("/updateStatus", (req, res) => {
 
   fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
     let buslist = JSON.parse(jsonString);
+    console.log("----");
+    console.log(bus.newStatus);
+
+    updatingbus = bus.number;
+      if(bus.change != 0){
+        updatingbus = bus.change
+        console.log("ran");
+      }
 
     for (i = 0; i < buslist.buslist.length; i++) {
+      console.log(buslist.buslist[i].number);
       iteratedbus = buslist.buslist[i].number;
       if (buslist.buslist[i].change != null){
           iteratedbus = buslist.buslist[i].change;
       }
-      updatingbus = bus.number;
-      if(bus.change != 0){
-        updatingbus = bus.change
-      }
+      
+      console.log("i" + iteratedbus + ", u" + updatingbus);
       if (updatingbus == iteratedbus){
+        console.log("run");
         buslist.buslist[i].status = bus.newStatus;
+        buslist.buslist[i].timestamp = time;
       }
+      console.log("b:" + buslist.buslist[i].status);
     };
 
     let final = JSON.stringify(buslist);
@@ -309,12 +319,26 @@ app.post("/updateStatusTime", (req, res) => {
   fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
     let buslist = JSON.parse(jsonString);
 
-        for (i = 0; i < buslist.buslist.length; i++) {
-            if (buslist.buslist[i].number == bus.number || buslist.buslist[i].change == bus.number || buslist.buslist[i].number == bus.change || buslist.buslist[i].change == bus.change) {
-                buslist.buslist[i].status = bus.newStatus;
-                buslist.buslist[i].timestamp = "";
-            }
-        };
+    updatingbus = bus.number;
+    if(bus.change != 0){
+      updatingbus = bus.change
+      console.log("ran");
+    }
+
+  for (i = 0; i < buslist.buslist.length; i++) {
+    console.log(buslist.buslist[i].number);
+    iteratedbus = buslist.buslist[i].number;
+    if (buslist.buslist[i].change != null){
+        iteratedbus = buslist.buslist[i].change;
+    }
+    
+    console.log("i" + iteratedbus + ", u" + updatingbus);
+    if (updatingbus == iteratedbus){
+      console.log("run");
+      buslist.buslist[i].status = bus.newStatus;
+      buslist.buslist[i].timestamp = "";
+    }
+  }
 
     let final = JSON.stringify(buslist);
 
