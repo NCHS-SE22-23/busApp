@@ -129,9 +129,9 @@ app.get("/buslist", function (req, res) {
 });
 
 app.get("/buschanges", function (req, res) {
-  if (verifyToken(req, res)) 
+  //if (verifyToken(req, res)) 
   res.render("pages/buschanges");
-  else res.redirect('/');
+  //else res.redirect('/');
 });
 
 app.get("/logs", function (req, res) {
@@ -280,12 +280,19 @@ app.post("/updateStatus", (req, res) => {
   fs.readFile("buslist.json", "utf-8", (err, jsonString) => {
     let buslist = JSON.parse(jsonString);
 
-        for (i = 0; i < buslist.buslist.length; i++) {
-            if (buslist.buslist[i].number == bus.number || buslist.buslist[i].change == bus.number || buslist.buslist[i].number == bus.change || buslist.buslist[i].change == bus.change) {
-                buslist.buslist[i].status = bus.newStatus;
-                buslist.buslist[i].timestamp = time;
-            }
-        };
+    for (i = 0; i < buslist.buslist.length; i++) {
+      iteratedbus = buslist.buslist[i].number;
+      if (buslist.buslist[i].change != null){
+          iteratedbus = buslist.buslist[i].change;
+      }
+      updatingbus = bus.number;
+      if(bus.change != 0){
+        updatingbus = bus.change
+      }
+      if (updatingbus == iteratedbus){
+        buslist.buslist[i].status = bus.newStatus;
+      }
+    };
 
     let final = JSON.stringify(buslist);
 
