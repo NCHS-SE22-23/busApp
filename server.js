@@ -129,9 +129,9 @@ app.get("/buslist", function (req, res) {
 });
 
 app.get("/buschanges", function (req, res) {
-  //if (verifyToken(req, res)) 
+  if (verifyToken(req, res)) 
   res.render("pages/buschanges");
-  //else res.redirect('/');
+  else res.redirect('/');
 });
 
 app.get("/logs", function (req, res) {
