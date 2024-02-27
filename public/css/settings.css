@@ -54,10 +54,10 @@ a, a:link, a:visited, a:hover, a:active {
     box-sizing: border-box;
     resize: none;
 }
-#buslist:hover, #buschanges:hover, #logs:hover, #settings:hover, #logout:hover {
+#buslist:hover, #buschanges:hover, #logs:hover, #settings:hover, #logout:hover, #reset-button:hover {
     background-color: #dcdcdc;
 }
-#buslist:active, #buschanges:active, #logs:active, #settings:active, #logout:active {
+#buslist:active, #buschanges:active, #logs:active, #settings:active, #logout:active, #reset-button:active {
     background-color: #dcdcdc;
     transform: translateY(3px);
 }
