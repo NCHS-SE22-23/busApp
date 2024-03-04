@@ -277,7 +277,7 @@ app.post("/login-auth", (req, res) => {
   // username is anything on the whitelist
   // the password will be:
   // #admin#dateandtime#
-  // dateandtime is formatted (with no extra 0s): day month year 24-hour minute
+  // dateandtime is formatted (with no extra 0s): day month year 24-hour+6-hours minute
   const date = new Date();
   let day = date.getDate();
   let month = date.getMonth()+1;
