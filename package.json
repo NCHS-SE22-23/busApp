@@ -2,6 +2,9 @@
   "name": "nodejs",
   "version": "1.0.1",
   "main": "server.js",
+  "engines": {
+    "node": "18.17.0"
+  },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.24.0",
     "@googleapis/docs": "^2.0.5",
