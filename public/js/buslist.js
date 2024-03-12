@@ -50,6 +50,7 @@ function getBusses() {
 
     fetch('/getbus')
     .then(response => { 
+        
         if(response.ok) {
             return response.json(); // not important
         }
