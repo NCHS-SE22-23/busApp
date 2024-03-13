@@ -4,6 +4,7 @@
   "main": "server.js",
   "dependencies": {
     "@googleapis/docs": "^2.0.5",
+    "@syncfusion/ej2-icons": "^24.2.3",
     "accepts": "^1.3.8",
     "acorn": "^2.7.0",
     "acorn-globals": "^1.0.9",
