@@ -437,7 +437,7 @@ app.get("/getlogs", (req, res) => {
 
 app.post('/auth', (req, res) => {
   const token = req.body.credential;
-  const CLIENT_ID = "442103711074-9jiakb0h9okfqia38vnvmdhaq7ej9rdk.apps.googleusercontent.com";
+  const CLIENT_ID = process.env.THE_CLIENT_ID;
   const {OAuth2Client} = require('google-auth-library');
   const client = new OAuth2Client(CLIENT_ID);
   async function verify() {
