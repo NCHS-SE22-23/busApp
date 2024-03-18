@@ -111,6 +111,9 @@
         <script>
 
             function makeTable() {
+
+                var table = document.createElement('table');
+                table.setAttribute('id', 'myTable'); // Set an ID for the table
             fetch('/getbus')
             .then(response => { 
                 if(response.ok) {
@@ -128,13 +131,19 @@
                         row.insertCell(1).innerHTML = busses[i].change;
                         row.insertCell(2).innerHTML = busses[i].status;
                         row.insertCell(3).innerHTML = busses[i].timestamp;
-                        row.insertCell(4).innerHTML = "<span class='e-icons e-medium e-star-filled'></span>";
+                        row.insertCell(4).innerHTML = "<span class='e-icons e-medium e-star-filled starred'></span>";
                         i++;
+
+                        row.addEventListener('click', function() {
+                            priority(i);
+                        });
                     }
 
                     
                 }
             });
+
+            
         }
 
             function fetchBusses() {
@@ -154,6 +163,19 @@
                         row.cells[1].innerHTML = busses[i-1].change;
                         row.cells[2].innerHTML = busses[i-1].status;
                         row.cells[3].innerHTML = busses[i-1].timestamp;
+                
+
+                            const buttons = document.querySelectorAll('.starred');
+                            buttons.forEach(button => {
+                                button.addEventListener('click', function() {
+                                    console.log("Button clicked!");
+                                    const row = this.parentNode.parentNode; // Get the row associated with the clicked button
+                                    console.log(row)
+                                    const table = row.parentNode; // Get the table element
+                                    table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
+                                });
+                            });
+    
                         i++;
                     }
                     
@@ -177,6 +199,12 @@
         <script>
             makeTable();
             setInterval(fetchBusses, 15000);
+
+
+
+            function priority(index){
+             
+        }
             
             
             function getRandomInt(max) {
