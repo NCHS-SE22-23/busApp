@@ -124,19 +124,19 @@
                     let i = 0;
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
+                    let item = document.getElementById('star-selector');
+
                     while(i < busses.length) { // busses[i]
                         let row = table.insertRow(-1);
-                        
+                        let isStarred = false;
                         row.insertCell(0).innerHTML = busses[i].number;
                         row.insertCell(1).innerHTML = busses[i].change;
                         row.insertCell(2).innerHTML = busses[i].status;
                         row.insertCell(3).innerHTML = busses[i].timestamp;
-                        row.insertCell(4).innerHTML = "<span class='e-icons e-medium e-star-filled starred'></span>";
+                        row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
                         i++;
-
-                        row.addEventListener('click', function() {
-                            priority(i);
-                        });
+                        row.addEventListener('clicked', function(){
+                            starred()})
                     }
 
                     
@@ -157,25 +157,21 @@
                     let i = 1;
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
+                    let item = document.getElementById('star-selector');
+
                     while(i < busses.length) { // busses[i]
+                        let isStarred = false;
                         let row = table.rows[i];
                         row.cells[0].innerHTML = busses[i-1].number;
                         row.cells[1].innerHTML = busses[i-1].change;
                         row.cells[2].innerHTML = busses[i-1].status;
                         row.cells[3].innerHTML = busses[i-1].timestamp;
+                        
+                    
+                        
                 
 
-                            const buttons = document.querySelectorAll('.starred');
-                            buttons.forEach(button => {
-                                button.addEventListener('click', function() {
-                                    console.log("Button clicked!");
-                                    const row = this.parentNode.parentNode; // Get the row associated with the clicked button
-                                    console.log(row)
-                                    const table = row.parentNode; // Get the table element
-                                    table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
-                                });
-                            });
-    
+                          
                         i++;
                     }
                     
@@ -202,9 +198,55 @@
 
 
 
-            function priority(index){
-             
-        }
+            function starred(){ //add isStarred
+                fetch('/getbus')
+            .then(response => { 
+                if(response.ok) {
+                    return response.json(); // not important
+                }
+            }).then(data => {
+                if(data) { // if there is data
+                    //console.log(isStarred)
+                    let i = 1;
+                    let item = document.getElementById('star-selector');
+                    let busses = data.buslist;
+                    let table = document.getElementById('busTable');
+                    while(i < busses.length) { // busses[i]
+                        let row = table.rows[i];
+                        /*if(isStarred){
+                            item.classList.remove('starred');
+                            isStarred = false;
+                        }
+                        else{*/
+                          //  console.log(isStarred)
+                          console.log(item)
+                            item.classList.add('starred-factor');
+                            const buttons = document.querySelector('.starring')
+                            buttons.forEach(button => {
+                                button.addEventListener('click', function() {
+                                    console.log("Button clicked!");
+                                    const row = this.parentNode.parentNode; // Get the row associated with the clicked button
+                                    console.log(row)
+                                    const table = row.parentNode; // Get the table element
+                                    table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
+                                    var element = document.querySelector('.starred-factor');
+
+                                    
+                                    element.style.backgroundColor = 'yellow';
+                                    element.style.border = '2px solid black';
+                                });
+                            });
+                            isStarred = true;
+                       // }
+    
+                        i++;
+                    }
+                    
+                    
+                }
+            });
+                
+            }
             
             
             function getRandomInt(max) {
