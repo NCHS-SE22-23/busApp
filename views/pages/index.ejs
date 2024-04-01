@@ -135,8 +135,9 @@
                         row.insertCell(3).innerHTML = busses[i].timestamp;
                         row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
                         i++;
-                        row.addEventListener('clicked', function(){
-                            starred()})
+                        row.addEventListener('click', function(){
+    starred();
+});
                     }
 
                     
@@ -198,7 +199,7 @@
 
 
 
-            function starred(){ //add isStarred
+            function starred(isStarred){ //add isStarred
                 fetch('/getbus')
             .then(response => { 
                 if(response.ok) {
@@ -213,15 +214,15 @@
                     let table = document.getElementById('busTable');
                     while(i < busses.length) { // busses[i]
                         let row = table.rows[i];
-                        /*if(isStarred){
+                        if(isStarred){
                             item.classList.remove('starred');
                             isStarred = false;
                         }
-                        else{*/
+                        else{
                           //  console.log(isStarred)
                           console.log(item)
                             item.classList.add('starred-factor');
-                            const buttons = document.querySelector('.starring')
+                            const buttons = document.querySelectorAll('.starring')
                             buttons.forEach(button => {
                                 button.addEventListener('click', function() {
                                     console.log("Button clicked!");
@@ -241,6 +242,7 @@
     
                         i++;
                     }
+                }
                     
                     
                 }
