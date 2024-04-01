@@ -225,9 +225,10 @@
                             const buttons = document.querySelectorAll('.starring')
                             buttons.forEach(button => {
                                 button.addEventListener('click', function() {
-                                    console.log("Button clicked!");
+                                   // console.log("Button clicked!");
+                                    
                                     const row = this.parentNode.parentNode; // Get the row associated with the clicked button
-                                    console.log(row)
+                                    //console.log(row)
                                     const table = row.parentNode; // Get the table element
                                     table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
                                     var element = document.querySelector('.starred-factor');
@@ -235,13 +236,15 @@
                                     
                                     element.style.backgroundColor = 'yellow';
                                     element.style.border = '2px solid black';
+                                    
                                 });
                             });
                             isStarred = true;
                        // }
     
-                        i++;
                     }
+                    i++;
+
                 }
                     
                     
