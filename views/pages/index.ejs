@@ -136,8 +136,8 @@
                         row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
                         i++;
                         row.addEventListener('click', function(){
-    starred();
-});
+                             starred();
+                        });
                     }
 
                     
@@ -145,6 +145,44 @@
             });
 
             
+        }
+
+        function removeRow(row) {
+
+            fetch('/getbus')
+            .then(response => { 
+                if(response.ok) {
+                    return response.json(); // not important
+                }
+            }).then(data => {
+                if(data) { // if there is data
+
+
+
+       
+
+                    var table = document.getElementById('myTable');
+
+
+                    if (table) {
+
+                        var rowcnt = table.rows.length;
+
+                        var colcnt = table.rows[0].cells.length;
+
+                        // Rest of your code
+
+                    } else {
+
+                        console.error('Table not found');
+
+                    }
+                    console.log("*******")
+                  console.log(row.rowIndex);
+                  table.deleteRow(row.rowIndex);
+
+                }});
+          
         }
 
             function fetchBusses() {
@@ -214,20 +252,17 @@
                     let table = document.getElementById('busTable');
                     while(i < busses.length) { // busses[i]
                         let row = table.rows[i];
-                        if(isStarred){
-                            item.classList.remove('starred');
-                            isStarred = false;
-                        }
-                        else{
+                       
                           //  console.log(isStarred)
-                          console.log(item)
                             item.classList.add('starred-factor');
                             const buttons = document.querySelectorAll('.starring')
                             buttons.forEach(button => {
                                 button.addEventListener('click', function() {
-                                   // console.log("Button clicked!");
+
+                                    rowClicked = this.parentNode.parentNode;
+                                    removeRow(row); // Pass the row element to removeRow function
                                     
-                                    const row = this.parentNode.parentNode; // Get the row associated with the clicked button
+                                    /*const row = this.parentNode.parentNode; // Get the row associated with the clicked button
                                     //console.log(row)
                                     const table = row.parentNode; // Get the table element
                                     table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
@@ -235,23 +270,23 @@
 
                                     
                                     element.style.backgroundColor = 'yellow';
-                                    element.style.border = '2px solid black';
+                                    element.style.border = '2px solid black';*/
                                     
                                 });
                             });
                             isStarred = true;
                        // }
-    
+                       i++;
                     }
-                    i++;
+                    
 
-                }
-                    
-                    
-                }
-            });
+                }});
+
                 
-            }
+                    
+                    
+                }
+           
             
             
             function getRandomInt(max) {
