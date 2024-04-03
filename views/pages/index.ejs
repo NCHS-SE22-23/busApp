@@ -110,6 +110,8 @@
 
         <script>
 
+    const starredBusses = [];
+
             function makeTable() {
 
                 var table = document.createElement('table');
@@ -122,13 +124,14 @@
             }).then(data => {
                 if(data) { // if there is data
                     let i = 0;
+                    let isStarred = true;
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
                     let item = document.getElementById('star-selector');
 
                     while(i < busses.length) { // busses[i]
                         let row = table.insertRow(-1);
-                        let isStarred = false;
+                        
                         row.insertCell(0).innerHTML = busses[i].number;
                         row.insertCell(1).innerHTML = busses[i].change;
                         row.insertCell(2).innerHTML = busses[i].status;
@@ -136,7 +139,7 @@
                         row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
                         i++;
                         row.addEventListener('click', function(){
-                             starred();
+                             starred(isStarred);
                         });
                     }
 
@@ -252,37 +255,60 @@
                     let table = document.getElementById('busTable');
                     while(i < busses.length) { // busses[i]
                         let row = table.rows[i];
+
+                        
                        
-                          //  console.log(isStarred)
+                           console.log(isStarred)
                             item.classList.add('starred-factor');
                             const buttons = document.querySelectorAll('.starring')
                             buttons.forEach(button => {
                                 button.addEventListener('click', function() {
-
-                                    rowClicked = this.parentNode.parentNode;
-                                    removeRow(row); // Pass the row element to removeRow function
-                                    
-                                    /*const row = this.parentNode.parentNode; // Get the row associated with the clicked button
-                                    //console.log(row)
+                                    //console.log("Button clicked!");
+                                    const row = this.parentNode.parentNode; // Get the row associated with the clicked button
+                                    var initelement = row.cells[0]
+                                    console.log(initelement)
+                                    var intValue = parseInt(initelement.textContent.trim(), 10);
+console.log(intValue);
                                     const table = row.parentNode; // Get the table element
-                                    table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
-                                    var element = document.querySelector('.starred-factor');
+                                    console.log(initelement.style.border);
+                                    if(initelement.style.backgroundColor !== 'yellow'){
 
+                                        //starredBusses.push
+
+                                        
+                                        table.insertBefore(row, table.firstChild.nextSibling);
+                                    } else {
+                                        console.log('here');
+                                        table.appendChild(row);
+                                    }
+                                    //table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
+                                    /*.log(row.cells[2])
+                                    console.log(table.firstChild.nextSibling + "          ..............")
+                                    table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table*/
+
+
+
+                                    const row1 = this.parentNode.parentNode;
+                                    
+                                    var element = row1.cells[4].querySelector('span.starring');
                                     
                                     element.style.backgroundColor = 'yellow';
-                                    element.style.border = '2px solid black';*/
+                                    element.style.border = '2px solid black';
+
+                                    isStarred = !isStarred;
                                     
+                                   
+
+
+
                                 });
                             });
-                            isStarred = true;
+                            
                        // }
-                       i++;
+    
+                        i++;
                     }
-                    
-
                 }});
-
-                
                     
                     
                 }
