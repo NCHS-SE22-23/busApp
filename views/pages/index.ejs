@@ -110,7 +110,9 @@
 
         <script>
 
-    const starredBusses = [];
+const starredBusses = new Set([]);
+var factor = 10000;
+
 
             function makeTable() {
 
@@ -253,12 +255,11 @@
                     let item = document.getElementById('star-selector');
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
-                    while(i < busses.length) { // busses[i]
+                    //while(i < busses.length) { // busses[i]
                         let row = table.rows[i];
 
                         
-                       
-                           console.log(isStarred)
+                      
                             item.classList.add('starred-factor');
                             const buttons = document.querySelectorAll('.starring')
                             buttons.forEach(button => {
@@ -268,19 +269,56 @@
                                     var initelement = row.cells[0]
                                     console.log(initelement)
                                     var intValue = parseInt(initelement.textContent.trim(), 10);
-console.log(intValue);
+                                    console.log(intValue);
                                     const table = row.parentNode; // Get the table element
-                                    console.log(initelement.style.border);
-                                    if(initelement.style.backgroundColor !== 'yellow'){
+                                    console.log(starredBusses.has(intValue));
+                                    
+
+                                    console.log(starredBusses)
+                                    if(!(starredBusses.has(intValue))){
+                                        starredBusses.add(intValue );
+                                        
+                                        const row1 = this.parentNode.parentNode;
+                                    
+                                        var element = row1.cells[4].querySelector('span.starring');
+                                        
+                                        element.style.backgroundColor = 'yellow';
+                                        element.style.border = '2px solid black';
+
 
                                         //starredBusses.push
 
                                         
                                         table.insertBefore(row, table.firstChild.nextSibling);
-                                    } else {
-                                        console.log('here');
+                                    }else {
+                                        while(i < busses.length) { // busses[i]{
+                                            let rows = table.rows[i];
+                                            var initelement1 = rows.cells[0]
+                                            console.log(initelement1);
+                                            var intValue1 = parseInt(initelement1.textContent.trim(), 10);
+                                            if(!(starredBusses.has(intValue1)) && intValue1 < intValue){
+                                                table.insertBefore(row, i);
+                                                
+                                            }
+                                        }
+
+
+
+
+                                        
+
+
+                                        starredBusses.delete(intValue)
                                         table.appendChild(row);
+
+                                            const row1 = this.parentNode.parentNode;
+                                        
+                                        var element = row1.cells[4].querySelector('span.starring');
+                                        
+                                        element.style.backgroundColor = 'white';
+                                        element.style.border = '1px solid black';
                                     }
+                                    
                                     //table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
                                     /*.log(row.cells[2])
                                     console.log(table.firstChild.nextSibling + "          ..............")
@@ -288,14 +326,9 @@ console.log(intValue);
 
 
 
-                                    const row1 = this.parentNode.parentNode;
                                     
-                                    var element = row1.cells[4].querySelector('span.starring');
-                                    
-                                    element.style.backgroundColor = 'yellow';
-                                    element.style.border = '2px solid black';
 
-                                    isStarred = !isStarred;
+                                    
                                     
                                    
 
@@ -306,8 +339,8 @@ console.log(intValue);
                             
                        // }
     
-                        i++;
-                    }
+                        //i++;
+                   // }
                 }});
                     
                     
