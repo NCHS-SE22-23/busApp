@@ -126,7 +126,6 @@ var factor = 10000;
             }).then(data => {
                 if(data) { // if there is data
                     let i = 0;
-                    let isStarred = true;
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
                     let item = document.getElementById('star-selector');
@@ -138,11 +137,13 @@ var factor = 10000;
                         row.insertCell(1).innerHTML = busses[i].change;
                         row.insertCell(2).innerHTML = busses[i].status;
                         row.insertCell(3).innerHTML = busses[i].timestamp;
-                        row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
+                        row.insertCell(4).innerHTML = "<span id = 'star-selector' onclick = 'starred()'  class='e-icons e-medium e-star-filled starring'></span>";
                         i++;
-                        row.addEventListener('click', function(){
-                             starred(isStarred);
-                        });
+                        row.addEventListener('click', function(event) {
+        // Handle row click event
+        starred();
+       // Prevent the click event from propagating further
+    });
                     }
 
                     
@@ -152,43 +153,7 @@ var factor = 10000;
             
         }
 
-        function removeRow(row) {
-
-            fetch('/getbus')
-            .then(response => { 
-                if(response.ok) {
-                    return response.json(); // not important
-                }
-            }).then(data => {
-                if(data) { // if there is data
-
-
-
        
-
-                    var table = document.getElementById('myTable');
-
-
-                    if (table) {
-
-                        var rowcnt = table.rows.length;
-
-                        var colcnt = table.rows[0].cells.length;
-
-                        // Rest of your code
-
-                    } else {
-
-                        console.error('Table not found');
-
-                    }
-                    console.log("*******")
-                  console.log(row.rowIndex);
-                  table.deleteRow(row.rowIndex);
-
-                }});
-          
-        }
 
             function fetchBusses() {
             fetch('/getbus')
@@ -204,7 +169,7 @@ var factor = 10000;
                     let item = document.getElementById('star-selector');
 
                     while(i < busses.length) { // busses[i]
-                        let isStarred = false;
+                        
                         let row = table.rows[i];
                         row.cells[0].innerHTML = busses[i-1].number;
                         row.cells[1].innerHTML = busses[i-1].change;
@@ -240,9 +205,11 @@ var factor = 10000;
             makeTable();
             setInterval(fetchBusses, 15000);
 
+            
 
 
-            function starred(isStarred){ //add isStarred
+
+            function starred(){ //add isStarred
                 fetch('/getbus')
             .then(response => { 
                 if(response.ok) {
@@ -261,55 +228,56 @@ var factor = 10000;
                         
                       
                             item.classList.add('starred-factor');
+ 
                             const buttons = document.querySelectorAll('.starring')
                             buttons.forEach(button => {
                                 button.addEventListener('click', function() {
                                     //console.log("Button clicked!");
                                     const row = this.parentNode.parentNode; // Get the row associated with the clicked button
                                     var initelement = row.cells[0]
-                                    console.log(initelement)
                                     var intValue = parseInt(initelement.textContent.trim(), 10);
-                                    console.log(intValue);
                                     const table = row.parentNode; // Get the table element
-                                    console.log(starredBusses.has(intValue));
                                     
-
-                                    console.log(starredBusses)
                                     if(!(starredBusses.has(intValue))){
-                                        starredBusses.add(intValue );
-                                        
+                                        starredBusses.add(intValue);
                                         const row1 = this.parentNode.parentNode;
-                                    
                                         var element = row1.cells[4].querySelector('span.starring');
                                         
                                         element.style.backgroundColor = 'yellow';
                                         element.style.border = '2px solid black';
-
-
-                                        //starredBusses.push
-
                                         
                                         table.insertBefore(row, table.firstChild.nextSibling);
                                     }else {
-                                        while(i < busses.length) { // busses[i]{
-                                            let rows = table.rows[i];
-                                            var initelement1 = rows.cells[0]
+                                        let check = false;
+                                        let v = 0;
+                                        
+                                        while(!check) { // busses[i]{
+                                            let rowint = table.rows[v]; 
+                                            var initelement1 = rowint.cells[0]
                                             console.log(initelement1);
                                             var intValue1 = parseInt(initelement1.textContent.trim(), 10);
-                                            if(!(starredBusses.has(intValue1)) && intValue1 < intValue){
-                                                table.insertBefore(row, i);
+                                            if(!(starredBusses.has(intValue1)) && intValue1 > intValue){
+                                                check = true;
+                                                console.log(intValue1);
                                                 
                                             }
+                                            v++;
+
                                         }
 
 
 
-
+                                        const rowReference = table.rows[v];
+                                        console.log(rowReference)
                                         
 
 
                                         starredBusses.delete(intValue)
-                                        table.appendChild(row);
+                                        console.log()
+                                        //table.insertBefore(row, rowReference.nextSibling);
+                                
+
+                                        rowReference.insertAdjacentElement('afterend', row);
 
                                             const row1 = this.parentNode.parentNode;
                                         
@@ -317,6 +285,11 @@ var factor = 10000;
                                         
                                         element.style.backgroundColor = 'white';
                                         element.style.border = '1px solid black';
+
+
+
+
+                                        
                                     }
                                     
                                     //table.insertBefore(row, table.firstChild.nextSibling); // Move the row to the top of the table
@@ -341,11 +314,15 @@ var factor = 10000;
     
                         //i++;
                    // }
-                }});
-                    
-                    
+
                 }
-           
+            
+       
+                
+            });
+
+            }
+        
             
             
             function getRandomInt(max) {
@@ -369,6 +346,12 @@ var factor = 10000;
                     }
                 })
             }
+
+
+           // document.addEventListener('DOMContentLoaded', function() {
+
+//starred();
+
         </script>
         <!-- Google sign in script-->
         <script src="https://accounts.google.com/gsi/client" async defer></script>
