@@ -137,13 +137,13 @@ var factor = 10000;
                         row.insertCell(1).innerHTML = busses[i].change;
                         row.insertCell(2).innerHTML = busses[i].status;
                         row.insertCell(3).innerHTML = busses[i].timestamp;
-                        row.insertCell(4).innerHTML = "<span id = 'star-selector' onclick = 'starred()'  class='e-icons e-medium e-star-filled starring'></span>";
+                        row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
                         i++;
+
+                   
                         row.addEventListener('click', function(event) {
-        // Handle row click event
-        starred();
-       // Prevent the click event from propagating further
-    });
+                            starred();
+                    });
                     }
 
                     
@@ -237,7 +237,7 @@ var factor = 10000;
                                     var initelement = row.cells[0]
                                     var intValue = parseInt(initelement.textContent.trim(), 10);
                                     const table = row.parentNode; // Get the table element
-                                    
+                                    console.log(starredBusses.has(intValue));
                                     if(!(starredBusses.has(intValue))){
                                         starredBusses.add(intValue);
                                         const row1 = this.parentNode.parentNode;
@@ -285,6 +285,9 @@ var factor = 10000;
                                         
                                         element.style.backgroundColor = 'white';
                                         element.style.border = '1px solid black';
+
+                                        console.log(location.reload())
+                                        location.reload();
 
 
 
