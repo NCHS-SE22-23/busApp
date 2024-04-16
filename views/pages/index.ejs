@@ -126,6 +126,8 @@ var factor = 10000;
             }).then(data => {
                 if(data) { // if there is data
                     let i = 0;
+
+            
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
                     let item = document.getElementById('star-selector');
@@ -138,12 +140,109 @@ var factor = 10000;
                         row.insertCell(2).innerHTML = busses[i].status;
                         row.insertCell(3).innerHTML = busses[i].timestamp;
                         row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
+
+                        row.addEventListener('click', function(event){
+
+const buttons = document.querySelectorAll('.starring');
+
+
+console.log("Button clicked!");
+const clickedButton = event.target;
+    const row = clickedButton.parentNode.parentNode; // Get the row associated with the clicked button
+//const row = this.parentNode.parentNode; // Get the row associated with the clicked button
+        var initelement = row.cells[0]
+        var intValue = parseInt(initelement.textContent.trim(), 10);
+        const table = row.parentNode; // Get the table element
+        console.log(starredBusses.has(intValue));
+        if(!(starredBusses.has(intValue))){
+            starredBusses.add(intValue);
+            const row1 = clickedButton.parentNode.parentNode; // Get the row associated with the clicked button
+            var element = row1.cells[4].querySelector('span.starring');
+            
+            element.style.backgroundColor = 'yellow';
+            element.style.border = '2px solid black';
+            
+            table.insertBefore(row, table.firstChild.nextSibling);
+        }else {
+
+            let check = false;
+            let v = 0;
+            let smallestRow= table.rows[1];
+            console.log(smallestRow)
+            var lowest = smallestRow.cells[0];
+            var lowestBus = parseInt(lowest.textContent.trim(), 10);
+            console.log(lowestBus)
+            while(!check) { // busses[i]{
+                
+                if(table.rows[v] == null){
+                    var initelement1 = null;
+                }else{
+                    let rowint = table.rows[v]; 
+                    var initelement1 = rowint.cells[0];
+                    var intValue1 = parseInt(initelement1.textContent.trim(), 10);
+                }
+               
+                
+               
+
+                
+                
+                
+
+                if(intValue === lowestBus){
+                    check = true;
+                }else if(!(starredBusses.has(intValue1))){
+                    let rowint1 = table.rows[v+1]; 
+                    var initelement2 = rowint1.cells[0];
+                    var intValue2 = parseInt(initelement2.textContent.trim(), 10);
+
+                    if(intValue1 < intValue && intValue < intValue2){
+                        check = true;
+                        console.log(intValue1);
+                    }
+                    
+                }
+                v++;
+
+            }
+
+
+
+            const rowReference = table.rows[v];
+            console.log(rowReference)
+            
+
+
+            starredBusses.delete(intValue)
+            console.log()
+            //table.insertBefore(row, rowReference.nextSibling);
+    
+
+            rowReference.insertAdjacentElement('beforebegin', row);
+
+            const row1 = clickedButton.parentNode.parentNode; // Get the row associated with the clicked button
+            
+            var element = row1.cells[4].querySelector('span.starring');
+            
+            element.style.backgroundColor = 'white';
+            element.style.border = '1px solid black';
+
+           // console.log(location.reload())
+            //location.reload();
+
+
+
+
+            
+        }
+});
+
+
                         i++;
 
+
                    
-                        row.addEventListener('click', function(event) {
-                            starred();
-                    });
+                        
                     }
 
                     
@@ -176,13 +275,16 @@ var factor = 10000;
                         row.cells[2].innerHTML = busses[i-1].status;
                         row.cells[3].innerHTML = busses[i-1].timestamp;
                         
-                    
                         
-                
+                        
+        
 
                           
                         i++;
                     }
+                    item.classList.add('starred-factor');
+ 
+                          
                     
                     
                 }
@@ -209,7 +311,7 @@ var factor = 10000;
 
 
 
-            function starred(){ //add isStarred
+           /* function starred(){ //add isStarred
                 fetch('/getbus')
             .then(response => { 
                 if(response.ok) {
@@ -224,14 +326,14 @@ var factor = 10000;
                     let table = document.getElementById('busTable');
                     //while(i < busses.length) { // busses[i]
                         let row = table.rows[i];
-
                         
                       
                             item.classList.add('starred-factor');
  
                             const buttons = document.querySelectorAll('.starring')
                             buttons.forEach(button => {
-                                button.addEventListener('click', function() {
+                                button.addEventListener('click', function(event) {
+                                    event.preventDefault();
                                     //console.log("Button clicked!");
                                     const row = this.parentNode.parentNode; // Get the row associated with the clicked button
                                     var initelement = row.cells[0]
@@ -253,10 +355,15 @@ var factor = 10000;
                                         
                                         while(!check) { // busses[i]{
                                             let rowint = table.rows[v]; 
+                                            let rowint1 = table.rows[v+1]; 
                                             var initelement1 = rowint.cells[0]
-                                            console.log(initelement1);
+                                            var initelement2 = rowint1.cells[0]
+
+                                            console.log(initelement2);
                                             var intValue1 = parseInt(initelement1.textContent.trim(), 10);
-                                            if(!(starredBusses.has(intValue1)) && intValue1 > intValue){
+                                            var intValue2 = parseInt(initelement2.textContent.trim(), 10);
+
+                                            if(!(starredBusses.has(intValue1)) && intValue1 < intValue && intValue < intValue2){
                                                 check = true;
                                                 console.log(intValue1);
                                                 
@@ -277,7 +384,7 @@ var factor = 10000;
                                         //table.insertBefore(row, rowReference.nextSibling);
                                 
 
-                                        rowReference.insertAdjacentElement('afterend', row);
+                                        rowReference.insertAdjacentElement('beforebegin', row);
 
                                             const row1 = this.parentNode.parentNode;
                                         
@@ -286,8 +393,8 @@ var factor = 10000;
                                         element.style.backgroundColor = 'white';
                                         element.style.border = '1px solid black';
 
-                                        console.log(location.reload())
-                                        location.reload();
+                                       // console.log(location.reload())
+                                        //location.reload();
 
 
 
@@ -310,21 +417,21 @@ var factor = 10000;
 
 
 
-                                });
-                            });
+                            //    });
+                        //    });
                             
                        // }
     
                         //i++;
                    // }
 
-                }
+             //   }
             
        
                 
-            });
+       //     });
 
-            }
+       //     }*/
         
             
             
