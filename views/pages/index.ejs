@@ -111,7 +111,9 @@
         <script>
 
 const starredBusses = new Set([]);
+var lowestBus = 0;
 var factor = 10000;
+var highestBus = 0;
 
 window.addEventListener('load', function() {
     // Check if cookies exist
@@ -166,17 +168,26 @@ function updateStarredUI() {
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
                     let item = document.getElementById('star-selector');
+                    
+                    
 
                     while(i < busses.length) { // busses[i]
                         let row = table.insertRow(-1);
-                        
+                     
                         row.insertCell(0).innerHTML = busses[i].number;
                         row.insertCell(1).innerHTML = busses[i].change;
                         row.insertCell(2).innerHTML = busses[i].status;
                         row.insertCell(3).innerHTML = busses[i].timestamp;
                         row.insertCell(4).innerHTML = "<span id = 'star-selector' class='e-icons e-medium e-star-filled starring'></span>";
+                        
+
+
+
+                       
+
 
                         row.addEventListener('click', function(event){
+
                             starred();
                         });
 
@@ -261,12 +272,20 @@ function updateStarredUI() {
 
 
             function starred(){ //add isStarred
+                
                 const buttons = document.querySelectorAll('.starring');
                 const clickedButton = event.target;
                 const row = clickedButton.parentNode.parentNode; // Get the row associated with the clicked button
                 var initelement = row.cells[0]
                 var intValue = parseInt(initelement.textContent.trim(), 10);
                 const table = row.parentNode; // Get the table element
+
+
+
+                
+
+
+
                 if(!(starredBusses.has(intValue))){
                     starredBusses.add(intValue);
                     updateCookie();
@@ -281,11 +300,7 @@ function updateStarredUI() {
 
                     let check = false;
                     let v = 0;
-                    let smallestRow= table.rows[1];
-                    console.log(smallestRow)
-                    var lowest = smallestRow.cells[0];
-                    var lowestBus = parseInt(lowest.textContent.trim(), 10);
-                    console.log(lowestBus)
+                    
                     while(!check) { // busses[i]{
                         
                         if(table.rows[v] == null){
