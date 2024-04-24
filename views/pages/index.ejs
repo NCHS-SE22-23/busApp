@@ -115,6 +115,12 @@ var lowestBus = 0;
 var factor = 10000;
 var highestBus = 0;
 
+
+let table = document.getElementById('busTable');
+
+var tabelElement = table.rows.cells[0]
+var tableValue = parseInt(tableElement.textContent.trim(), 10);
+console.log(tabelValue)
 window.addEventListener('load', function() {
     // Check if cookies exist
     const starredBussesString = getCookie('starredBusses');
@@ -125,6 +131,21 @@ window.addEventListener('load', function() {
         updateStarredUI();
     }
 });
+
+function getCookie(name) {
+    const cookieString = document.cookie;
+    const cookies = cookieString.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Check if this cookie contains the name we're looking for
+        if (cookie.startsWith(name + '=')) {
+            // If it does, return the cookie value
+            return cookie.substring(name.length + 1);
+        }
+    }
+    // If the cookie with the specified name is not found, return null
+    return null;
+}
 
 function updateCookie() {
     // Convert starredBusses set to an array and then to a string
@@ -169,6 +190,7 @@ function updateStarredUI() {
                     let table = document.getElementById('busTable');
                     let item = document.getElementById('star-selector');
                     
+
                     
 
                     while(i < busses.length) { // busses[i]
@@ -220,6 +242,7 @@ function updateStarredUI() {
                     let busses = data.buslist;
                     let table = document.getElementById('busTable');
                     let item = document.getElementById('star-selector');
+                    
 
                     while(i < busses.length) { // busses[i]
                         
@@ -229,8 +252,7 @@ function updateStarredUI() {
                         row.cells[2].innerHTML = busses[i-1].status;
                         row.cells[3].innerHTML = busses[i-1].timestamp;
                         
-                        var tabelElement = row.cells[0]
-                        var tableValue = parseInt(tableElement.textContent.trim(), 10);
+                        
                         
                         if(starredBusses.has(tableValue)){
                             starredBusses.delete(tableValue);
@@ -266,13 +288,14 @@ function updateStarredUI() {
         <script>
             makeTable();
             setInterval(fetchBusses, 15000);
-
+            var smallestBus = 0;
             
 
 
 
             function starred(){ //add isStarred
-                
+                findSmallest();
+                findHighest();
                 const buttons = document.querySelectorAll('.starring');
                 const clickedButton = event.target;
                 const row = clickedButton.parentNode.parentNode; // Get the row associated with the clicked button
@@ -301,7 +324,7 @@ function updateStarredUI() {
                     let check = false;
                     let v = 0;
                     
-                    while(!check) { // busses[i]{
+                    while(!check && v< table.rows.length) { // busses[i]{
                         
                         if(table.rows[v] == null){
                             var initelement1 = null;
@@ -318,7 +341,9 @@ function updateStarredUI() {
                         
                         
 
-                        if(intValue === lowestBus){
+                        if(intValue === smallestBus){
+                            check = true;
+                        }else if(intValue === highestBus){
                             check = true;
                         }else if(!(starredBusses.has(intValue1))){
                             let rowint1 = table.rows[v+1]; 
@@ -347,8 +372,13 @@ function updateStarredUI() {
                     console.log()
                     //table.insertBefore(row, rowReference.nextSibling);
             
+                    if(intValue == highestBus){
+                        table.appendChild(row);
+                    }else{
+                        rowReference.insertAdjacentElement('beforebegin', row);
 
-                    rowReference.insertAdjacentElement('beforebegin', row);
+                    }
+
 
                     const row1 = clickedButton.parentNode.parentNode; // Get the row associated with the clicked button
                     
@@ -389,6 +419,43 @@ function updateStarredUI() {
                         cell.style.backgroundColor = "rgb("+c1+", "+c2+", "+c3+")"
                     }
                 })
+            }
+
+
+            function findSmallest() {
+                fetch('/getbus')
+                .then(response => { 
+                    if(response.ok) {
+                        return response.json(); // not important
+                    }
+                    }).then(data => {
+                    if(data) { // if there is data
+                        smallestBus = data.buslist[0].number;
+                        console.log(smallestBus)
+                
+                    }
+                }).catch(err => console.error(err));
+            }
+
+            function findHighest() {
+                fetch('/getbus')
+                .then(response => { 
+                    if(response.ok) {
+                        return response.json(); // not important
+                    }
+                    }).then(data => {
+                    if(data) { // if there is data
+                        var num = 0;
+                        var i =0;
+                        while(i<data.buslist.length){
+                            if(data.buslist[i].number > num){
+                                highestBus = data.buslist[i].number;
+                            }
+                            i++;
+                        }
+                
+                    }
+                }).catch(err => console.error(err));
             }
 
 
