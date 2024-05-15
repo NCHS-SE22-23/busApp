@@ -46,3 +46,18 @@ Tutorial: https://www.w3schools.com/js/default.asp
 
 Ejs
 A form of html that allows javascript to be run during the creation of the html. The official documentation: https://ejs.co/
+
+### Notes and Instructions for Raspberry Pi GPS Tracker
+1. Here are the two tutorials I followed to set up the Raspberry Pi which also include all the instructions of how to configure the Pi properly to function as a GPS
+    - Connecting GPS module to the Pi: https://sparklers-the-makers.github.io/blog/robotics/use-neo-6m-module-with-raspberry-pi/
+    - Creating real time GPS with the Pi and module: https://sparklers-the-makers.github.io/blog/robotics/realtime-gps-tracker-with-raspberry-pi/
+2. Here is the link to the gps module that was bought off of Amazon: https://www.amazon.com/Microcontroller-Compatible-Sensitivity-Navigation-Positioning/dp/B07P8YMVNT/ref=sr_1_5?dib=eyJ2IjoiMSJ9.5NFiPGTIPD7CER9_21znC_OYP-yW9ut2BbUaQ-pBU34a9wy-N-ss1hz-hLKAMlhg3JE_YAIyHrVQB3uQOvRj7EV0wTqnBOBIcmXXeEJTw0X5V_FkSR3jnrAxUqZti7iOZT50OsY39aA1TU8eC9Evf1bPZMyirIkg7pSj3t2McKLE8cCZgNhWs5MHrOw-FN6TjCLakKH-XGQaQUUiF7VTxjxAk2DQxImYbhw4sHMMS2c.AX4M4rgP_qPA29CWWJHp_hOwgeXmGF3_9z35Qq6bQos&dib_tag=se&keywords=GPS%2BNEO-6m&qid=1710357200&sr=8-5&th=1
+3. The current plan for the Pi’s is to set them up on school buses once they have been proved to work and display the gps data to students so they can know where their bus is
+4. The current proof of concept Raspberry Pi that Dr. Miller should have has already followed all the instructions in the tutorial I used and has all the code written on it
+5. The API keys for both PubNub and Google Cloud Services are still needed to get the tracking fully functional
+6. Right now the Raspberry Pi does properly pull latitude and longitude data, however the API keys are needed to display this information on a website
+7. The gps module attached to the Pi can struggle to properly connect, particularly on cloudy days but the closer you get to being outside the more quickly it connects
+8. A power bank of some kind will likely be needed along with the Pi’s unless our school buses have power outlets in them
+9. May want students to have to sign into their google account to access the bus tracking data for security reasons
+10. If implementation goes well, this could be brought to the entire district 203 for implementation at other schools
+
